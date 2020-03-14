@@ -1,0 +1,29 @@
+{
+    "name": "struggle-for-php/sfp-phpstan-psr-log",
+    "description": "PSR-3 extensions for PHPStan",
+    "type": "phpstan-extension",
+    "keywords": ["phpstan", "psr-3", "psr3"],
+    "license": [
+        "MIT"
+    ],
+    "require": {
+        "php":">=7.1.0",
+        "phpstan/phpstan": "^0.12"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-master",
+        "phpunit/phpunit": "^8.1",
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SfpTest\\PHPStan\\Psr\\Log\\": "tests"
+        }
+    },
+    "extra": {
+        "phpstan": {
+            "includes": [
+                "rules.neon"
+            ]
+        }
+    }
+}

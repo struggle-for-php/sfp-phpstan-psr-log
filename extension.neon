@@ -1,0 +1,4 @@
+parameters:
+	stubFiles:
+		- stubs/AbstractLogger.php
+		- stubs/LoggerInterface.php
