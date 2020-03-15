@@ -3,6 +3,7 @@
 namespace SfpTest\PHPStan\Psr\Log;
 
 use PHPStan\Analyser\Analyser;
+use PHPStan\Analyser\Error;
 use PHPStan\Analyser\FileAnalyser;
 use PHPStan\Analyser\IgnoredErrorHelper;
 use PHPStan\Analyser\NodeScopeResolver;
@@ -15,10 +16,8 @@ use PHPStan\File\FileHelper;
 use PHPStan\File\FuzzyRelativePathHelper;
 use PHPStan\PhpDoc\PhpDocNodeResolver;
 use PHPStan\PhpDoc\PhpDocStringResolver;
-use PHPStan\PhpDoc\StubPhpDocProvider;
 use PHPStan\Testing\TestCase;
 use PHPStan\Type\FileTypeMapper;
-use Psr\Log\LoggerTrait;
 
 class StubTest extends TestCase
 {
@@ -42,6 +41,7 @@ class StubTest extends TestCase
 
         $errors = '';
         foreach($actualErrors->getErrors() as $error) {
+            assert($error instanceof Error);
             $errors .= $error->getMessage() . "\n";
         }
 
@@ -72,11 +72,6 @@ EXPECT
 
     private function getAnalyser(): Analyser
     {
-        /** @var StubPhpDocProvider $stubPhpDocProvider */
-        $stubPhpDocProvider = self::getContainer()->getService('stubPhpDocProvider');
-        $med = $stubPhpDocProvider->findMethodPhpDoc(LoggerTrait::class, 'log', ['message']);
-
-
         if ($this->analyser === null) {
             $registry = self::getContainer()->getService('registry');
             $broker = $this->createBroker();
