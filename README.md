@@ -2,8 +2,34 @@ struggle-for-php/sfp-phpstan-psr-log
 ============================
 
  - Deliver stubs to let PHPStan understand psr/log (PSR-3) strictly.
-    
+ 
+## Refs.
+>  Implementors MUST still verify that the 'exception' key is actually an Exception before using it as such, as it MAY contain anything.
+
+https://www.php-fig.org/psr/psr-3/#13-context 
+ 
 ## Example
+
+```php
+<?php
+
+use Psr\Log\LoggerInterface;
+
+class Foo
+{
+    /** @var LoggerInterface */
+    private $logger;
+
+    public function anyAction()
+    {
+        try {
+        } catch (\Exception $e) {
+            $this->logger->error('error happen.', ['exception' => 'foo']);
+        }
+    }
+}
+```
+
 ```sh
 $ ../vendor/bin/phpstan analyse --level=1 src/
 Note: Using configuration file /tmp/your-project/phpstan.neon.
@@ -12,12 +38,11 @@ Note: Using configuration file /tmp/your-project/phpstan.neon.
  ------ -------------------------------------------------------------
   Line   Demo.php
  ------ -------------------------------------------------------------
-  17     Parameter #2 $context of method Psr\Log\LoggerInterface::alert() expects array()|array('exception' => Exception), array('exception' => 'foo') given.
-  18     Parameter #2 $context of method Psr\Log\AbstractLogger::emergency() expects array()|array('exception' => Exception), array('exception' => 'foo') given.
+  14     Parameter #2 $context of method Psr\Log\LoggerInterface::error() expects array()|array('exception' => Exception), array('exception' => 'foo') given.
  ------ -------------------------------------------------------------
 
 
- [ERROR] Found 2 error
+ [ERROR] Found 1 error
 ```
 
 
