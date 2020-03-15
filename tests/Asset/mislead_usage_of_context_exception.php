@@ -1,9 +1,6 @@
 <?php
 
-use Psr\Log\LoggerInterface;
 use Psr\Log\AbstractLogger;
-
-$loggerImpl = new \SfpTest\PHPStan\Psr\Log\Asset\LoggerImpl;
 
 $abstractLogger = new class extends AbstractLogger
 {
@@ -11,16 +8,6 @@ $abstractLogger = new class extends AbstractLogger
     {
     }
 };
-
-
-$loggerImpl->emergency("message", ['exception' => 'foo']);
-$loggerImpl->alert("message", ['exception' => 'foo']);
-$loggerImpl->critical("message", ['exception' => 'foo']);
-$loggerImpl->error("message", ['exception' => 'foo']);
-$loggerImpl->warning("message", ['exception' => 'foo']);
-$loggerImpl->notice("message", ['exception' => 'foo']);
-$loggerImpl->info("message", ['exception' => 'foo']);
-$loggerImpl->debug("message", ['exception' => 'foo']);
 
 $abstractLogger->emergency("message", ['exception' => 'foo']);
 $abstractLogger->alert("message", ['exception' => 'foo']);

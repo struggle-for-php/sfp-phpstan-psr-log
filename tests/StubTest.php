@@ -32,6 +32,7 @@ class StubTest extends TestCase
         $analyser = $this->getAnalyser();
 
         $files = [
+            __DIR__ . '/Asset/LoggerCall.php',
             __DIR__ . '/Asset/mislead_usage_of_context_exception.php'
         ];
 
@@ -46,14 +47,14 @@ class StubTest extends TestCase
         }
 
 $expects = <<<'EXPECT'
-Parameter #2 $context of method SfpTest\PHPStan\Psr\Log\Asset\LoggerImpl::emergency() expects array()|array('exception' => Exception), array('exception' => 'foo') given.
-Parameter #2 $context of method SfpTest\PHPStan\Psr\Log\Asset\LoggerImpl::alert() expects array()|array('exception' => Exception), array('exception' => 'foo') given.
-Parameter #2 $context of method SfpTest\PHPStan\Psr\Log\Asset\LoggerImpl::critical() expects array()|array('exception' => Exception), array('exception' => 'foo') given.
-Parameter #2 $context of method SfpTest\PHPStan\Psr\Log\Asset\LoggerImpl::error() expects array()|array('exception' => Exception), array('exception' => 'foo') given.
-Parameter #2 $context of method SfpTest\PHPStan\Psr\Log\Asset\LoggerImpl::warning() expects array()|array('exception' => Exception), array('exception' => 'foo') given.
-Parameter #2 $context of method SfpTest\PHPStan\Psr\Log\Asset\LoggerImpl::notice() expects array()|array('exception' => Exception), array('exception' => 'foo') given.
-Parameter #2 $context of method SfpTest\PHPStan\Psr\Log\Asset\LoggerImpl::info() expects array()|array('exception' => Exception), array('exception' => 'foo') given.
-Parameter #2 $context of method SfpTest\PHPStan\Psr\Log\Asset\LoggerImpl::debug() expects array()|array('exception' => Exception), array('exception' => 'foo') given.
+Parameter #2 $context of method Psr\Log\LoggerInterface::emergency() expects array()|array('exception' => Exception), array('exception' => 'foo') given.
+Parameter #2 $context of method Psr\Log\LoggerInterface::alert() expects array()|array('exception' => Exception), array('exception' => 'foo') given.
+Parameter #2 $context of method Psr\Log\LoggerInterface::critical() expects array()|array('exception' => Exception), array('exception' => 'foo') given.
+Parameter #2 $context of method Psr\Log\LoggerInterface::error() expects array()|array('exception' => Exception), array('exception' => 'foo') given.
+Parameter #2 $context of method Psr\Log\LoggerInterface::warning() expects array()|array('exception' => Exception), array('exception' => 'foo') given.
+Parameter #2 $context of method Psr\Log\LoggerInterface::notice() expects array()|array('exception' => Exception), array('exception' => 'foo') given.
+Parameter #2 $context of method Psr\Log\LoggerInterface::info() expects array()|array('exception' => Exception), array('exception' => 'foo') given.
+Parameter #2 $context of method Psr\Log\LoggerInterface::debug() expects array()|array('exception' => Exception), array('exception' => 'foo') given.
 Parameter #2 $context of method Psr\Log\AbstractLogger::emergency() expects array()|array('exception' => Exception), array('exception' => 'foo') given.
 Parameter #2 $context of method Psr\Log\AbstractLogger::alert() expects array()|array('exception' => Exception), array('exception' => 'foo') given.
 Parameter #2 $context of method Psr\Log\AbstractLogger::critical() expects array()|array('exception' => Exception), array('exception' => 'foo') given.
