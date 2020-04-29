@@ -31,7 +31,7 @@ class Foo
 ```
 
 ```sh
-$ ../vendor/bin/phpstan analyse --level=1 src/
+$ ../vendor/bin/phpstan analyse --level=5 src/
 Note: Using configuration file /tmp/your-project/phpstan.neon.
  2/2 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
 
