@@ -31,7 +31,7 @@ class Foo
 ```
 
 ```sh
-$ ../vendor/bin/phpstan analyse --level=1 src/
+$ ../vendor/bin/phpstan analyse --level=5 src/
 Note: Using configuration file /tmp/your-project/phpstan.neon.
  2/2 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
 
@@ -61,3 +61,20 @@ includes:
 	- vendor/struggle-for-php/sfp-phpstan-psr-log/extension.neon
 ```
 
+If you want to passed `Throwable` .
+```neon
+includes:
+	- vendor/struggle-for-php/sfp-phpstan-psr-log/throwable-extension.neon
+```
+
+## Unit Test
+
+needs separated running per Test suite
+```
+./vendor/bin/phpunit tests/StubTest.php
+./vendor/bin/phpunit tests/ThrowableStubTest.php
+```
+
+## Notes
+* `Psr\Log\InvalidArgumentException` file is needed for stub.
+     - see https://github.com/phpstan/phpstan/issues/3124

@@ -8,7 +8,7 @@
     ],
     "require": {
         "php":">=7.1.0",
-        "phpstan/phpstan": "^0.12"
+        "phpstan/phpstan": "^0.12.4"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
@@ -17,13 +17,6 @@
     "autoload-dev": {
         "psr-4": {
             "SfpTest\\PHPStan\\Psr\\Log\\": "tests"
-        }
-    },
-    "extra": {
-        "phpstan": {
-            "includes": [
-                "extension.neon"
-            ]
         }
     }
 }
