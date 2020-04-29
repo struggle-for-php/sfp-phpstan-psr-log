@@ -18,12 +18,5 @@
         "psr-4": {
             "SfpTest\\PHPStan\\Psr\\Log\\": "tests"
         }
-    },
-    "extra": {
-        "phpstan": {
-            "includes": [
-                "extension.neon"
-            ]
-        }
     }
 }
