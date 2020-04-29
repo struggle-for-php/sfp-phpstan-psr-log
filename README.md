@@ -61,3 +61,6 @@ includes:
 	- vendor/struggle-for-php/sfp-phpstan-psr-log/extension.neon
 ```
 
+## Notes
+* `Psr\Log\InvalidArgumentException` file is needed for stub.
+     - see https://github.com/phpstan/phpstan/issues/3124

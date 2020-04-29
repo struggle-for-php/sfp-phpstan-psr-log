@@ -1,4 +1,5 @@
 parameters:
 	stubFiles:
+		- stubs/InvalidArgumentException.php
 		- stubs/AbstractLogger.php
 		- stubs/LoggerInterface.php
