@@ -12,7 +12,7 @@
         verbose="true"
 >
     <testsuites>
-        <testsuite name="sfp-phpstan-pdo Test Suite">
+        <testsuite name="sfp-phpstan-psr-log Test Suite">
             <directory>./tests/</directory>
         </testsuite>
     </testsuites>

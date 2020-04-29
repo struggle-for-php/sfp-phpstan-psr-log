@@ -1,0 +1,5 @@
+parameters:
+	stubFiles:
+		- stubs/InvalidArgumentException.stub
+		- throwable-stubs/AbstractLogger.stub
+		- throwable-stubs/LoggerInterface.stub
