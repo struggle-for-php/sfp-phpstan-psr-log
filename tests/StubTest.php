@@ -5,12 +5,9 @@ namespace SfpTest\PHPStan\Psr\Log;
 use PHPStan\Analyser\Analyser;
 use PHPStan\Analyser\Error;
 use PHPStan\Analyser\FileAnalyser;
-use PHPStan\Analyser\IgnoredErrorHelper;
 use PHPStan\Analyser\NodeScopeResolver;
 use PHPStan\Broker\AnonymousClassNameHelper;
 use PHPStan\Cache\Cache;
-use PHPStan\Command\IgnoredRegexValidator;
-use PHPStan\Command\IgnoredRegexValidatorResult;
 use PHPStan\Dependency\DependencyResolver;
 use PHPStan\File\FileHelper;
 use PHPStan\File\FuzzyRelativePathHelper;
@@ -38,7 +35,7 @@ class StubTest extends TestCase
 
         $files = \array_map([$this->getFileHelper(), 'normalizePath'], $files);
 
-        $actualErrors = $analyser->analyse($files, true);
+        $actualErrors = $analyser->analyse($files);
 
         $errors = '';
         foreach($actualErrors->getErrors() as $error) {
@@ -93,7 +90,7 @@ EXPECT
                     self::getContainer()->getByType(PhpDocStringResolver::class),
                     self::getContainer()->getByType(PhpDocNodeResolver::class),
                     $this->createMock(Cache::class),
-                    new AnonymousClassNameHelper(new FileHelper($currentWorkingDirectory),new FuzzyRelativePathHelper($currentWorkingDirectory, DIRECTORY_SEPARATOR, []))
+                    new AnonymousClassNameHelper(new FileHelper($currentWorkingDirectory),new FuzzyRelativePathHelper($currentWorkingDirectory, []))
                 ),
                 $fileHelper,
                 $typeSpecifier,
@@ -108,22 +105,13 @@ EXPECT
                 $nodeScopeResolver,
                 $this->getParser(),
                 new DependencyResolver($broker),
-                $fileHelper
-            );
-            $ignoredRegexValidator = $this->createMock(IgnoredRegexValidator::class);
-            $ignoredRegexValidator->method('validate')
-                ->willReturn(new IgnoredRegexValidatorResult([], false, false));
-            $ignoredErrorHelper = new IgnoredErrorHelper(
-                $ignoredRegexValidator,
                 $fileHelper,
-                [],
                 true
             );
             $this->analyser = new Analyser(
                 $fileAnalyser,
                 $registry,
                 $nodeScopeResolver,
-                $ignoredErrorHelper,
                 50
             );
         }
