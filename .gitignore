@@ -2,3 +2,5 @@
 /.phpcs-cache
 /.phpunit.result.cache
 /composer.lock
+
+/example/vendor

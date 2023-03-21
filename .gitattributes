@@ -5,6 +5,7 @@
 /.gitattributes export-ignore
 /.gitignore export-ignore
 /.laminas-ci.json export-ignore
+/.laminas-ci export-ignore
 /phpbench.json
 /phpcs.xml export-ignore
 /phpunit.xml.dist export-ignore
@@ -12,5 +13,5 @@
 /psalm-baseline.xml
 /mkdocs.yml export-ignore
 
-/examples/ export-ignore
+/example/ export-ignore
 /vendor-bin/ export-ignore
