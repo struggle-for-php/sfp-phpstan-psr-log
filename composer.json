@@ -13,7 +13,7 @@
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
-        "phpunit/phpunit": "8.5"
+        "phpunit/phpunit": "8.5 || ^9 || ^10"
     },
     "autoload-dev": {
         "psr-4": {
