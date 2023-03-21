@@ -1,0 +1,2 @@
+rules:
+	- Sfp\PHPStan\Psr\Log\Rules\DqlRule
