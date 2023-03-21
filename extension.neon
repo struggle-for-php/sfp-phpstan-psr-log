@@ -1,4 +1,4 @@
 parameters:
     stubFiles:
-        - ../sfp-stubs-psr-log/stubs-for-throwable/LoggerInterface.php
-        - ../sfp-stubs-psr-log/stubs-for-throwable/AbstractLogger.php
+        - ../sfp-stubs-psr-log/stubs-for-throwable/LoggerInterface.phpstub
+        - ../sfp-stubs-psr-log/stubs-for-throwable/AbstractLogger.phpstub
