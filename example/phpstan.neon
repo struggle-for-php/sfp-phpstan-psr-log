@@ -2,11 +2,13 @@
 # ./vendor/bin/phpstan analyse -c ./example/phpstan.neon --level 5 example/
 
 parameters:
-    level: 5
+    level: 9
     bootstrapFiles:
         - vendor/autoload.php
     paths:
         - src
+    sfpPsrLog:
+        reportContextExceptionLogLevel: 'notice'
 
 includes:
 	- ../extension.neon
