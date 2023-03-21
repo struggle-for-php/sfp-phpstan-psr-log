@@ -1,2 +1,2 @@
 rules:
-	- Sfp\PHPStan\Psr\Log\Rules\DqlRule
+	- Sfp\PHPStan\Psr\Log\Rules\ContextRequireExceptionKeyRule
