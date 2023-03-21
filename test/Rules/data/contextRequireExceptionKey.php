@@ -7,15 +7,17 @@
 // phpcs:enable
 
 try {
-    $logger->debug("foo"); // allow
-    $logger->log('debug', "foo"); // allow
+    $logger->debug("foo");
+    $logger->log('debug', "foo");
 
     throw new InvalidArgumentException();
 } catch (LogicException $exception) {
+    // ng
+    $logger->debug("foo"); // but would not be report
     $logger->info("foo");
     $logger->info('foo', ['throwable' => $exception]);
 
-    // log method
+    // ng. (by `log` call)
     $logger->log('notice', 'foo');
     $logger->log('notice', 'foo', ['throwable' => $exception]);
 
@@ -23,10 +25,14 @@ try {
     $logger->alert("foo", ['exception' => $exception]);
     $logger->log('alert', 'foo', ['exception' => $exception]);
 } catch (RuntimeException | Throwable $exception2) {
+    // ng
     $logger->critical('foo');
     $logger->log('critical', 'foo');
+    $logger->debug("foo", ['exception' => new DateTimeImmutable()]); // but would not be report
 
+    // ok
     $logger->critical("foo", ['exception' => $exception2]);
 } finally {
+    // ok
     $logger->emergency('foo');
 }

@@ -1,2 +1,16 @@
-rules:
-	- Sfp\PHPStan\Psr\Log\Rules\ContextRequireExceptionKeyRule
+parameters:
+    sfpPsrLog:
+        reportContextExceptionLogLevel: 'debug'
+
+parametersSchema:
+	sfpPsrLog: structure([
+		reportContextExceptionLogLevel: schema(string(), nullable())
+	])
+
+services:
+	-
+		class: Sfp\PHPStan\Psr\Log\Rules\ContextRequireExceptionKeyRule
+		arguments:
+			reportContextExceptionLogLevel: %sfpPsrLog.reportContextExceptionLogLevel%
+		tags:
+			- phpstan.rules.rule

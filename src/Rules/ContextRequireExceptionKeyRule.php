@@ -30,7 +30,26 @@ class ContextRequireExceptionKeyRule implements Rule
         'debug',
     ];
 
+    private const LOGGER_LEVELS = [
+        'emergency' => 7,
+        'alert'     => 6,
+        'critical'  => 5,
+        'error'     => 4,
+        'warning'   => 3,
+        'notice'    => 2,
+        'info'      => 1,
+        'debug'     => 0,
+    ];
+
     private const ERROR_MISSED_EXCEPTION_KEY = 'Parameter $context of logger method Psr\Log\LoggerInterface::%s() requires \'exception\' key. Current scope has Throwable variable - %s';
+
+    /** @var string */
+    private $reportContextExceptionLogLevel;
+
+    public function __construct(string $reportContextExceptionLogLevel = 'debug')
+    {
+        $this->reportContextExceptionLogLevel = $reportContextExceptionLogLevel;
+    }
 
     public function getNodeType(): string
     {
@@ -59,11 +78,15 @@ class ContextRequireExceptionKeyRule implements Rule
 
         $methodName = $node->name->toLowerString();
 
+        $logLevel          = $methodName;
         $contextArgumentNo = 1;
         if ($methodName === 'log') {
             if (count($args) === 1) {
                 return [];
             }
+            assert($args[0] instanceof Node\Arg);
+            assert($args[0]->value instanceof Node\Scalar\String_);
+            $logLevel          = $args[0]->value->value;
             $contextArgumentNo = 2;
         } elseif (! in_array($methodName, self::LOGGER_LEVEL_METHODS)) {
             return [];
@@ -76,6 +99,10 @@ class ContextRequireExceptionKeyRule implements Rule
         }
 
         if (! isset($args[$contextArgumentNo])) {
+            if (! $this->isReportLogLevel($logLevel)) {
+                return [];
+            }
+
             return [sprintf(self::ERROR_MISSED_EXCEPTION_KEY, $methodName, "\${$throwable}")];
         }
 
@@ -86,10 +113,19 @@ class ContextRequireExceptionKeyRule implements Rule
         }
 
         if ($context instanceof Node\Arg && self::contextDoesNotHavExceptionKey($context)) {
+            if (! $this->isReportLogLevel($logLevel)) {
+                return [];
+            }
+
             return [sprintf(self::ERROR_MISSED_EXCEPTION_KEY, $methodName, "\${$throwable}")];
         }
 
         return [];
+    }
+
+    public function isReportLogLevel(string $logLevel): bool
+    {
+        return self::LOGGER_LEVELS[$logLevel] >= self::LOGGER_LEVELS[$this->reportContextExceptionLogLevel];
     }
 
     private function findCurrentScopeThrowableVariable(Scope $scope): ?string

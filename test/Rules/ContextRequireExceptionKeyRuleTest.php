@@ -13,7 +13,7 @@ class ContextRequireExceptionKeyRuleTest extends RuleTestCase
 {
     protected function getRule(): Rule
     {
-        return new ContextRequireExceptionKeyRule();
+        return new ContextRequireExceptionKeyRule('info');
     }
 
     /** @test */
@@ -22,27 +22,27 @@ class ContextRequireExceptionKeyRuleTest extends RuleTestCase
         $this->analyse([__DIR__ . '/data/contextRequireExceptionKey.php'], [
             'missing context'               => [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::info() requires \'exception\' key. Current scope has Throwable variable - $exception',
-                15,
+                17,
             ],
             'invalid key'                   => [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::info() requires \'exception\' key. Current scope has Throwable variable - $exception',
-                16,
+                18,
             ],
             'missing context - log method'  => [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::log() requires \'exception\' key. Current scope has Throwable variable - $exception',
-                19,
+                21,
             ],
             'invalid key - log method'      => [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::log() requires \'exception\' key. Current scope has Throwable variable - $exception',
-                20,
+                22,
             ],
             'missing context - other catch' => [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::critical() requires \'exception\' key. Current scope has Throwable variable - $exception2',
-                26,
+                29,
             ],
             'invalid key - other catch'     => [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::log() requires \'exception\' key. Current scope has Throwable variable - $exception2',
-                27,
+                30,
             ],
         ]);
     }
