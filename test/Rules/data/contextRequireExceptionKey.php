@@ -1,8 +1,10 @@
 <?php
 
+// phpcs:disable
 /**
- * @var \Psr\Log\LoggerInterface $logger
+ * @var Psr\Log\LoggerInterface $logger
  */
+// phpcs:enable
 
 try {
     $logger->debug("foo"); // allow
@@ -20,7 +22,7 @@ try {
     // ok
     $logger->alert("foo", ['exception' => $exception]);
     $logger->log('alert', 'foo', ['exception' => $exception]);
-} catch (RuntimeException|Throwable $exception2) {
+} catch (RuntimeException | Throwable $exception2) {
     $logger->critical('foo');
     $logger->log('critical', 'foo');
 
