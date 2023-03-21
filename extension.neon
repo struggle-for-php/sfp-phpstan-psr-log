@@ -1,5 +1,3 @@
-parameters:
-	stubFiles:
-		- stubs/InvalidArgumentException.stub
-		- stubs/AbstractLogger.stub
-		- stubs/LoggerInterface.stub
+includes:
+    - ../../sfp-stubs-psr-log/stubs-for-throwable/LoggerInterface.phpstub
+    - ../../sfp-stubs-psr-log/stubs-for-throwable/AbstractLogger.phpstub
