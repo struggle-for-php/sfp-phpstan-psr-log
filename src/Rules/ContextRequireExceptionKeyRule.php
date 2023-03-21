@@ -2,11 +2,17 @@
 
 namespace Sfp\PHPStan\Psr\Log\Rules;
 
+use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
-use PhpParser\Node;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ObjectType;
+use Throwable;
+
+use function assert;
+use function count;
+use function in_array;
+use function sprintf;
 
 /**
  * @implements Rule<Node\Expr\MethodCall>
@@ -21,12 +27,12 @@ class ContextRequireExceptionKeyRule implements Rule
         'warning',
         'notice',
         'info',
-        'debug'
+        'debug',
     ];
 
     private const ERROR_MISSED_EXCEPTION_KEY = 'Parameter $context of logger method Psr\Log\LoggerInterface::%s() requires \'exception\' key. Current scope has Throwable variable - %s';
 
-    public function getNodeType() : string
+    public function getNodeType(): string
     {
         return Node\Expr\MethodCall::class;
     }
@@ -35,14 +41,14 @@ class ContextRequireExceptionKeyRule implements Rule
      * @param Node\Expr\MethodCall $node
      * @throws ShouldNotHappenException
      */
-    public function processNode(Node $node, Scope $scope) : array
+    public function processNode(Node $node, Scope $scope): array
     {
-        if (!$node->name instanceof Node\Identifier) {
+        if (! $node->name instanceof Node\Identifier) {
             return [];
         }
 
         $calledOnType = $scope->getType($node->var);
-        if (!(new ObjectType('Psr\Log\LoggerInterface'))->isSuperTypeOf($calledOnType)->yes()) {
+        if (! (new ObjectType('Psr\Log\LoggerInterface'))->isSuperTypeOf($calledOnType)->yes()) {
             return [];
         }
 
@@ -59,7 +65,7 @@ class ContextRequireExceptionKeyRule implements Rule
                 return [];
             }
             $contextArgumentNo = 2;
-        } elseif (!in_array($methodName, self::LOGGER_LEVEL_METHODS)) {
+        } elseif (! in_array($methodName, self::LOGGER_LEVEL_METHODS)) {
             return [];
         }
 
@@ -86,10 +92,10 @@ class ContextRequireExceptionKeyRule implements Rule
         return [];
     }
 
-    private function findCurrentScopeThrowableVariable(Scope $scope) : ?string
+    private function findCurrentScopeThrowableVariable(Scope $scope): ?string
     {
         foreach ($scope->getDefinedVariables() as $var) {
-            if ((new ObjectType(\Throwable::class))->isSuperTypeOf($scope->getVariableType($var))->yes()) {
+            if ((new ObjectType(Throwable::class))->isSuperTypeOf($scope->getVariableType($var))->yes()) {
                 return $var;
             }
         }
@@ -97,13 +103,13 @@ class ContextRequireExceptionKeyRule implements Rule
         return null;
     }
 
-    private static function contextDoesNotHavExceptionKey(Node\Arg $context) : bool
+    private static function contextDoesNotHavExceptionKey(Node\Arg $context): bool
     {
         if (! $context->value instanceof Node\Expr\Array_) {
             return true;
         }
 
-        if (count($context->value->items) === 0 ) {
+        if (count($context->value->items) === 0) {
             return true;
         }
 
