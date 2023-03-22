@@ -9,7 +9,6 @@ use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ObjectType;
 use Throwable;
 
-use function assert;
 use function count;
 use function in_array;
 use function sprintf;
@@ -81,11 +80,14 @@ class ContextRequireExceptionKeyRule implements Rule
         $logLevel          = $methodName;
         $contextArgumentNo = 1;
         if ($methodName === 'log') {
-            if (count($args) === 1) {
+            if (
+                count($args) < 2
+                || ! $args[0] instanceof Node\Arg
+                || ! $args[0]->value instanceof Node\Scalar\String_
+            ) {
                 return [];
             }
-            assert($args[0] instanceof Node\Arg);
-            assert($args[0]->value instanceof Node\Scalar\String_);
+
             $logLevel          = $args[0]->value->value;
             $contextArgumentNo = 2;
         } elseif (! in_array($methodName, self::LOGGER_LEVEL_METHODS)) {
@@ -150,8 +152,7 @@ class ContextRequireExceptionKeyRule implements Rule
         }
 
         foreach ($context->value->items as $item) {
-            assert($item->key instanceof Node\Scalar\String_);
-            if ($item->key->value === 'exception') {
+            if ($item->key instanceof Node\Scalar\String_ && $item->key->value === 'exception') {
                 return false;
             }
         }
