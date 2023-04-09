@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sfp\PHPStan\Psr\Log\Rules;
 
 use PhpParser\Node;
@@ -18,17 +20,6 @@ use function sprintf;
  */
 class ContextRequireExceptionKeyRule implements Rule
 {
-    private const LOGGER_LEVEL_METHODS = [
-        'emergency',
-        'alert',
-        'critical',
-        'error',
-        'warning',
-        'notice',
-        'info',
-        'debug',
-    ];
-
     private const LOGGER_LEVELS = [
         'emergency' => 7,
         'alert'     => 6,
@@ -90,7 +81,7 @@ class ContextRequireExceptionKeyRule implements Rule
 
             $logLevel          = $args[0]->value->value;
             $contextArgumentNo = 2;
-        } elseif (! in_array($methodName, self::LOGGER_LEVEL_METHODS)) {
+        } elseif (! in_array($methodName, LogLevelListInterface::LOGGER_LEVEL_METHODS)) {
             return [];
         }
 
