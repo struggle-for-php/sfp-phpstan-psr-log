@@ -38,4 +38,9 @@ class Example
         // so bellow would not report.
         $this->logger->debug('foo');
     }
+
+    public function emptyKey(): void
+    {
+        $this->logger->debug('foo', ['bar']);
+    }
 }
