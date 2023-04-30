@@ -13,6 +13,7 @@ use function assert;
 use function count;
 use function implode;
 use function in_array;
+use function is_string;
 use function preg_match_all;
 use function sprintf;
 
@@ -82,7 +83,9 @@ final class ContextKeyPlaceHolderRule implements Rule
     }
 
     /**
-     * @phpstan-param non-empty-array<string> $placeHolders
+     * @phpstan-param list<string> $braces
+     * @phpstan-param list<string> $placeHolders
+     * @phpstan-return list<string>
      */
     private static function contextDoesNotHavePlaceholderKey(Node\Arg $context, string $methodName, array $braces, array $placeHolders): array
     {
@@ -100,6 +103,9 @@ final class ContextKeyPlaceHolderRule implements Rule
         return [sprintf(self::ERROR_MISSED_KEY, $methodName, implode(',', $braces))];
     }
 
+    /**
+     * @phpstan-return list<string>
+     */
     private static function getContextKeys(Node\Arg $context): array
     {
         if (! $context->value instanceof Node\Expr\Array_) {
@@ -113,8 +119,7 @@ final class ContextKeyPlaceHolderRule implements Rule
         $keys = [];
         foreach ($context->value->items as $item) {
             assert($item instanceof Node\Expr\ArrayItem);
-
-            if (isset($item->key->value)) {
+            if (isset($item->key->value) && is_string($item->key->value)) {
                 $keys[] = $item->key->value;
             }
         }
