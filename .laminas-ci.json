@@ -1,0 +1,11 @@
+{
+  "additional_checks": [
+    {
+      "name": "phpstan",
+      "job": {
+        "php": "@lowest",
+        "command": "./vendor/bin/phpstan analyse --no-progress"
+      }
+    }
+  ]
+}
