@@ -8,4 +8,4 @@ if [[ "${PHP_VERSION}" != "7.2" ]] && [[ "${PHP_VERSION}" != "7.3" ]]; then
     exit 0
 fi
 
-composer require --dev phpunit/phpunit:^8.5.31 --no-update --update-with-dependencies
+composer require --dev phpunit/phpunit:^8.5.31 vimeo/psalm:^4 --no-update --update-with-dependencies

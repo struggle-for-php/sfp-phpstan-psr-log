@@ -1,0 +1,18 @@
+{
+  "additional_checks": [
+    {
+      "name": "phpstan",
+      "job": {
+        "php": "@lowest",
+        "command": "./vendor/bin/phpstan analyse --no-progress"
+      }
+    },
+    {
+      "name": "psalm",
+      "job": {
+        "php": "@latest",
+        "command": "./vendor/bin/psalm -c psalm5.xml"
+      }
+    }
+  ]
+}

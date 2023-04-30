@@ -11,6 +11,7 @@ use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ObjectType;
 use Throwable;
 
+use function assert;
 use function count;
 use function in_array;
 use function sprintf;
@@ -47,7 +48,6 @@ class ContextRequireExceptionKeyRule implements Rule
     }
 
     /**
-     * @param Node\Expr\MethodCall $node
      * @throws ShouldNotHappenException
      */
     public function processNode(Node $node, Scope $scope): array
@@ -73,7 +73,6 @@ class ContextRequireExceptionKeyRule implements Rule
         if ($methodName === 'log') {
             if (
                 count($args) < 2
-                || ! $args[0] instanceof Node\Arg
                 || ! $args[0]->value instanceof Node\Scalar\String_
             ) {
                 return [];
@@ -100,12 +99,10 @@ class ContextRequireExceptionKeyRule implements Rule
         }
 
         $context = $args[$contextArgumentNo];
+        /** @psalm-suppress RedundantConditionGivenDocblockType */
+        assert($context instanceof Node\Arg);
 
-        if ($context instanceof Node\VariadicPlaceholder) {
-            return [];
-        }
-
-        if ($context instanceof Node\Arg && self::contextDoesNotHavExceptionKey($context)) {
+        if (self::contextDoesNotHavExceptionKey($context)) {
             if (! $this->isReportLogLevel($logLevel)) {
                 return [];
             }
@@ -143,6 +140,7 @@ class ContextRequireExceptionKeyRule implements Rule
         }
 
         foreach ($context->value->items as $item) {
+            assert($item instanceof Node\Expr\ArrayItem);
             if ($item->key instanceof Node\Scalar\String_ && $item->key->value === 'exception') {
                 return false;
             }

@@ -21,5 +21,6 @@
 
     <rule ref="PSR12">
         <exclude name="Generic.Files.LineLength"/>
+        <exclude name="WebimpressCodingStandard.Formatting.StringClassReference" />
     </rule>
 </ruleset>
