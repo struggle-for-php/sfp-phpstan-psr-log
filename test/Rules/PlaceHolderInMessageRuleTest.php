@@ -38,6 +38,10 @@ final class PlaceHolderInMessageRuleTest extends RuleTestCase
                 'Parameter $message of logger method Psr\Log\LoggerInterface::info() has braces. There should be whitespace between placeholder and word.',
                 18,
             ],
+            'call log() method'        => [
+                'Parameter $message of logger method Psr\Log\LoggerInterface::log() has braces. But it includes invalid characters for placeholder. - {&invalid&}',
+                19,
+            ],
         ]);
     }
 }
