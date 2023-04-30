@@ -52,4 +52,13 @@ class Example
         $this->logger->info('message has {{doubleBrace}} .', ['doubleBrace' => 'bar']);
         $this->logger->info('message has { space } .', [' space ' => 'bar']);
     }
+
+    public function contextKeyPlaceHolder(): void
+    {
+        $this->logger->info('message has {nonContext} .');
+        $this->logger->info('message has {empty} .', []);
+        $this->logger->info('message has {notMatched} .', ['foo' => 'bar']);
+        $this->logger->info('message has {notMatched1} , {matched1} , {notMatched2} .', ['matched1' => 'bar']);
+        $this->logger->log('info', 'message has {notMatched} .', ['foo' => 'bar']);
+    }
 }
