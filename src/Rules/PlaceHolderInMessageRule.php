@@ -104,7 +104,7 @@ final class PlaceHolderInMessageRule implements Rule
 
         $invalidPlaceHolders = [];
         foreach ($matches[1] as $i => $placeholderCandidate) {
-            if (preg_match('#\A[A-Za-z0-9_\.]+\z#', $placeholderCandidate) === 0) {
+            if (preg_match('#\A[A-Za-z0-9_\.]+\z#', $placeholderCandidate) !== 1) {
                 $invalidPlaceHolders[$i] = $matches[0][$i];
             }
         }
