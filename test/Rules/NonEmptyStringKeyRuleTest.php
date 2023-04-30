@@ -23,19 +23,19 @@ final class NonEmptyStringKeyRuleTest extends RuleTestCase
     {
         $this->analyse([__DIR__ . '/data/nonEmptyStringKey.php'], [
             'empty string'  => [
-                'Parameter $context of logger method Psr\Log\LoggerInterface::info() , key should be non empty string.',
+                'Parameter $context of logger method Psr\Log\LoggerInterface::info(), key should be non empty string.',
                 8,
             ],
             'integer'       => [
-                'Parameter $context of logger method Psr\Log\LoggerInterface::info() , key should be non empty string.',
+                'Parameter $context of logger method Psr\Log\LoggerInterface::info(), key should be non empty string.',
                 9,
             ],
             'DNumber'       => [
-                'Parameter $context of logger method Psr\Log\LoggerInterface::info() , key should be non empty string.',
+                'Parameter $context of logger method Psr\Log\LoggerInterface::info(), key should be non empty string.',
                 10,
             ],
             'not specified' => [
-                'Parameter $context of logger method Psr\Log\LoggerInterface::info() , key should be non empty string.',
+                'Parameter $context of logger method Psr\Log\LoggerInterface::info(), key should be non empty string.',
                 11,
             ],
         ]);

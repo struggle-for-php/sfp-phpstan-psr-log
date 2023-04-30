@@ -20,7 +20,7 @@ use function sprintf;
 class NonEmptyStringKeyRule implements Rule
 {
     // eg, DNumber
-    private const ERROR_UNEXPECTED_KEY = 'Parameter $context of logger method Psr\Log\LoggerInterface::%s() , key should be non empty string.';
+    private const ERROR_UNEXPECTED_KEY = 'Parameter $context of logger method Psr\Log\LoggerInterface::%s(), key should be non empty string.';
 
     public function getNodeType(): string
     {
