@@ -51,7 +51,5 @@ class Example
     {
         $this->logger->info('message has {{doubleBrace}} .', ['doubleBrace' => 'bar']);
         $this->logger->info('message has { space } .', [' space ' => 'bar']);
-        $this->logger->info('message has prev{foo} .', ['foo' => 'bar']);
-        $this->logger->info('message has {foo}back ..', ['foo' => 'bar']);
     }
 }

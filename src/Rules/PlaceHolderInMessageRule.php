@@ -22,9 +22,8 @@ use function sprintf;
  */
 final class PlaceHolderInMessageRule implements Rule
 {
-    private const ERROR_DOUBLE_BRACES              = 'Parameter $message of logger method Psr\Log\LoggerInterface::%s() should not includes double braces. - %s';
-    private const ERROR_INVALID_CHAR               = 'Parameter $message of logger method Psr\Log\LoggerInterface::%s() has braces. But it includes invalid characters for placeholder. - %s';
-    private const ERROR_NO_WHITESPACE_BETWEEN_WORD = 'Parameter $message of logger method Psr\Log\LoggerInterface::%s() has braces. There should be whitespace between placeholder and word.';
+    private const ERROR_DOUBLE_BRACES = 'Parameter $message of logger method Psr\Log\LoggerInterface::%s() should not includes double braces. - %s';
+    private const ERROR_INVALID_CHAR  = 'Parameter $message of logger method Psr\Log\LoggerInterface::%s() has braces. But it includes invalid characters for placeholder. - %s';
 
     public function getNodeType(): string
     {
@@ -78,7 +77,6 @@ final class PlaceHolderInMessageRule implements Rule
 
         $errors += self::checkDoubleBrace($message->value->value, $methodName);
         $errors += self::checkInvalidChar($message->value->value, $methodName);
-        $errors += self::checkNoSpaceBetweenWord($message->value->value, $methodName);
 
         return $errors;
     }
@@ -114,16 +112,5 @@ final class PlaceHolderInMessageRule implements Rule
         }
 
         return [sprintf(self::ERROR_INVALID_CHAR, $methodName, implode(',', $invalidPlaceHolders))];
-    }
-
-    private static function checkNoSpaceBetweenWord(string $message, string $methodName): array
-    {
-        preg_match('#\A.*?([\w]+?)*{[A-Za-z0-9_\.]+}([\w]+?)*.*\z#', $message, $matches);
-
-        if (count($matches) < 2) {
-            return [];
-        }
-
-        return [sprintf(self::ERROR_NO_WHITESPACE_BETWEEN_WORD, $methodName)];
     }
 }
