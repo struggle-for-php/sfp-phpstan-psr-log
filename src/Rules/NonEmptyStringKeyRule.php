@@ -10,6 +10,7 @@ use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ObjectType;
 
+use function assert;
 use function count;
 use function in_array;
 use function sprintf;
@@ -17,7 +18,7 @@ use function sprintf;
 /**
  * @implements Rule<Node\Expr\MethodCall>
  */
-class NonEmptyStringKeyRule implements Rule
+final class NonEmptyStringKeyRule implements Rule
 {
     // eg, DNumber
     private const ERROR_UNEXPECTED_KEY = 'Parameter $context of logger method Psr\Log\LoggerInterface::%s(), key should be non empty string.';
@@ -28,7 +29,6 @@ class NonEmptyStringKeyRule implements Rule
     }
 
     /**
-     * @param Node\Expr\MethodCall $node
      * @throws ShouldNotHappenException
      */
     public function processNode(Node $node, Scope $scope): array
@@ -53,7 +53,6 @@ class NonEmptyStringKeyRule implements Rule
         if ($methodName === 'log') {
             if (
                 count($args) < 2
-                || ! $args[0] instanceof Node\Arg
                 || ! $args[0]->value instanceof Node\Scalar\String_
             ) {
                 return [];
@@ -66,10 +65,6 @@ class NonEmptyStringKeyRule implements Rule
 
         $context = $args[$contextArgumentNo];
 
-        if ($context instanceof Node\VariadicPlaceholder) {
-            return [];
-        }
-
         if (! $context instanceof Node\Arg) {
             return [];
         }
@@ -77,6 +72,9 @@ class NonEmptyStringKeyRule implements Rule
         return self::keysAreNonEmptyString($context, $methodName);
     }
 
+    /**
+     * @phpstan-return list<string>
+     */
     private static function keysAreNonEmptyString(Node\Arg $context, string $methodName): array
     {
         if (! $context->value instanceof Node\Expr\Array_) {
@@ -89,6 +87,7 @@ class NonEmptyStringKeyRule implements Rule
 
         $indexes = [];
         foreach ($context->value->items as $item) {
+            assert($item instanceof Node\Expr\ArrayItem);
             if ($item->key instanceof Node\Scalar\String_ && $item->key->value !== '') {
                 continue;
             }

@@ -31,7 +31,6 @@ final class PlaceHolderInMessageRule implements Rule
     }
 
     /**
-     * @param Node\Expr\MethodCall $node
      * @throws ShouldNotHappenException
      */
     public function processNode(Node $node, Scope $scope): array
@@ -56,7 +55,6 @@ final class PlaceHolderInMessageRule implements Rule
         if ($methodName === 'log') {
             if (
                 count($args) < 2
-                || ! $args[0] instanceof Node\Arg
                 || ! $args[0]->value instanceof Node\Scalar\String_
             ) {
                 return [];
@@ -81,6 +79,9 @@ final class PlaceHolderInMessageRule implements Rule
         return $errors;
     }
 
+    /**
+     * @phpstan-return list<string>
+     */
     private static function checkDoubleBrace(string $message, string $methodName): array
     {
         $matched = preg_match_all('#{{(.+?)}}#', $message, $matches);
@@ -92,6 +93,9 @@ final class PlaceHolderInMessageRule implements Rule
         return [sprintf(self::ERROR_DOUBLE_BRACES, $methodName, implode(',', $matches[0]))];
     }
 
+    /**
+     * @phpstan-return list<string>
+     */
     private static function checkInvalidChar(string $message, string $methodName): array
     {
         $matched = preg_match_all('#{(.+?)}#', $message, $matches);
