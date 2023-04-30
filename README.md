@@ -1,6 +1,8 @@
 struggle-for-php/sfp-phpstan-psr-log
 ============================
 
+[![Psalm coverage](https://shepherd.dev/github/struggle-for-php/sfp-phpstan-psr-log/coverage.svg)](https://shepherd.dev/github/struggle-for-php/sfp-phpstan-psr-log)
+
 ## Installation
 
 ```sh
