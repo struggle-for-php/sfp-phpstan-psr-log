@@ -9,7 +9,7 @@ parametersSchema:
 
 rules:
     - Sfp\PHPStan\Psr\Log\Rules\ContextKeyPlaceHolderRule
-    - Sfp\PHPStan\Psr\Log\Rules\NonEmptyStringKeyRule
+    - Sfp\PHPStan\Psr\Log\Rules\ContextKeyNonEmptyStringRule
     - Sfp\PHPStan\Psr\Log\Rules\PlaceHolderInMessageRule
 
 services:
