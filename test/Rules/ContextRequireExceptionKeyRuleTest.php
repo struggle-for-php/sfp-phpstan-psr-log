@@ -19,7 +19,7 @@ final class ContextRequireExceptionKeyRuleTest extends RuleTestCase
     }
 
     /** @test */
-    public function testProcessNode()
+    public function testProcessNode(): void
     {
         $this->analyse([__DIR__ . '/data/contextRequireExceptionKey.php'], [
             'missing context'               => [

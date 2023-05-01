@@ -6,22 +6,22 @@ namespace SfpTest\PHPStan\Psr\Log\Rules;
 
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
-use Sfp\PHPStan\Psr\Log\Rules\NonEmptyStringKeyRule;
+use Sfp\PHPStan\Psr\Log\Rules\ContextKeyNonEmptyStringRule;
 
 /**
- * @implements RuleTestCase<NonEmptyStringKeyRule>
+ * @implements RuleTestCase<ContextKeyNonEmptyStringRule>
  */
-final class NonEmptyStringKeyRuleTest extends RuleTestCase
+final class ContextKeyNonEmptyStringRuleTest extends RuleTestCase
 {
     protected function getRule(): Rule
     {
-        return new NonEmptyStringKeyRule();
+        return new ContextKeyNonEmptyStringRule();
     }
 
     /** @test */
-    public function testProcessNode()
+    public function testProcessNode(): void
     {
-        $this->analyse([__DIR__ . '/data/nonEmptyStringKey.php'], [
+        $this->analyse([__DIR__ . '/data/contextKeyNonEmptyStringRule.php'], [
             'empty string'  => [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::info(), key should be non empty string.',
                 8,

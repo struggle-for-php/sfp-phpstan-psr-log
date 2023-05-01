@@ -1,32 +1,52 @@
 struggle-for-php/sfp-phpstan-psr-log
 ============================
 
+[![Latest Stable Version](https://poser.pugx.org/struggle-for-php/sfp-phpstan-psr-log/v/stable)](https://packagist.org/packages/struggle-for-php/sfp-phpstan-psr-log)
+[![License](https://poser.pugx.org/struggle-for-php/sfp-phpstan-psr-log/license)](https://packagist.org/packages/struggle-for-php/sfp-phpstan-psr-log)
 [![Psalm coverage](https://shepherd.dev/github/struggle-for-php/sfp-phpstan-psr-log/coverage.svg)](https://shepherd.dev/github/struggle-for-php/sfp-phpstan-psr-log)
+
+* [PHPStan](https://phpstan.org/)
+* [PSR-3: Logger Interface - PHP-FIG](https://www.php-fig.org/psr/psr-3/)
+
+This extension provides following features:
+- stubs 
+  - Deliver stubs to let PHPStan understand psr/log (PSR-3) strictly.
+  - >  Implementors MUST still verify that the 'exception' key is actually an Exception before using it as such, as it MAY contain anything.
+  - https://www.php-fig.org/psr/psr-3/#13-context
+
+It also contains this strict specific rules:
+- ContextKeyNonEmptyStringRule
+  - context key should be string.
+- PlaceHolderInMessageRule
+  - placeholder in `$message` characters are `A-Z`, `a-z`, `0-9`, underscore `_`, and period `.`
+- ContextKeyPlaceHolderRule
+  - When placeholder exists in message, checks keys in `$context` exists against them.
+- ContextRequireExceptionKeyRule
+  - It forces `exception` key into context parameter when current scope has Throwable object.
 
 ## Installation
 
-```sh
+To use this extension, require it in [Composer](https://getcomposer.org/):
+
+```
 composer require --dev struggle-for-php/sfp-phpstan-psr-log
 ```
 
-## Configuration
+If you also install [phpstan/extension-installer](https://github.com/phpstan/extension-installer) then you're all set.
 
-In your `phpstan.neon` configuration, add following section:
+### Manual installation
+
+If you don't want to use `phpstan/extension-installer`, include extension.neon & rules.neon in your project's PHPStan config:
 
 ```neon
 includes:
-	- vendor/struggle-for-php/sfp-phpstan-psr-log/extension.neon
-	- vendor/struggle-for-php/sfp-phpstan-psr-log/rules.neon
+    - vendor/struggle-for-php/sfp-phpstan-psr-log/extension.neon
+    - vendor/struggle-for-php/sfp-phpstan-psr-log/rules.neon
 ```
 
-## Stubs
-- Deliver stubs to let PHPStan understand psr/log (PSR-3) strictly.
+## Examples
 
->  Implementors MUST still verify that the 'exception' key is actually an Exception before using it as such, as it MAY contain anything.
-
-https://www.php-fig.org/psr/psr-3/#13-context
-
-### Example
+### stub - context 'exception' key is actually an Exception
 
 ```php
 <?php
@@ -64,9 +84,7 @@ Note: Using configuration file /tmp/your-project/phpstan.neon.
  [ERROR] Found 1 error
 ```
 
-## ContextRequireExceptionKeyRule
-
-- Require set exception into context parameter when current scope has Throwable object.
+### ContextRequireExceptionKeyRule
 
 ### Example
 
