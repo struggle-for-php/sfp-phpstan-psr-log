@@ -18,7 +18,7 @@ use function sprintf;
 /**
  * @implements Rule<Node\Expr\MethodCall>
  */
-final class NonEmptyStringKeyRule implements Rule
+final class ContextKeyNonEmptyStringRule implements Rule
 {
     // eg, DNumber
     private const ERROR_UNEXPECTED_KEY = 'Parameter $context of logger method Psr\Log\LoggerInterface::%s(), key should be non empty string.';
