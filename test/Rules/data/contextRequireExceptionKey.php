@@ -1,14 +1,10 @@
 <?php
 
 declare(strict_types=1);
-namespace SfpTest\PHPStan\Psr\Log;
 
-interface OtherLogger
-{
-    public function critical(string $message);
-}
+use SfpTest\PHPStan\Psr\Log\Rules\OtherLoggerInterface;
 
-function main(Psr\Log\LoggerInterface $logger, OtherLogger $otherLogger): void
+function main(Psr\Log\LoggerInterface $logger, OtherLoggerInterface $otherLogger): void
 {
     try {
         $logger->debug("foo");
