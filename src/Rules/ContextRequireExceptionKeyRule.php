@@ -8,6 +8,8 @@ use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
+use PHPStan\Type\ArrayType;
+use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\ObjectType;
 use Throwable;
 
@@ -102,7 +104,7 @@ class ContextRequireExceptionKeyRule implements Rule
         /** @psalm-suppress RedundantConditionGivenDocblockType */
         assert($context instanceof Node\Arg);
 
-        if (self::contextDoesNotHavExceptionKey($context)) {
+        if (self::contextDoesNotHaveExceptionKey($context, $scope)) {
             if (! $this->isReportLogLevel($logLevel)) {
                 return [];
             }
@@ -129,13 +131,18 @@ class ContextRequireExceptionKeyRule implements Rule
         return null;
     }
 
-    private static function contextDoesNotHavExceptionKey(Node\Arg $context): bool
+    private static function contextDoesNotHaveExceptionKey(Node\Arg $context, Scope $scope): bool
     {
         if (! $context->value instanceof Node\Expr\Array_) {
-            return true;
-        }
-
-        if (count($context->value->items) === 0) {
+            if ($context->value instanceof Node\Expr\Variable) {
+                $contextVariable = $scope->getVariableType($context->value->name);
+                if (
+                    $contextVariable instanceof ArrayType
+                    && $contextVariable->hasOffsetValueType(new ConstantStringType('exception'))->yes()
+                ) {
+                    return false;
+                }
+            }
             return true;
         }
 

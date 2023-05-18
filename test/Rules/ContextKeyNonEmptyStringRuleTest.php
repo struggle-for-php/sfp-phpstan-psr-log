@@ -10,6 +10,7 @@ use Sfp\PHPStan\Psr\Log\Rules\ContextKeyNonEmptyStringRule;
 
 /**
  * @implements RuleTestCase<ContextKeyNonEmptyStringRule>
+ * @covers \Sfp\PHPStan\Psr\Log\Rules\ContextKeyNonEmptyStringRule
  */
 final class ContextKeyNonEmptyStringRuleTest extends RuleTestCase
 {
