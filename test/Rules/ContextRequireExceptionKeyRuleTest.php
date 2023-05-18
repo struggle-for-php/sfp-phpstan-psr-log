@@ -10,6 +10,7 @@ use Sfp\PHPStan\Psr\Log\Rules\ContextRequireExceptionKeyRule;
 
 /**
  * @implements RuleTestCase<ContextRequireExceptionKeyRule>
+ * @covers \Sfp\PHPStan\Psr\Log\Rules\ContextRequireExceptionKeyRule
  */
 final class ContextRequireExceptionKeyRuleTest extends RuleTestCase
 {
@@ -18,33 +19,43 @@ final class ContextRequireExceptionKeyRuleTest extends RuleTestCase
         return new ContextRequireExceptionKeyRule('info');
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function testProcessNode(): void
     {
         $this->analyse([__DIR__ . '/data/contextRequireExceptionKey.php'], [
             'missing context'               => [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::info() requires \'exception\' key. Current scope has Throwable variable - $exception',
-                15,
+                17,
             ],
             'invalid key'                   => [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::info() requires \'exception\' key. Current scope has Throwable variable - $exception',
-                16,
+                18,
             ],
             'missing context - log method'  => [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::log() requires \'exception\' key. Current scope has Throwable variable - $exception',
-                19,
+                21,
             ],
             'invalid key - log method'      => [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::log() requires \'exception\' key. Current scope has Throwable variable - $exception',
-                20,
+                22,
             ],
             'missing context - other catch' => [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::critical() requires \'exception\' key. Current scope has Throwable variable - $exception2',
-                27,
+                29,
             ],
             'invalid key - other catch'     => [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::log() requires \'exception\' key. Current scope has Throwable variable - $exception2',
-                28,
+                30,
+            ],
+            'empty array'                   => [
+                'Parameter $context of logger method Psr\Log\LoggerInterface::critical() requires \'exception\' key. Current scope has Throwable variable - $exception2',
+                35,
+            ],
+            'context offset variable '      => [
+                'Parameter $context of logger method Psr\Log\LoggerInterface::critical() requires \'exception\' key. Current scope has Throwable variable - $exception2',
+                37,
             ],
         ]);
     }

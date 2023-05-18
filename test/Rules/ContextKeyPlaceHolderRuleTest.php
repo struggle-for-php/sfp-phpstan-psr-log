@@ -10,6 +10,7 @@ use Sfp\PHPStan\Psr\Log\Rules\ContextKeyPlaceHolderRule;
 
 /**
  * @implements RuleTestCase<ContextKeyPlaceHolderRule>
+ * @covers \Sfp\PHPStan\Psr\Log\Rules\ContextKeyPlaceHolderRule
  */
 final class ContextKeyPlaceHolderRuleTest extends RuleTestCase
 {

@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-function main(Psr\Log\LoggerInterface $logger): void
+use SfpTest\PHPStan\Psr\Log\Rules\OtherLoggerInterface;
+
+function main(Psr\Log\LoggerInterface $logger, OtherLoggerInterface $otherLogger): void
 {
     try {
         $logger->debug("foo");
@@ -28,15 +30,32 @@ function main(Psr\Log\LoggerInterface $logger): void
         $logger->log('critical', 'foo');
         $logger->debug("foo", ['exception' => new DateTimeImmutable()]); // but would not be report
 
+        // ng
+        $context = [];
+        $logger->critical('foo', $context);
+        $context = ['foo' => 'FOO', 'bar' => 'BAR']; // to check offset variable
+        $logger->critical('foo', $context);
+        // ok
+        $context = ['foo' => 'bar', 'exception' => $exception2]; // to check offset variable
+        $logger->critical('foo', $context);
+        $context = ['exception' => $exception2];
+        $logger->critical('foo', $context);
+
         // Todo - handle function return type
         $logger->log(determineLogLevel(), 'foo'); // currently ignore
 
         // ok
         $logger->critical("foo", ['exception' => $exception2]);
+        $logger->critical("foo", ['foo' => 1, 'exception' => $exception2]);
     } finally {
         // ok
         $logger->emergency('foo');
     }
+
+    // just for test coverage...
+    $logger->critical();
+    $logger->none('foo');
+    $otherLogger->critical('message');
 }
 
 // phpcs:disable
@@ -45,3 +64,4 @@ function determineLogLevel(): string
 {
     return 'alert';
 }
+

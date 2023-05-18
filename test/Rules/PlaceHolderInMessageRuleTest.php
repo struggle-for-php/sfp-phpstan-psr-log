@@ -10,6 +10,7 @@ use Sfp\PHPStan\Psr\Log\Rules\PlaceHolderInMessageRule;
 
 /**
  * @implements RuleTestCase<PlaceHolderInMessageRule>
+ * @covers \Sfp\PHPStan\Psr\Log\Rules\PlaceHolderInMessageRule
  */
 final class PlaceHolderInMessageRuleTest extends RuleTestCase
 {
@@ -18,7 +19,9 @@ final class PlaceHolderInMessageRuleTest extends RuleTestCase
         return new PlaceHolderInMessageRule();
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function testProcessNode(): void
     {
         $this->analyse([__DIR__ . '/data/placeHolderInMessage.php'], [
