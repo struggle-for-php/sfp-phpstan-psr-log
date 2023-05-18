@@ -135,6 +135,7 @@ class ContextRequireExceptionKeyRule implements Rule
     {
         if (! $context->value instanceof Node\Expr\Array_) {
             if ($context->value instanceof Node\Expr\Variable) {
+                assert(is_string($context->value->name));
                 $contextVariable = $scope->getVariableType($context->value->name);
                 if (
                     $contextVariable instanceof ArrayType
