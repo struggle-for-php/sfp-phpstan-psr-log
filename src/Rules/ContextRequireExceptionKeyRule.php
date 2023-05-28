@@ -16,7 +16,6 @@ use Throwable;
 use function assert;
 use function count;
 use function in_array;
-use function is_string;
 use function sprintf;
 
 /**
@@ -134,27 +133,14 @@ class ContextRequireExceptionKeyRule implements Rule
 
     private static function contextDoesNotHaveExceptionKey(Node\Arg $context, Scope $scope): bool
     {
-        if (! $context->value instanceof Node\Expr\Array_) {
-            if ($context->value instanceof Node\Expr\Variable) {
-                assert(is_string($context->value->name));
-                $contextVariable = $scope->getVariableType($context->value->name);
-                if (
-                    $contextVariable instanceof ArrayType
-                    && $contextVariable->hasOffsetValueType(new ConstantStringType('exception'))->yes()
-                ) {
-                    return false;
-                }
+        $type = $scope->getType($context->value);
+        if ($type instanceof ArrayType) {
+            if ($type->hasOffsetValueType(new ConstantStringType('exception'))->yes()) {
+                return false;
             }
             return true;
         }
 
-        foreach ($context->value->items as $item) {
-            assert($item instanceof Node\Expr\ArrayItem);
-            if ($item->key instanceof Node\Scalar\String_ && $item->key->value === 'exception') {
-                return false;
-            }
-        }
-
-        return true;
+        return false;
     }
 }

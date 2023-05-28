@@ -35,14 +35,23 @@ function main(Psr\Log\LoggerInterface $logger, OtherLoggerInterface $otherLogger
         $logger->critical('foo', $context);
         $context = ['foo' => 'FOO', 'bar' => 'BAR']; // to check offset variable
         $logger->critical('foo', $context);
+
+        // ng
+        $logger->critical('foo', array_merge(['foo' => 1], ['exception2' => $exception2]));
+        $logger->critical('foo', ['foo' => 1] + ['exception2' => $exception2]);
+        $logger->critical('foo', returnMixedArray());
         // ok
         $context = ['foo' => 'bar', 'exception' => $exception2]; // to check offset variable
         $logger->critical('foo', $context);
         $context = ['exception' => $exception2];
         $logger->critical('foo', $context);
+        // ok
+        $logger->critical('foo', array_merge(['foo' => 1], ['exception' => $exception2]));
+        $logger->critical('foo', ['foo' => 1] + ['exception' => $exception2]);
 
         // Todo - handle function return type
-        $logger->log(determineLogLevel(), 'foo'); // currently ignore
+        $logger->log(determineLogLevel(), 'foo');
+        $logger->critical('foo', returnExceptionHasArray()); // returnExceptionHasArray would be ErrorType
 
         // ok
         $logger->critical("foo", ['exception' => $exception2]);
@@ -65,3 +74,14 @@ function determineLogLevel(): string
     return 'alert';
 }
 
+/** @return array<mixed> */
+function returnMixedArray() : array
+{
+    return ['exception' => new stdClass()];
+}
+
+/** @return array{exception: \Throwable} */
+function returnExceptionHasArray() : array
+{
+    return ['exception' => new \Exception];
+}
