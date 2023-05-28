@@ -39,7 +39,6 @@ function main(Psr\Log\LoggerInterface $logger, OtherLoggerInterface $otherLogger
         // ng
         $logger->critical('foo', array_merge(['foo' => 1], ['exception2' => $exception2]));
         $logger->critical('foo', ['foo' => 1] + ['exception2' => $exception2]);
-        $logger->critical('foo', returnMixedArray());
         // ok
         $context = ['foo' => 'bar', 'exception' => $exception2]; // to check offset variable
         $logger->critical('foo', $context);
@@ -51,6 +50,7 @@ function main(Psr\Log\LoggerInterface $logger, OtherLoggerInterface $otherLogger
 
         // Todo - handle function return type
         $logger->log(determineLogLevel(), 'foo');
+        $logger->critical('foo', returnMixedArray());
         $logger->critical('foo', returnExceptionHasArray()); // returnExceptionHasArray would be ErrorType
 
         // ok

@@ -57,6 +57,14 @@ final class ContextRequireExceptionKeyRuleTest extends RuleTestCase
                 'Parameter $context of logger method Psr\Log\LoggerInterface::critical() requires \'exception\' key. Current scope has Throwable variable - $exception2',
                 37,
             ],
+            'after array_merge'             => [
+                'Parameter $context of logger method Psr\Log\LoggerInterface::critical() requires \'exception\' key. Current scope has Throwable variable - $exception2',
+                40,
+            ],
+            'after array plus'              => [
+                'Parameter $context of logger method Psr\Log\LoggerInterface::critical() requires \'exception\' key. Current scope has Throwable variable - $exception2',
+                41,
+            ],
         ]);
     }
 }
