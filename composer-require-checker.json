@@ -1,0 +1,19 @@
+{
+  "symbol-whitelist" : [
+    "null", "true", "false",
+    "static", "self", "parent",
+    "array", "string", "int", "float", "bool", "iterable", "callable", "void", "object", "mixed",
+    "PhpParser\\Node",
+    "PhpParser\\Node\\Arg",
+    "PhpParser\\Node\\Expr\\ArrayItem",
+    "PhpParser\\Node\\Expr\\Array_",
+    "PhpParser\\Node\\Expr\\MethodCall",
+    "PhpParser\\Node\\Identifier",
+    "PhpParser\\Node\\Scalar\\String_",
+    "PHPStan\\Analyser\\Scope",
+    "PHPStan\\Rules\\Rule",
+    "PHPStan\\Type\\ArrayType",
+    "PHPStan\\Type\\Constant\\ConstantStringType",
+    "PHPStan\\Type\\ObjectType"
+  ]
+}
