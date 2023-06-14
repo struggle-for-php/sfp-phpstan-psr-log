@@ -28,13 +28,14 @@ function main(Psr\Log\LoggerInterface $logger, OtherLoggerInterface $otherLogger
         // ng
         $logger->critical('foo');
         $logger->log('critical', 'foo');
-        $logger->debug("foo", ['exception' => new DateTimeImmutable()]); // but would not be report
+        $logger->debug("foo", ['exception' => new DateTimeImmutable()]); // would be checked by array-shapes
 
         // ng
         $context = [];
         $logger->critical('foo', $context);
         $context = ['foo' => 'FOO', 'bar' => 'BAR']; // to check offset variable
         $logger->critical('foo', $context);
+        $logger->debug('foo', $context); // would not be reported < info
 
         // ng
         $logger->critical('foo', array_merge(['foo' => 1], ['exception2' => $exception2]));

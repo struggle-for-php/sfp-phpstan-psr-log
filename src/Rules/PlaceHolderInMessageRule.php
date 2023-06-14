@@ -36,17 +36,20 @@ final class PlaceHolderInMessageRule implements Rule
     public function processNode(Node $node, Scope $scope): array
     {
         if (! $node->name instanceof Node\Identifier) {
-            return [];
+            // @codeCoverageIgnoreStart
+            return []; // @codeCoverageIgnoreEnd
         }
 
         $calledOnType = $scope->getType($node->var);
         if (! (new ObjectType('Psr\Log\LoggerInterface'))->isSuperTypeOf($calledOnType)->yes()) {
-            return [];
+            // @codeCoverageIgnoreStart
+            return []; // @codeCoverageIgnoreEnd
         }
 
         $args = $node->getArgs();
         if (count($args) === 0) {
-            return [];
+            // @codeCoverageIgnoreStart
+            return []; // @codeCoverageIgnoreEnd
         }
 
         $methodName = $node->name->toLowerString();
@@ -57,12 +60,14 @@ final class PlaceHolderInMessageRule implements Rule
                 count($args) < 2
                 || ! $args[0]->value instanceof Node\Scalar\String_
             ) {
-                return [];
+                // @codeCoverageIgnoreStart
+                return []; // @codeCoverageIgnoreEnd
             }
 
             $messageArgumentNo = 1;
         } elseif (! in_array($methodName, LogLevelListInterface::LOGGER_LEVEL_METHODS)) {
-            return [];
+            // @codeCoverageIgnoreStart
+            return []; // @codeCoverageIgnoreEnd
         }
 
         $message = $args[$messageArgumentNo];
