@@ -87,7 +87,7 @@ final class PlaceHolderInMessageRule implements Rule
     }
 
     /**
-     * @phpstan-return list<RuleError>
+     * @return list<RuleError>
      */
     private static function checkDoubleBrace(string $message, string $methodName): array
     {
@@ -105,7 +105,7 @@ final class PlaceHolderInMessageRule implements Rule
     }
 
     /**
-     * @phpstan-return list<RuleError>
+     * @return list<RuleError>
      */
     private static function checkInvalidChar(string $message, string $methodName): array
     {

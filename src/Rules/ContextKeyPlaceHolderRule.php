@@ -94,9 +94,9 @@ final class ContextKeyPlaceHolderRule implements Rule
     }
 
     /**
-     * @phpstan-param list<string> $braces
-     * @phpstan-param list<string> $placeHolders
-     * @phpstan-return list<RuleError>
+     * @param list<string> $braces
+     * @param list<string> $placeHolders
+     * @return list<RuleError>
      */
     private static function contextDoesNotHavePlaceholderKey(Node\Arg $context, string $methodName, array $braces, array $placeHolders): array
     {
@@ -119,7 +119,7 @@ final class ContextKeyPlaceHolderRule implements Rule
     }
 
     /**
-     * @phpstan-return list<string>
+     * @return list<string>
      */
     private static function getContextKeys(Node\Arg $context): array
     {
