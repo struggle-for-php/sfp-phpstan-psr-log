@@ -1,5 +1,4 @@
-struggle-for-php/sfp-phpstan-psr-log
-============================
+# struggle-for-php/sfp-phpstan-psr-log
 
 [![Latest Stable Version](https://poser.pugx.org/struggle-for-php/sfp-phpstan-psr-log/v/stable)](https://packagist.org/packages/struggle-for-php/sfp-phpstan-psr-log)
 [![License](https://poser.pugx.org/struggle-for-php/sfp-phpstan-psr-log/license)](https://packagist.org/packages/struggle-for-php/sfp-phpstan-psr-log)
@@ -9,26 +8,29 @@ struggle-for-php/sfp-phpstan-psr-log
 * [PSR-3: Logger Interface - PHP-FIG](https://www.php-fig.org/psr/psr-3/)
 
 This extension provides following features:
-- stubs 
-  - Deliver stubs to let PHPStan understand psr/log (PSR-3) strictly.
-  - >  Implementors MUST still verify that the 'exception' key is actually an Exception before using it as such, as it MAY contain anything.
-  - https://www.php-fig.org/psr/psr-3/#13-context
+
+* stubs
+
+  * Deliver stubs to let PHPStan understand psr/log (PSR-3) strictly.
+  * >  Implementors MUST still verify that the 'exception' key is actually an Exception before using it as such, as it MAY contain anything.
+  * https://www.php-fig.org/psr/psr-3/#13-context
 
 It also contains this strict specific rules:
-- ContextKeyNonEmptyStringRule
-  - context key should be string.
-- PlaceHolderInMessageRule
-  - placeholder in `$message` characters are `A-Z`, `a-z`, `0-9`, underscore `_`, and period `.`
-- ContextKeyPlaceHolderRule
-  - When placeholder exists in message, checks keys in `$context` exists against them.
-- ContextRequireExceptionKeyRule
-  - It forces `exception` key into context parameter when current scope has Throwable object.
+
+* ContextKeyNonEmptyStringRule
+  * context key should be string.
+* PlaceHolderInMessageRule
+  * placeholder in `$message` characters are `A-Z`, `a-z`, `0-9`, underscore `_`, and period `.`
+* ContextKeyPlaceHolderRule
+  * When placeholder exists in message, checks keys in `$context` exists against them.
+* ContextRequireExceptionKeyRule
+  * It forces `exception` key into context parameter when current scope has Throwable object.
 
 ## Installation
 
 To use this extension, require it in [Composer](https://getcomposer.org/):
 
-```
+```bash
 composer require --dev struggle-for-php/sfp-phpstan-psr-log
 ```
 
