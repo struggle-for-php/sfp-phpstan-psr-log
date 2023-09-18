@@ -9,7 +9,7 @@ use PHPStan\Testing\RuleTestCase;
 use Sfp\PHPStan\Psr\Log\Rules\ContextKeyNonEmptyStringRule;
 
 /**
- * @implements RuleTestCase<ContextKeyNonEmptyStringRule>
+ * @extends RuleTestCase<ContextKeyNonEmptyStringRule>
  * @covers \Sfp\PHPStan\Psr\Log\Rules\ContextKeyNonEmptyStringRule
  */
 final class ContextKeyNonEmptyStringRuleTest extends RuleTestCase
@@ -23,25 +23,25 @@ final class ContextKeyNonEmptyStringRuleTest extends RuleTestCase
     public function testProcessNode(): void
     {
         $this->analyse([__DIR__ . '/data/contextKeyNonEmptyStringRule.php'], [
-            'empty string'      => [
+            [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::info(), key should be non empty string.',
-                8,
+                8, // empty string
             ],
-            'integer'           => [
+            [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::info(), key should be non empty string.',
-                9,
+                9, // integer
             ],
-            'DNumber'           => [
+            [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::info(), key should be non empty string.',
-                10,
+                10, // DNumber
             ],
-            'not specified'     => [
+            [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::info(), key should be non empty string.',
-                11,
+                11, // not specified
             ],
-            'log() method call' => [
+            [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::log(), key should be non empty string.',
-                14,
+                14, // log method call
             ],
         ]);
     }
