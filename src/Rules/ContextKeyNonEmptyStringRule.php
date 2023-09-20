@@ -7,7 +7,6 @@ namespace Sfp\PHPStan\Psr\Log\Rules;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
-use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ObjectType;
@@ -80,7 +79,8 @@ final class ContextKeyNonEmptyStringRule implements Rule
     }
 
     /**
-     * @phpstan-return list<RuleError>
+     * phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
+     * @phpstan-return list<\PHPStan\Rules\RuleError>
      */
     private static function keysAreNonEmptyString(Node\Arg $context, string $methodName): array
     {

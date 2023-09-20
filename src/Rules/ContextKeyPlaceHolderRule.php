@@ -7,7 +7,6 @@ namespace Sfp\PHPStan\Psr\Log\Rules;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
-use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\ObjectType;
 
@@ -94,9 +93,10 @@ final class ContextKeyPlaceHolderRule implements Rule
     }
 
     /**
-     * @param list<string> $braces
-     * @param list<string> $placeHolders
-     * @return list<RuleError>
+     * @phpstan-param list<string> $braces
+     * @phpstan-param list<string> $placeHolders
+     * phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
+     * @phpstan-return list<\PHPStan\Rules\RuleError>
      */
     private static function contextDoesNotHavePlaceholderKey(Node\Arg $context, string $methodName, array $braces, array $placeHolders): array
     {
@@ -119,7 +119,7 @@ final class ContextKeyPlaceHolderRule implements Rule
     }
 
     /**
-     * @return list<string>
+     * @phpstan-return list<string>
      */
     private static function getContextKeys(Node\Arg $context): array
     {

@@ -7,7 +7,6 @@ namespace Sfp\PHPStan\Psr\Log\Rules;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
-use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ObjectType;
@@ -87,7 +86,8 @@ final class PlaceHolderInMessageRule implements Rule
     }
 
     /**
-     * @return list<RuleError>
+     * phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
+     * @phpstan-return list<\PHPStan\Rules\RuleError>
      */
     private static function checkDoubleBrace(string $message, string $methodName): array
     {
@@ -105,7 +105,8 @@ final class PlaceHolderInMessageRule implements Rule
     }
 
     /**
-     * @return list<RuleError>
+     * phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
+     * @phpstan-return list<\PHPStan\Rules\RuleError>
      */
     private static function checkInvalidChar(string $message, string $methodName): array
     {
