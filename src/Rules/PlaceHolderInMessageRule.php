@@ -100,7 +100,10 @@ final class PlaceHolderInMessageRule implements Rule
         return [
             RuleErrorBuilder::message(
                 sprintf(self::ERROR_DOUBLE_BRACES, $methodName, implode(',', $matches[0]))
-            )->identifier('sfp-psr-log.placeHolderInMessageDoubleBraches')->build(),
+            )
+                ->identifier('sfp-psr-log.placeHolderInMessageDoubleBraches')
+                ->tip('See https://www.php-fig.org/psr/psr-3/#12-message')
+                ->build(),
         ];
     }
 
@@ -130,7 +133,10 @@ final class PlaceHolderInMessageRule implements Rule
         return [
             RuleErrorBuilder::message(
                 sprintf(self::ERROR_INVALID_CHAR, $methodName, implode(',', $invalidPlaceHolders))
-            )->identifier('sfp-psr-log.placeHolderInMessageInvalidChar')->build(),
+            )
+                ->identifier('sfp-psr-log.placeHolderInMessageInvalidChar')
+                ->tip('See https://www.php-fig.org/psr/psr-3/#12-message')
+                ->build(),
         ];
     }
 }
