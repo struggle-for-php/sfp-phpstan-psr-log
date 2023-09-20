@@ -7,6 +7,7 @@ namespace Sfp\PHPStan\Psr\Log\Rules;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\ObjectType;
 
 use function assert;
@@ -79,7 +80,11 @@ final class ContextKeyPlaceHolderRule implements Rule
         }
 
         if (! isset($args[$contextArgumentNo])) {
-            return [sprintf(self::ERROR_MISSED_CONTEXT, $methodName, implode(',', $matches[0]))];
+            return [
+                RuleErrorBuilder::message(
+                    sprintf(self::ERROR_MISSED_CONTEXT, $methodName, implode(',', $matches[0]))
+                )->identifier('sfp-psr-log.contextKeyPlaceHolder-missedContext')->build(),
+            ];
         }
 
         $context = $args[$contextArgumentNo];
@@ -90,7 +95,8 @@ final class ContextKeyPlaceHolderRule implements Rule
     /**
      * @phpstan-param list<string> $braces
      * @phpstan-param list<string> $placeHolders
-     * @phpstan-return list<string>
+     * phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
+     * @phpstan-return list<\PHPStan\Rules\RuleError>
      */
     private static function contextDoesNotHavePlaceholderKey(Node\Arg $context, string $methodName, array $braces, array $placeHolders): array
     {
@@ -105,7 +111,11 @@ final class ContextKeyPlaceHolderRule implements Rule
             return [];
         }
 
-        return [sprintf(self::ERROR_MISSED_KEY, $methodName, implode(',', $braces))];
+        return [
+            RuleErrorBuilder::message(
+                sprintf(self::ERROR_MISSED_KEY, $methodName, implode(',', $braces))
+            )->identifier('sfp-psr-log.contextKeyPlaceHolderMissedKey')->build(),
+        ];
     }
 
     /**

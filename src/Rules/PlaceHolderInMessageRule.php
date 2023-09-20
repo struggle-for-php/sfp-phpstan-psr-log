@@ -7,6 +7,7 @@ namespace Sfp\PHPStan\Psr\Log\Rules;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ObjectType;
 
@@ -85,7 +86,8 @@ final class PlaceHolderInMessageRule implements Rule
     }
 
     /**
-     * @phpstan-return list<string>
+     * phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
+     * @phpstan-return list<\PHPStan\Rules\RuleError>
      */
     private static function checkDoubleBrace(string $message, string $methodName): array
     {
@@ -95,11 +97,19 @@ final class PlaceHolderInMessageRule implements Rule
             return [];
         }
 
-        return [sprintf(self::ERROR_DOUBLE_BRACES, $methodName, implode(',', $matches[0]))];
+        return [
+            RuleErrorBuilder::message(
+                sprintf(self::ERROR_DOUBLE_BRACES, $methodName, implode(',', $matches[0]))
+            )
+                ->identifier('sfp-psr-log.placeHolderInMessageDoubleBraches')
+                ->tip('See https://www.php-fig.org/psr/psr-3/#12-message')
+                ->build(),
+        ];
     }
 
     /**
-     * @phpstan-return list<string>
+     * phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
+     * @phpstan-return list<\PHPStan\Rules\RuleError>
      */
     private static function checkInvalidChar(string $message, string $methodName): array
     {
@@ -120,6 +130,13 @@ final class PlaceHolderInMessageRule implements Rule
             return [];
         }
 
-        return [sprintf(self::ERROR_INVALID_CHAR, $methodName, implode(',', $invalidPlaceHolders))];
+        return [
+            RuleErrorBuilder::message(
+                sprintf(self::ERROR_INVALID_CHAR, $methodName, implode(',', $invalidPlaceHolders))
+            )
+                ->identifier('sfp-psr-log.placeHolderInMessageInvalidChar')
+                ->tip('See https://www.php-fig.org/psr/psr-3/#12-message')
+                ->build(),
+        ];
     }
 }

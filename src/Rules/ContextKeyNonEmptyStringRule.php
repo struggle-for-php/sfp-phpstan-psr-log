@@ -7,6 +7,7 @@ namespace Sfp\PHPStan\Psr\Log\Rules;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ObjectType;
 
@@ -78,7 +79,8 @@ final class ContextKeyNonEmptyStringRule implements Rule
     }
 
     /**
-     * @phpstan-return list<string>
+     * phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
+     * @phpstan-return list<\PHPStan\Rules\RuleError>
      */
     private static function keysAreNonEmptyString(Node\Arg $context, string $methodName): array
     {
@@ -92,16 +94,18 @@ final class ContextKeyNonEmptyStringRule implements Rule
             return []; // @codeCoverageIgnoreEnd
         }
 
-        $indexes = [];
+        $errors = [];
         foreach ($context->value->items as $item) {
             assert($item instanceof Node\Expr\ArrayItem);
             if ($item->key instanceof Node\Scalar\String_ && $item->key->value !== '') {
                 continue;
             }
 
-            $indexes[] = sprintf(self::ERROR_UNEXPECTED_KEY, $methodName);
+            $errors[] = RuleErrorBuilder::message(
+                sprintf(self::ERROR_UNEXPECTED_KEY, $methodName)
+            )->identifier('sfp-psr-log.contextKeyNonEmptyString')->build();
         }
 
-        return $indexes;
+        return $errors;
     }
 }
