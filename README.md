@@ -7,13 +7,13 @@
 * [PHPStan](https://phpstan.org/)
 * [PSR-3: Logger Interface - PHP-FIG](https://www.php-fig.org/psr/psr-3/)
 
-
 ## Stubs
+
 This extension depends on our psr/log stub to serve strictness.
 
-eg.
- * `@param LogLevel::*  $level` at `log()` method
- * `@param array{exception?: \Throwable} $context` 
+* eg.
+  * `@param LogLevel::*  $level` at `log()` method
+  * `@param array{exception?: \Throwable} $context`
 
 See [psr/log stub](https://github.com/struggle-for-php/sfp-stubs-psr-log) repository page to get more detail.
 
@@ -22,26 +22,30 @@ See [psr/log stub](https://github.com/struggle-for-php/sfp-stubs-psr-log) reposi
 This package provides the following rules:
 
 ### ContextKeyNonEmptyStringRule
+
 * This rule reports an error when context key is not **non-empty-string**.
-  * <i>error identifier:</i> `sfp-psr-log.contextKeyNonEmptyString`
+  * _error identifier:_ `sfp-psr-log.contextKeyNonEmptyString`
   * :x: `[123 => 'foo']`, `['' => 'bar']`, `['baz']`
 
 ### PlaceHolderInMessageRule
+
 * This rule reports an error when placeholder in `$message` characters are **not**, `A-Z`, `a-z`, `0-9`, underscore `_`, and period `.`
-  * <i>error identifier:</i> `sfp-psr-log.placeHolderInMessageInvalidChar`
+  * _error identifier:_ `sfp-psr-log.placeHolderInMessageInvalidChar`
 * This rules also reports an error when double braces pair `{{` `}}` are used.
-  * <i>error identifier:</i> `sfp-psr-log.placeHolderInMessageDoubleBraches`
+  * _error identifier:_ `sfp-psr-log.placeHolderInMessageDoubleBraches`
 
 ### ContextKeyPlaceHolderRule
+
 * This rule reports an error when placeholder exists in message, but `$context` parameter is missed.
-  * <i>error identifier:</i> `sfp-psr-log.contextKeyPlaceHolder-missedContext`
+  * _error identifier:_ `sfp-psr-log.contextKeyPlaceHolder-missedContext`
 * This rule reports an error when placeholder exists in message, but key in `$context` does not exist against them.
-  * <i>error identifier:</i> `sfp-psr-log.contextKeyPlaceHolderMissedKey`
+  * _error identifier:_ `sfp-psr-log.contextKeyPlaceHolderMissedKey`
   * :x: `$logger->info(''user {user_id} gets an error {error} .', ['user_id' => $user_id]);`
 
 ### ContextRequireExceptionKeyRule
+
 * It forces `exception` key into context parameter when current scope has `\Throwable` object.
-  * <i>error identifier:</i> `sfp-psr-log.contextRequireExceptionKey`
+  * _error identifier:_ `sfp-psr-log.contextRequireExceptionKey`
 
 ## Installation
 
