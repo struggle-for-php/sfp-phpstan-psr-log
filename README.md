@@ -51,7 +51,7 @@ This package provides the following rules.
 
 ### ContextKeyNonEmptyStringRule
 
-*NOTES: PSR-3 has no provisions for array keys, but this is useful in many cases*
+**NOTES: PSR-3 has no provisions for array keys, but this is useful in many cases.**
 
 #### `sfp-psr-log.contextKeyNonEmptyString`
 
@@ -60,7 +60,7 @@ This package provides the following rules.
 
 ### ContextRequireExceptionKeyRule
 
-*NOTES: This is not a rule for PSR-3, but provides best practices.*
+**NOTES: This is not a rule for PSR-3, but provides best practices.**
 
 #### `sfp-psr-log.contextRequireExceptionKey`
 
