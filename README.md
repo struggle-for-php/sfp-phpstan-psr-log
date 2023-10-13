@@ -19,33 +19,41 @@ See [psr/log stub](https://github.com/struggle-for-php/sfp-stubs-psr-log) reposi
 
 ## Rules
 
-This package provides the following rules:
+This package provides the following rules.
 
 ### ContextKeyNonEmptyStringRule
 
-* This rule reports an error when context key is not **non-empty-string**.
-  * _error identifier:_ `sfp-psr-log.contextKeyNonEmptyString`
+#### _error identifier:_ `sfp-psr-log.contextKeyNonEmptyString`
+
+* reports when context key is not **non-empty-string**.
   * :x: `[123 => 'foo']`, `['' => 'bar']`, `['baz']`
 
 ### PlaceHolderInMessageRule
 
-* This rule reports an error when placeholder in `$message` characters are **not**, `A-Z`, `a-z`, `0-9`, underscore `_`, and period `.`
-  * _error identifier:_ `sfp-psr-log.placeHolderInMessageInvalidChar`
-* This rules also reports an error when double braces pair `{{` `}}` are used.
-  * _error identifier:_ `sfp-psr-log.placeHolderInMessageDoubleBraches`
+#### _error identifier:_ `sfp-psr-log.placeHolderInMessageInvalidChar`
+
+* reports when placeholder in `$message` characters are **not**, `A-Z`, `a-z`, `0-9`, underscore `_`, and period `.`
+
+#### _error identifier:_ `sfp-psr-log.placeHolderInMessageDoubleBraches`
+
+* reports when double braces pair `{{` `}}` are used.
 
 ### ContextKeyPlaceHolderRule
 
-* This rule reports an error when placeholder exists in message, but `$context` parameter is missed.
-  * _error identifier:_ `sfp-psr-log.contextKeyPlaceHolder-missedContext`
-* This rule reports an error when placeholder exists in message, but key in `$context` does not exist against them.
-  * _error identifier:_ `sfp-psr-log.contextKeyPlaceHolderMissedKey`
+#### _error identifier:_ `sfp-psr-log.contextKeyPlaceHolder-missedContext`
+
+* reports when placeholder exists in message, but `$context` parameter is missed.
+
+#### _error identifier:_ `sfp-psr-log.contextKeyPlaceHolderMissedKey`
+
+* reports when placeholder exists in message, but key in `$context` does not exist against them.
   * :x: `$logger->info(''user {user_id} gets an error {error} .', ['user_id' => $user_id]);`
 
 ### ContextRequireExceptionKeyRule
 
+#### _error identifier:_ `sfp-psr-log.contextRequireExceptionKey`
+
 * It forces `exception` key into context parameter when current scope has `\Throwable` object.
-  * _error identifier:_ `sfp-psr-log.contextRequireExceptionKey`
 
 #### Example
 
