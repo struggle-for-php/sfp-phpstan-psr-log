@@ -47,69 +47,7 @@ This package provides the following rules:
 * It forces `exception` key into context parameter when current scope has `\Throwable` object.
   * _error identifier:_ `sfp-psr-log.contextRequireExceptionKey`
 
-## Installation
-
-To use this extension, require it in [Composer](https://getcomposer.org/):
-
-```bash
-composer require --dev struggle-for-php/sfp-phpstan-psr-log
-```
-
-If you also install [phpstan/extension-installer](https://github.com/phpstan/extension-installer) then you're all set.
-
-### Manual installation
-
-If you don't want to use `phpstan/extension-installer`, include extension.neon & rules.neon in your project's PHPStan config:
-
-```neon
-includes:
-    - vendor/struggle-for-php/sfp-phpstan-psr-log/extension.neon
-    - vendor/struggle-for-php/sfp-phpstan-psr-log/rules.neon
-```
-
-## Examples
-
-### stub - context 'exception' key is actually an Exception
-
-```php
-<?php
-
-use Psr\Log\LoggerInterface;
-
-class Foo
-{
-    /** @var LoggerInterface */
-    private $logger;
-
-    public function anyAction()
-    {
-        try {
-            // 
-        } catch (\Exception $e) {
-            $this->logger->error('error happen.', ['exception' => 'foo']);
-        }
-    }
-}
-```
-
-```sh
-$ ../vendor/bin/phpstan analyse
-Note: Using configuration file /tmp/your-project/phpstan.neon.
- 2/2 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
-
- ------ -------------------------------------------------------------
-  Line   Demo.php
- ------ -------------------------------------------------------------
-  15     Parameter #2 $context of method Psr\Log\LoggerInterface::error() expects array()|array('exception' => Exception), array('exception' => 'foo') given.
- ------ -------------------------------------------------------------
-
-
- [ERROR] Found 1 error
-```
-
-### ContextRequireExceptionKeyRule
-
-### Example
+#### Example
 
 ```php
 <?php
@@ -134,4 +72,24 @@ Note: Using configuration file /tmp/your-project/phpstan.neon.
 
 
  [ERROR] Found 1 error
+```
+
+## Installation
+
+To use this extension, require it in [Composer](https://getcomposer.org/):
+
+```bash
+composer require --dev struggle-for-php/sfp-phpstan-psr-log
+```
+
+If you also install [phpstan/extension-installer](https://github.com/phpstan/extension-installer) then you're all set.
+
+### Manual installation
+
+If you don't want to use `phpstan/extension-installer`, include extension.neon & rules.neon in your project's PHPStan config:
+
+```neon
+includes:
+    - vendor/struggle-for-php/sfp-phpstan-psr-log/extension.neon
+    - vendor/struggle-for-php/sfp-phpstan-psr-log/rules.neon
 ```
