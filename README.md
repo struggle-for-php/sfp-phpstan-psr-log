@@ -40,7 +40,7 @@ This package provides the following rules.
 
 ### ContextKeyPlaceHolderRule
 
-#### _error identifier:_ `sfp-psr-log.contextKeyPlaceHolder-missedContext`
+#### _error identifier:_ `sfp-psr-log.contextKeyPlaceHolderMissedContext`
 
 * reports when placeholder exists in message, but `$context` parameter is missed.
 
