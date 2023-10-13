@@ -26,14 +26,12 @@ This package provides the following rules.
 
 > Placeholder names SHOULD be composed only of the characters A-Z, a-z, 0-9, underscore _, and period .
 
-#### `sfp-psr-log.placeHolderInMessageInvalidChar`
-
 * reports when placeholder in `$message` characters are **not**, `A-Z`, `a-z`, `0-9`, underscore `_`, and period `.`
   * :x: `$logger->info('message are {foo-hyphen}');`
-
-#### `sfp-psr-log.placeHolderInMessageDoubleBraches`
+  * :mag_right: `sfp-psr-log.placeHolderInMessageInvalidChar`
 
 * reports when double braces pair `{{` `}}` are used.
+  * :mag_right: `sfp-psr-log.placeHolderInMessageDoubleBraches`
 
 ### ContextKeyPlaceHolderRule
 
@@ -51,7 +49,8 @@ This package provides the following rules.
 
 ### ContextKeyNonEmptyStringRule
 
-**NOTES: PSR-3 has no provisions for array keys, but this is useful in many cases.**
+> [!NOTE]
+> PSR-3 has no provisions for array keys, but this is useful in many cases.**
 
 #### `sfp-psr-log.contextKeyNonEmptyString`
 
@@ -60,7 +59,8 @@ This package provides the following rules.
 
 ### ContextRequireExceptionKeyRule
 
-**NOTES: This is not a rule for PSR-3, but provides best practices.**
+> [!NOTE]
+> This is not a rule for PSR-3, but provides best practices.**
 
 #### `sfp-psr-log.contextRequireExceptionKey`
 
