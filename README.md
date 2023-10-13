@@ -6,6 +6,7 @@
 
 * [PHPStan](https://phpstan.org/)
 * [PSR-3: Logger Interface - PHP-FIG](https://www.php-fig.org/psr/psr-3/)
+* [PSR-3 Meta Document](https://www.php-fig.org/psr/psr-3/meta/)
 
 ## Stubs
 
@@ -21,18 +22,14 @@ See [psr/log stub](https://github.com/struggle-for-php/sfp-stubs-psr-log) reposi
 
 This package provides the following rules.
 
-### ContextKeyNonEmptyStringRule
-
-#### _error identifier:_ `sfp-psr-log.contextKeyNonEmptyString`
-
-* reports when context key is not **non-empty-string**.
-  * :x: `[123 => 'foo']`, `['' => 'bar']`, `['baz']`
-
 ### PlaceHolderInMessageRule
+
+> Placeholder names SHOULD be composed only of the characters A-Z, a-z, 0-9, underscore _, and period .
 
 #### _error identifier:_ `sfp-psr-log.placeHolderInMessageInvalidChar`
 
 * reports when placeholder in `$message` characters are **not**, `A-Z`, `a-z`, `0-9`, underscore `_`, and period `.`
+  * :x: `$logger->info('message are {foo-hyphen}');`
 
 #### _error identifier:_ `sfp-psr-log.placeHolderInMessageDoubleBraches`
 
@@ -40,16 +37,30 @@ This package provides the following rules.
 
 ### ContextKeyPlaceHolderRule
 
+> Placeholder names MUST correspond to keys in the context array.
+
 #### _error identifier:_ `sfp-psr-log.contextKeyPlaceHolderMissedContext`
 
 * reports when placeholder exists in message, but `$context` parameter is missed.
+  * :x: `$logger->info('message has {nonContext} .');`
 
 #### _error identifier:_ `sfp-psr-log.contextKeyPlaceHolderMissedKey`
 
 * reports when placeholder exists in message, but key in `$context` does not exist against them.
-  * :x: `$logger->info(''user {user_id} gets an error {error} .', ['user_id' => $user_id]);`
+  * :x: `$logger->info('user {user_id} gets an error {error} .', ['user_id' => $user_id]);`
+
+### ContextKeyNonEmptyStringRule
+
+`NOTES: PSR-3 has no provisions for array keys, but this is useful in many cases`
+
+#### _error identifier:_ `sfp-psr-log.contextKeyNonEmptyString`
+
+* reports when context key is not **non-empty-string**.
+  * :x: `[123 => 'foo']`, `['' => 'bar']`, `['baz']`
 
 ### ContextRequireExceptionKeyRule
+
+`NOTES: This is not a rule for PSR-3, but provides best practices.`
 
 #### _error identifier:_ `sfp-psr-log.contextRequireExceptionKey`
 

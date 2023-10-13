@@ -36,13 +36,18 @@ final class PlaceHolderInMessageRuleTest extends RuleTestCase
                 'See https://www.php-fig.org/psr/psr-3/#12-message',
             ],
             [
+                'Parameter $message of logger method Psr\Log\LoggerInterface::info() has braces. But it includes invalid characters for placeholder. - {hyphen-hyphen}',
+                17, // invalid placeholder char
+                'See https://www.php-fig.org/psr/psr-3/#12-message',
+            ],
+            [
                 'Parameter $message of logger method Psr\Log\LoggerInterface::log() has braces. But it includes invalid characters for placeholder. - {&invalid&}',
-                17, // call log() method
+                18, // call log() method
                 'See https://www.php-fig.org/psr/psr-3/#12-message',
             ],
             [
                 'Parameter $message of logger method Psr\Log\LoggerInterface::info() has braces. But it includes invalid characters for placeholder. - {&a},{&b},{&c}',
-                18, // Many Invalid PlaceHolders
+                19, // Many Invalid PlaceHolders
                 'See https://www.php-fig.org/psr/psr-3/#12-message',
             ],
         ]);
