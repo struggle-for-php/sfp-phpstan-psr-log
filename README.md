@@ -22,13 +22,13 @@ See [psr/log stub](https://github.com/struggle-for-php/sfp-stubs-psr-log) reposi
 
 This package provides the following rules.
 
-### PlaceHolderCharactersRule
+### PlaceholderCharactersRule
 
 > Placeholder names SHOULD be composed only of the characters A-Z, a-z, 0-9, underscore _, and period .
 
 | :pushpin: _error identifier_ |
 | --- |
-| sfp-psr-log.placeHolderCharactersInvalidChar |
+| sfp-psr-log.placeholderCharactersInvalidChar |
 
 * reports when placeholder in `$message` characters are **not**, `A-Z`, `a-z`, `0-9`, underscore `_`, and period `.`
 
@@ -39,7 +39,7 @@ $logger->info('message are {foo-hyphen}');
 
 | :pushpin: _error identifier_ |
 | --- |
-| sfp-psr-log.placeHolderCharactersDoubleBraches |
+| sfp-psr-log.placeholderCharactersDoubleBraches |
 
 * reports when double braces pair `{{` `}}` are used.
 
@@ -54,7 +54,7 @@ $logger->info('message are {{foo}}');
 
 | :pushpin: _error identifier_ |
 | --- |
-| sfp-psr-log.placeHolderCorrespondToKeysMissedContext |
+| sfp-psr-log.placeholderCorrespondToKeysMissedContext |
 
 * reports when placeholder exists in message, but `$context` parameter is missed.
 
@@ -65,7 +65,7 @@ $logger->info('message has {nonContext} .');
 
 | :pushpin: _error identifier_ |
 | --- |
-| sfp-psr-log.placeHolderCorrespondToKeysMissedKey |
+| sfp-psr-log.placeholderCorrespondToKeysMissedKey |
 
 * reports when placeholder exists in message, but key in `$context` does not exist against them.
 
