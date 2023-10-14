@@ -95,7 +95,7 @@ $logger->info('user {user_id} gets an error {error} .', ['user_id' => $user_id])
 | sfp-psr-log.contextKeyOriginalPattern |
 
 * reports when context key is not matched you defined pattern.
-  * if `contextKeyOriginalPattern` parameter is not set, this check would be ignored. 
+  * if `contextKeyOriginalPattern` parameter is not set, this check would be ignored.
 
 #### Configuration
 
@@ -106,7 +106,6 @@ parameters:
     sfpPsrLog:
         contextKeyOriginalPattern: '#\A[A-Za-z0-9-]+\z#'
 ```
-
 
 ### ContextRequireExceptionKeyRule
 
