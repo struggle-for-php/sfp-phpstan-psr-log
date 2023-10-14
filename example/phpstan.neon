@@ -12,6 +12,7 @@ parameters:
         - %currentWorkingDirectory%/example/src
     sfpPsrLog:
         reportContextExceptionLogLevel: 'notice'
+        contextKeyOriginalPattern: '#\A[A-Za-z0-9-]+\z#'
     stubFiles:
         - ../vendor/struggle-for-php/sfp-stubs-psr-log/stubs-for-throwable/LoggerInterface.phpstub
 
