@@ -141,9 +141,10 @@ parameters:
 Then, `debug`| `info` | `notice` LogLevel  is ignored for report.
 
 ```php
-} catch (\Exception $e)
-$logger->info('more info'); // allow
-$logger->warning($e->getMessage(), ['exception' => $e]);
+} catch (\Exception $e) {
+  $logger->info('more info'); // allow
+  $logger->warning($e->getMessage(), ['exception' => $e]);
+}
 ```
 
 ## Installation
