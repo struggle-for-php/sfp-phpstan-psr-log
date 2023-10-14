@@ -74,7 +74,7 @@ $logger->info('message has {nonContext} .');
 $logger->info('user {user_id} gets an error {error} .', ['user_id' => $user_id]);
 ```
 
-### ContextKeyNonEmptyStringRule
+### ContextKeyRule
 
 > [!NOTE]
 > PSR-3 has no provisions for array keys, but this is useful in many cases.
@@ -88,6 +88,23 @@ $logger->info('user {user_id} gets an error {error} .', ['user_id' => $user_id])
 ```php
 // bad
 [123 => 'foo']`, `['' => 'bar']`, `['baz']
+```
+
+| :pushpin: _error identifier_ |
+| --- |
+| sfp-psr-log.contextKeyOriginalPattern |
+
+* reports when context key is not matched you defined pattern.
+  * if `contextKeyOriginalPattern` parameter is not set, this check would be ignored.
+
+#### Configuration
+
+* You can set specific key pattern by regex.(`preg_match()`)
+
+```neon
+parameters:
+    sfpPsrLog:
+        contextKeyOriginalPattern: '#\A[A-Za-z0-9-]+\z#'
 ```
 
 ### ContextRequireExceptionKeyRule
