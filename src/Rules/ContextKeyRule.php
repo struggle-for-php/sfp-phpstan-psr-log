@@ -25,6 +25,8 @@ final class ContextKeyRule implements Rule
     // eg, DNumber
     private const ERROR_NOT_NON_EMPTY_STRING = 'Parameter $context of logger method Psr\Log\LoggerInterface::%s(), key should be non empty string.';
 
+    private const ERROR_ORIGINAL_PATTERN_BAD = 'Your contextKeyOriginalPattern %s seems not valid regex. Failed.';
+
     private const ERROR_NOT_MATCH_ORIGINAL_PATTERN = 'Parameter $context of logger method Psr\Log\LoggerInterface::%s(), key should be match %s.';
 
     /** @var string|null */
@@ -159,7 +161,9 @@ final class ContextKeyRule implements Rule
             $matched = preg_match($this->contextKeyOriginalPattern, $item->key->value, $matches);
 
             if ($matched === false) {
-                continue;
+                $errors[] = RuleErrorBuilder::message(
+                    sprintf(self::ERROR_ORIGINAL_PATTERN_BAD, $this->contextKeyOriginalPattern)
+                )->identifier('sfp-psr-log.contextKeyOriginalPatternBadRegex')->build();
             }
 
             if ($matched === 0) {

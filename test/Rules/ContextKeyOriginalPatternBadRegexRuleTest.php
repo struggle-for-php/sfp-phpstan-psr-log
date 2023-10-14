@@ -12,11 +12,11 @@ use Sfp\PHPStan\Psr\Log\Rules\ContextKeyRule;
  * @extends RuleTestCase<ContextKeyRule>
  * @covers \Sfp\PHPStan\Psr\Log\Rules\ContextKeyRule
  */
-final class ContextKeyOriginalPatternRuleTest extends RuleTestCase
+final class ContextKeyOriginalPatternBadRegexRuleTest extends RuleTestCase
 {
     protected function getRule(): Rule
     {
-        return new ContextKeyRule('#\A[A-Za-z0-9-]+\z#');
+        return new ContextKeyRule('#\A[A-Za-z0-9-]+');
     }
 
     /** @test */
@@ -24,7 +24,15 @@ final class ContextKeyOriginalPatternRuleTest extends RuleTestCase
     {
         $this->analyse([__DIR__ . '/data/contextKey_originalPattern.php'], [
             [
-                'Parameter $context of logger method Psr\Log\LoggerInterface::info(), key should be match #\A[A-Za-z0-9-]+\z#.',
+                'Your contextKeyOriginalPattern #\A[A-Za-z0-9-]+ seems not valid regex. Failed.',
+                8,
+            ],
+            [
+                'Your contextKeyOriginalPattern #\A[A-Za-z0-9-]+ seems not valid regex. Failed.',
+                9,
+            ],
+            [
+                'Your contextKeyOriginalPattern #\A[A-Za-z0-9-]+ seems not valid regex. Failed.',
                 14,
             ],
         ]);
