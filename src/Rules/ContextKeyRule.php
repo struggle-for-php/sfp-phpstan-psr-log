@@ -97,11 +97,7 @@ final class ContextKeyRule implements Rule
             return $errors;
         }
 
-        if ($this->contextKeyOriginalPattern) {
-            $errors = self::originalPatternMatches($context->value, $methodName);
-        }
-
-        return $errors;
+        return self::originalPatternMatches($context->value, $methodName);
     }
 
     /**
@@ -149,6 +145,10 @@ final class ContextKeyRule implements Rule
      */
     private function originalPatternMatches(Node\Expr\Array_ $contextArray, string $methodName): array
     {
+        if (! $this->contextKeyOriginalPattern) {
+            return [];
+        }
+
         $errors = [];
         foreach ($contextArray->items as $item) {
             assert($item instanceof Node\Expr\ArrayItem);
