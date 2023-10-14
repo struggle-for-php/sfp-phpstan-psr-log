@@ -6,23 +6,23 @@ namespace SfpTest\PHPStan\Psr\Log\Rules;
 
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
-use Sfp\PHPStan\Psr\Log\Rules\ContextKeyPlaceHolderRule;
+use Sfp\PHPStan\Psr\Log\Rules\PlaceholderCorrespondToKeysRule;
 
 /**
- * @extends RuleTestCase<ContextKeyPlaceHolderRule>
- * @covers \Sfp\PHPStan\Psr\Log\Rules\ContextKeyPlaceHolderRule
+ * @extends RuleTestCase<PlaceholderCorrespondToKeysRule>
+ * @covers \Sfp\PHPStan\Psr\Log\Rules\PlaceholderCorrespondToKeysRule
  */
-final class ContextKeyPlaceHolderRuleTest extends RuleTestCase
+final class PlaceholderCorrespondToKeysRuleTest extends RuleTestCase
 {
     protected function getRule(): Rule
     {
-        return new ContextKeyPlaceHolderRule();
+        return new PlaceholderCorrespondToKeysRule();
     }
 
     /** @test */
     public function testProcessNode(): void
     {
-        $this->analyse([__DIR__ . '/data/contextKeyPlaceHolder.php'], [
+        $this->analyse([__DIR__ . '/data/placeholderCorrespondToKeys.php'], [
             [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::info() is required, when placeholder braces exists - {nonContext}',
                 17, // missing context

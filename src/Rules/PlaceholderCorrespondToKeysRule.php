@@ -21,7 +21,7 @@ use function sprintf;
 /**
  * @implements Rule<Node\Expr\MethodCall>
  */
-final class ContextKeyPlaceHolderRule implements Rule
+final class PlaceholderCorrespondToKeysRule implements Rule
 {
     private const ERROR_MISSED_CONTEXT = 'Parameter $context of logger method Psr\Log\LoggerInterface::%s() is required, when placeholder braces exists - %s';
     private const ERROR_MISSED_KEY     = 'Parameter $message of logger method Psr\Log\LoggerInterface::%s() has placeholder braces, but context key is not found against them. - %s';
@@ -83,7 +83,7 @@ final class ContextKeyPlaceHolderRule implements Rule
             return [
                 RuleErrorBuilder::message(
                     sprintf(self::ERROR_MISSED_CONTEXT, $methodName, implode(',', $matches[0]))
-                )->identifier('sfp-psr-log.contextKeyPlaceHolderMissedContext')->build(),
+                )->identifier('sfp-psr-log.placeHolderCorrespondToKeysMissedContext')->build(),
             ];
         }
 
@@ -114,7 +114,7 @@ final class ContextKeyPlaceHolderRule implements Rule
         return [
             RuleErrorBuilder::message(
                 sprintf(self::ERROR_MISSED_KEY, $methodName, implode(',', $braces))
-            )->identifier('sfp-psr-log.contextKeyPlaceHolderMissedKey')->build(),
+            )->identifier('sfp-psr-log.placeHolderCorrespondToKeysMissedKey')->build(),
         ];
     }
 
