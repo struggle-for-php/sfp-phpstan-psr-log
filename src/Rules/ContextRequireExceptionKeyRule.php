@@ -22,7 +22,7 @@ use function sprintf;
 /**
  * @implements Rule<Node\Expr\MethodCall>
  */
-class ContextRequireExceptionKeyRule implements Rule
+final class ContextRequireExceptionKeyRule implements Rule
 {
     private const LOGGER_LEVELS = [
         'emergency' => 7,
