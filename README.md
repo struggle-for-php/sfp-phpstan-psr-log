@@ -24,46 +24,81 @@ This package provides the following rules.
 
 ### PlaceHolderInMessageRule
 
-> Placeholder names SHOULD be composed only of the characters A-Z, a-z, 0-9, underscore _, and period .
+| :pushpin: _error identifier_ |
+| --- |
+| sfp-psr-log.placeHolderInMessageInvalidChar |
 
-* reports when placeholder in `$message` characters are **not**, `A-Z`, `a-z`, `0-9`, underscore `_`, and period `.`
-  * :x: `$logger->info('message are {foo-hyphen}');`
-    * :pushpin: _error identifier:_ `sfp-psr-log.placeHolderInMessageInvalidChar`
+* reports when placeholder in `$message` characters are **not**, `A-Z`, `a-z`, `0-9`, underscore `_`, and period `.`[^a1]
+
+[^a1]: [Placeholder names SHOULD be composed only of the characters A-Z, a-z, 0-9, underscore _, and period .](https://www.php-fig.org/psr/psr-3/#12-message)
+
+```php
+// bad
+$logger->info('message are {foo-hyphen}');
+```
+
+| :pushpin: _error identifier_ |
+| --- |
+| sfp-psr-log.placeHolderInMessageDoubleBraches |
 
 * reports when double braces pair `{{` `}}` are used.
-  * :pushpin: _error identifier:_ `sfp-psr-log.placeHolderInMessageDoubleBraches`
+
+```php
+// bad
+$logger->info('message are {{foo}}');
+```
 
 ### ContextKeyPlaceHolderRule
 
-> Placeholder names MUST correspond to keys in the context array.
+| :pushpin: _error identifier_ |
+| --- |
+| sfp-psr-log.contextKeyPlaceHolderMissedContext |
 
-* reports when placeholder exists in message, but `$context` parameter is missed.
-  * :x: `$logger->info('message has {nonContext} .');`
-    * :pushpin: _error identifier:_ `sfp-psr-log.contextKeyPlaceHolderMissedContext`
+* reports when placeholder exists in message, but `$context` parameter is missed.[^b1]
 
-#### `sfp-psr-log.contextKeyPlaceHolderMissedKey`
+[^b1]: Placeholder names MUST correspond to keys in the context array.
+
+```php
+// bad
+$logger->info('message has {nonContext} .');
+```
+
+| :pushpin: _error identifier_ |
+| --- |
+| sfp-psr-log.contextKeyPlaceHolderMissedKey |
 
 * reports when placeholder exists in message, but key in `$context` does not exist against them.
-  * :x: `$logger->info('user {user_id} gets an error {error} .', ['user_id' => $user_id]);`
+
+```php
+// bad
+$logger->info('user {user_id} gets an error {error} .', ['user_id' => $user_id]);
+```
 
 ### ContextKeyNonEmptyStringRule
 
-> [!NOTE]
-> PSR-3 has no provisions for array keys, but this is useful in many cases.
-
-#### `sfp-psr-log.contextKeyNonEmptyString`
+| :pushpin: _error identifier_ |
+| --- |
+| sfp-psr-log.contextKeyNonEmptyString |
 
 * reports when context key is not **non-empty-string**.
-  * :x: `[123 => 'foo']`, `['' => 'bar']`, `['baz']`
+
+```php
+[123 => 'foo']`, `['' => 'bar']`, `['baz']
+```
+
+> [!NOTE]
+> PSR-3 has no provisions for array key's types, but this is useful in many cases.
 
 ### ContextRequireExceptionKeyRule
 
-> [!NOTE]
-> This is not a rule for PSR-3, but provides best practices.
-
-#### `sfp-psr-log.contextRequireExceptionKey`
+| :pushpin: _error identifier_ |
+| --- |
+| sfp-psr-log.contextRequireExceptionKey |
 
 * It forces `exception` key into context parameter when current scope has `\Throwable` object.
+
+> [!NOTE]
+> This is not a rule for along with PSR-3 specification, but provides best practices.
 
 #### Example
 
