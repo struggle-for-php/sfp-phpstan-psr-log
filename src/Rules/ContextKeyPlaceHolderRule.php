@@ -83,7 +83,7 @@ final class ContextKeyPlaceHolderRule implements Rule
             return [
                 RuleErrorBuilder::message(
                     sprintf(self::ERROR_MISSED_CONTEXT, $methodName, implode(',', $matches[0]))
-                )->identifier('sfp-psr-log.contextKeyPlaceHolder-missedContext')->build(),
+                )->identifier('sfp-psr-log.contextKeyPlaceHolderMissedContext')->build(),
             ];
         }
 
