@@ -128,6 +128,24 @@ Note: Using configuration file /tmp/your-project/phpstan.neon.
  [ERROR] Found 1 error
 ```
 
+#### Configuration
+
+* You can set the minimum required level to report. (default level is `debug`)
+
+```neon
+parameters:
+    sfpPsrLog:
+        reportContextExceptionLogLevel: 'warning'
+```
+
+Then, `debug`| `info` | `notice` LogLevel  is ignored for report.
+
+```php
+} catch (\Exception $e)
+$logger->info('more info'); // allow
+$logger->warning($e->getMessage(), ['exception' => $e]);
+```
+
 ## Installation
 
 To use this extension, require it in [Composer](https://getcomposer.org/):
