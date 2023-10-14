@@ -21,7 +21,7 @@ use function sprintf;
 /**
  * @implements Rule<Node\Expr\MethodCall>
  */
-final class PlaceHolderCharactersRule implements Rule
+final class PlaceholderCharactersRule implements Rule
 {
     private const ERROR_DOUBLE_BRACES = 'Parameter $message of logger method Psr\Log\LoggerInterface::%s() should not includes double braces. - %s';
     private const ERROR_INVALID_CHAR  = 'Parameter $message of logger method Psr\Log\LoggerInterface::%s() has braces. But it includes invalid characters for placeholder. - %s';
@@ -101,7 +101,7 @@ final class PlaceHolderCharactersRule implements Rule
             RuleErrorBuilder::message(
                 sprintf(self::ERROR_DOUBLE_BRACES, $methodName, implode(',', $matches[0]))
             )
-                ->identifier('sfp-psr-log.placeHolderCharactersDoubleBraches')
+                ->identifier('sfp-psr-log.placeholderCharactersDoubleBraches')
                 ->tip('See https://www.php-fig.org/psr/psr-3/#12-message')
                 ->build(),
         ];
@@ -134,7 +134,7 @@ final class PlaceHolderCharactersRule implements Rule
             RuleErrorBuilder::message(
                 sprintf(self::ERROR_INVALID_CHAR, $methodName, implode(',', $invalidPlaceHolders))
             )
-                ->identifier('sfp-psr-log.placeHolderCharactersInvalidChar')
+                ->identifier('sfp-psr-log.placeholderCharactersInvalidChar')
                 ->tip('See https://www.php-fig.org/psr/psr-3/#12-message')
                 ->build(),
         ];

@@ -83,7 +83,7 @@ final class PlaceholderCorrespondToKeysRule implements Rule
             return [
                 RuleErrorBuilder::message(
                     sprintf(self::ERROR_MISSED_CONTEXT, $methodName, implode(',', $matches[0]))
-                )->identifier('sfp-psr-log.placeHolderCorrespondToKeysMissedContext')->build(),
+                )->identifier('sfp-psr-log.placeholderCorrespondToKeysMissedContext')->build(),
             ];
         }
 
@@ -114,7 +114,7 @@ final class PlaceholderCorrespondToKeysRule implements Rule
         return [
             RuleErrorBuilder::message(
                 sprintf(self::ERROR_MISSED_KEY, $methodName, implode(',', $braces))
-            )->identifier('sfp-psr-log.placeHolderCorrespondToKeysMissedKey')->build(),
+            )->identifier('sfp-psr-log.placeholderCorrespondToKeysMissedKey')->build(),
         ];
     }
 
