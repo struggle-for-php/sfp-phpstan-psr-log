@@ -8,9 +8,9 @@ parametersSchema:
 	])
 
 rules:
-    - Sfp\PHPStan\Psr\Log\Rules\ContextKeyPlaceHolderRule
+    - Sfp\PHPStan\Psr\Log\Rules\PlaceholderCorrespondToKeysRule
     - Sfp\PHPStan\Psr\Log\Rules\ContextKeyNonEmptyStringRule
-    - Sfp\PHPStan\Psr\Log\Rules\PlaceHolderInMessageRule
+    - Sfp\PHPStan\Psr\Log\Rules\PlaceholderCharactersRule
 
 services:
 	-
