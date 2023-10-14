@@ -143,6 +143,10 @@ final class ContextKeyRule implements Rule
         return $errors;
     }
 
+    /**
+     * phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
+     * @phpstan-return list<\PHPStan\Rules\RuleError>
+     */
     private function originalPatternMatches(Node\Expr\Array_ $contextArray, string $methodName): array
     {
         $errors = [];
