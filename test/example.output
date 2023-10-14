@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" failures="12" name="phpstan" tests="12" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/junit-team/junit5/r5.5.1/platform-tests/src/test/resources/jenkins-junit.xsd">
+  <testcase name="example/src/Example.php:23">
+    <failure type="ERROR" message="Parameter #2 $context of method Psr\Log\LoggerInterface::notice() expects array{exception?: Throwable}, array{exception: string} given."/>
+  </testcase>
+  <testcase name="example/src/Example.php:24">
+    <failure type="ERROR" message="Parameter #1 $level of method Psr\Log\LoggerInterface::log() expects 'alert'|'critical'|'debug'|'emergency'|'error'|'info'|'notice'|'warning', 'panic' given."/>
+  </testcase>
+  <testcase name="example/src/Example.php:33">
+    <failure type="ERROR" message="Parameter $context of logger method Psr\Log\LoggerInterface::notice() requires 'exception' key. Current scope has Throwable variable - $throwable"/>
+  </testcase>
+  <testcase name="example/src/Example.php:35">
+    <failure type="ERROR" message="Parameter $context of logger method Psr\Log\LoggerInterface::notice() requires 'exception' key. Current scope has Throwable variable - $throwable"/>
+  </testcase>
+  <testcase name="example/src/Example.php:47">
+    <failure type="ERROR" message="Parameter $context of logger method Psr\Log\LoggerInterface::debug(), key should be non empty string."/>
+  </testcase>
+  <testcase name="example/src/Example.php:52">
+    <failure type="ERROR" message="Parameter $message of logger method Psr\Log\LoggerInterface::info() should not includes double braces. - {{doubleBrace}}"/>
+  </testcase>
+  <testcase name="example/src/Example.php:53">
+    <failure type="ERROR" message="Parameter $message of logger method Psr\Log\LoggerInterface::info() has braces. But it includes invalid characters for placeholder. - { space }"/>
+  </testcase>
+  <testcase name="example/src/Example.php:58">
+    <failure type="ERROR" message="Parameter $context of logger method Psr\Log\LoggerInterface::info() is required, when placeholder braces exists - {nonContext}"/>
+  </testcase>
+  <testcase name="example/src/Example.php:59">
+    <failure type="ERROR" message="Parameter $message of logger method Psr\Log\LoggerInterface::info() has placeholder braces, but context key is not found against them. - {empty}"/>
+  </testcase>
+  <testcase name="example/src/Example.php:60">
+    <failure type="ERROR" message="Parameter $message of logger method Psr\Log\LoggerInterface::info() has placeholder braces, but context key is not found against them. - {notMatched}"/>
+  </testcase>
+  <testcase name="example/src/Example.php:61">
+    <failure type="ERROR" message="Parameter $message of logger method Psr\Log\LoggerInterface::info() has placeholder braces, but context key is not found against them. - {notMatched1},{notMatched2}"/>
+  </testcase>
+  <testcase name="example/src/Example.php:62">
+    <failure type="ERROR" message="Parameter $message of logger method Psr\Log\LoggerInterface::log() has placeholder braces, but context key is not found against them. - {notMatched}"/>
+  </testcase>
+</testsuite>

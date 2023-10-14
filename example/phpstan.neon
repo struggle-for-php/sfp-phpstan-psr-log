@@ -1,15 +1,21 @@
 # usage.
-# ./vendor/bin/phpstan analyse -c ./example/phpstan.neon --level 5 example/
+# ./vendor/bin/phpstan analyse -c ./example/phpstan.neon
+#
+# docker run -v $(realpath .):/github/workspace -w=/github/workspace ghcr.io/laminas/laminas-continuous-integration:1 \
+#  '{"php":"8.2","dependencies":"latest","extensions":[],"ini":["memory_limit=-1"],"command":"./vendor/bin/phpstan analyse -c ./example/phpstan.neon --no-progress --error-format=junit | xmllint --format -"}'
 
 parameters:
-    level: 9
+    level: 5
     bootstrapFiles:
-        - vendor/autoload.php
+        - %currentWorkingDirectory%/vendor/autoload.php
     paths:
-        - src
+        - %currentWorkingDirectory%/example/src
     sfpPsrLog:
         reportContextExceptionLogLevel: 'notice'
+    stubFiles:
+        - ../vendor/struggle-for-php/sfp-stubs-psr-log/stubs-for-throwable/LoggerInterface.phpstub
 
 includes:
-	- ../extension.neon
-	- ../rules.neon
+# relative path can not work
+#	- %currentWorkingDirectory%/extension.neon
+	- %currentWorkingDirectory%/rules.neon
