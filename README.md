@@ -24,13 +24,13 @@ This package provides the following rules.
 
 ### PlaceHolderInMessageRule
 
+> Placeholder names SHOULD be composed only of the characters A-Z, a-z, 0-9, underscore _, and period .
+
 | :pushpin: _error identifier_ |
 | --- |
 | sfp-psr-log.placeHolderInMessageInvalidChar |
 
-* reports when placeholder in `$message` characters are **not**, `A-Z`, `a-z`, `0-9`, underscore `_`, and period `.`[^a1]
-
-[^a1]: [Placeholder names SHOULD be composed only of the characters A-Z, a-z, 0-9, underscore _, and period .](https://www.php-fig.org/psr/psr-3/#12-message)
+* reports when placeholder in `$message` characters are **not**, `A-Z`, `a-z`, `0-9`, underscore `_`, and period `.`
 
 ```php
 // bad
@@ -50,13 +50,13 @@ $logger->info('message are {{foo}}');
 
 ### ContextKeyPlaceHolderRule
 
+> Placeholder names MUST correspond to keys in the context array.
+
 | :pushpin: _error identifier_ |
 | --- |
 | sfp-psr-log.contextKeyPlaceHolderMissedContext |
 
-* reports when placeholder exists in message, but `$context` parameter is missed.[^b1]
-
-[^b1]: Placeholder names MUST correspond to keys in the context array.
+* reports when placeholder exists in message, but `$context` parameter is missed.
 
 ```php
 // bad
@@ -76,6 +76,9 @@ $logger->info('user {user_id} gets an error {error} .', ['user_id' => $user_id])
 
 ### ContextKeyNonEmptyStringRule
 
+> [!NOTE]
+> PSR-3 has no provisions for array keys, but this is useful in many cases.
+
 | :pushpin: _error identifier_ |
 | --- |
 | sfp-psr-log.contextKeyNonEmptyString |
@@ -83,22 +86,20 @@ $logger->info('user {user_id} gets an error {error} .', ['user_id' => $user_id])
 * reports when context key is not **non-empty-string**.
 
 ```php
+// bad
 [123 => 'foo']`, `['' => 'bar']`, `['baz']
 ```
 
-> [!NOTE]
-> PSR-3 has no provisions for array key's types, but this is useful in many cases.
-
 ### ContextRequireExceptionKeyRule
+
+> [!NOTE]
+> This is not a rule for along with PSR-3 specification, but provides best practices.
 
 | :pushpin: _error identifier_ |
 | --- |
 | sfp-psr-log.contextRequireExceptionKey |
 
 * It forces `exception` key into context parameter when current scope has `\Throwable` object.
-
-> [!NOTE]
-> This is not a rule for along with PSR-3 specification, but provides best practices.
 
 #### Example
 
