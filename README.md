@@ -54,7 +54,7 @@ $logger->info('message are {{foo}}');
 
 | :pushpin: _error identifier_ |
 | --- |
-| sfp-psr-log.contextKeyPlaceHolderMissedContext |
+| sfp-psr-log.placeHolderCorrespondToKeysMissedContext |
 
 * reports when placeholder exists in message, but `$context` parameter is missed.
 
@@ -65,7 +65,7 @@ $logger->info('message has {nonContext} .');
 
 | :pushpin: _error identifier_ |
 | --- |
-| sfp-psr-log.contextKeyPlaceHolderMissedKey |
+| sfp-psr-log.placeHolderCorrespondToKeysMissedKey |
 
 * reports when placeholder exists in message, but key in `$context` does not exist against them.
 
