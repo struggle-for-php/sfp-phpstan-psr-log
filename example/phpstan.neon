@@ -7,7 +7,7 @@
 parameters:
     level: 5
     bootstrapFiles:
-        - %currentWorkingDirectory%/example/vendor/autoload.php
+        - %currentWorkingDirectory%/vendor/autoload.php
     paths:
         - %currentWorkingDirectory%/example/src
     sfpPsrLog:
