@@ -22,13 +22,13 @@ See [psr/log stub](https://github.com/struggle-for-php/sfp-stubs-psr-log) reposi
 
 This package provides the following rules.
 
-### PlaceHolderInMessageRule
+### PlaceHolderCharactersRule
 
 > Placeholder names SHOULD be composed only of the characters A-Z, a-z, 0-9, underscore _, and period .
 
 | :pushpin: _error identifier_ |
 | --- |
-| sfp-psr-log.placeHolderInMessageInvalidChar |
+| sfp-psr-log.placeHolderCharactersInvalidChar |
 
 * reports when placeholder in `$message` characters are **not**, `A-Z`, `a-z`, `0-9`, underscore `_`, and period `.`
 
@@ -39,7 +39,7 @@ $logger->info('message are {foo-hyphen}');
 
 | :pushpin: _error identifier_ |
 | --- |
-| sfp-psr-log.placeHolderInMessageDoubleBraches |
+| sfp-psr-log.placeHolderCharactersDoubleBraches |
 
 * reports when double braces pair `{{` `}}` are used.
 
@@ -48,7 +48,7 @@ $logger->info('message are {foo-hyphen}');
 $logger->info('message are {{foo}}');
 ```
 
-### ContextKeyPlaceHolderRule
+### PlaceholderCorrespondToKeysRule
 
 > Placeholder names MUST correspond to keys in the context array.
 
