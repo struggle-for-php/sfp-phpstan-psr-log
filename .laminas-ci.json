@@ -13,6 +13,13 @@
         "php": "@latest",
         "command": "./vendor/bin/psalm --shepherd --stats --output-format=github --no-cache -c psalm5.xml"
       }
+    },
+    {
+      "name": "example",
+      "job": {
+        "php": "@latest",
+        "command": "diff <(./vendor/bin/phpstan analyse -c ./example/phpstan.neon --no-progress --error-format=junit | xmllint --format -) ./test/example.output"
+      }
     }
   ]
 }

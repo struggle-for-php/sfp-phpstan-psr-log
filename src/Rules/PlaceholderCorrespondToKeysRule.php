@@ -7,6 +7,7 @@ namespace Sfp\PHPStan\Psr\Log\Rules;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\ObjectType;
 
 use function assert;
@@ -20,7 +21,7 @@ use function sprintf;
 /**
  * @implements Rule<Node\Expr\MethodCall>
  */
-final class ContextKeyPlaceHolderRule implements Rule
+final class PlaceholderCorrespondToKeysRule implements Rule
 {
     private const ERROR_MISSED_CONTEXT = 'Parameter $context of logger method Psr\Log\LoggerInterface::%s() is required, when placeholder braces exists - %s';
     private const ERROR_MISSED_KEY     = 'Parameter $message of logger method Psr\Log\LoggerInterface::%s() has placeholder braces, but context key is not found against them. - %s';
@@ -79,7 +80,11 @@ final class ContextKeyPlaceHolderRule implements Rule
         }
 
         if (! isset($args[$contextArgumentNo])) {
-            return [sprintf(self::ERROR_MISSED_CONTEXT, $methodName, implode(',', $matches[0]))];
+            return [
+                RuleErrorBuilder::message(
+                    sprintf(self::ERROR_MISSED_CONTEXT, $methodName, implode(',', $matches[0]))
+                )->identifier('sfp-psr-log.placeholderCorrespondToKeysMissedContext')->build(),
+            ];
         }
 
         $context = $args[$contextArgumentNo];
@@ -90,7 +95,8 @@ final class ContextKeyPlaceHolderRule implements Rule
     /**
      * @phpstan-param list<string> $braces
      * @phpstan-param list<string> $placeHolders
-     * @phpstan-return list<string>
+     * phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
+     * @phpstan-return list<\PHPStan\Rules\RuleError>
      */
     private static function contextDoesNotHavePlaceholderKey(Node\Arg $context, string $methodName, array $braces, array $placeHolders): array
     {
@@ -105,7 +111,11 @@ final class ContextKeyPlaceHolderRule implements Rule
             return [];
         }
 
-        return [sprintf(self::ERROR_MISSED_KEY, $methodName, implode(',', $braces))];
+        return [
+            RuleErrorBuilder::message(
+                sprintf(self::ERROR_MISSED_KEY, $methodName, implode(',', $braces))
+            )->identifier('sfp-psr-log.placeholderCorrespondToKeysMissedKey')->build(),
+        ];
     }
 
     /**

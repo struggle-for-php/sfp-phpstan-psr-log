@@ -7,6 +7,7 @@ namespace Sfp\PHPStan\Psr\Log\Rules;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ObjectType;
 
@@ -20,7 +21,7 @@ use function sprintf;
 /**
  * @implements Rule<Node\Expr\MethodCall>
  */
-final class PlaceHolderInMessageRule implements Rule
+final class PlaceholderCharactersRule implements Rule
 {
     private const ERROR_DOUBLE_BRACES = 'Parameter $message of logger method Psr\Log\LoggerInterface::%s() should not includes double braces. - %s';
     private const ERROR_INVALID_CHAR  = 'Parameter $message of logger method Psr\Log\LoggerInterface::%s() has braces. But it includes invalid characters for placeholder. - %s';
@@ -85,7 +86,8 @@ final class PlaceHolderInMessageRule implements Rule
     }
 
     /**
-     * @phpstan-return list<string>
+     * phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
+     * @phpstan-return list<\PHPStan\Rules\RuleError>
      */
     private static function checkDoubleBrace(string $message, string $methodName): array
     {
@@ -95,11 +97,19 @@ final class PlaceHolderInMessageRule implements Rule
             return [];
         }
 
-        return [sprintf(self::ERROR_DOUBLE_BRACES, $methodName, implode(',', $matches[0]))];
+        return [
+            RuleErrorBuilder::message(
+                sprintf(self::ERROR_DOUBLE_BRACES, $methodName, implode(',', $matches[0]))
+            )
+                ->identifier('sfp-psr-log.placeholderCharactersDoubleBraches')
+                ->tip('See https://www.php-fig.org/psr/psr-3/#12-message')
+                ->build(),
+        ];
     }
 
     /**
-     * @phpstan-return list<string>
+     * phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
+     * @phpstan-return list<\PHPStan\Rules\RuleError>
      */
     private static function checkInvalidChar(string $message, string $methodName): array
     {
@@ -120,6 +130,13 @@ final class PlaceHolderInMessageRule implements Rule
             return [];
         }
 
-        return [sprintf(self::ERROR_INVALID_CHAR, $methodName, implode(',', $invalidPlaceHolders))];
+        return [
+            RuleErrorBuilder::message(
+                sprintf(self::ERROR_INVALID_CHAR, $methodName, implode(',', $invalidPlaceHolders))
+            )
+                ->identifier('sfp-psr-log.placeholderCharactersInvalidChar')
+                ->tip('See https://www.php-fig.org/psr/psr-3/#12-message')
+                ->build(),
+        ];
     }
 }

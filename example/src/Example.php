@@ -44,18 +44,23 @@ class Example
         $this->logger->debug('foo');
     }
 
-    public function nonEmptyStringKey(): void
+    public function contextKeyNonEmptyString(): void
     {
         $this->logger->debug('foo', ['bar']);
     }
 
-    public function placeHolderInMessage(): void
+    public function contextKeyOriginalPattern(): void
+    {
+        $this->logger->debug('foo', ['first.second' => 'bar']);
+    }
+
+    public function placeholderCharacters(): void
     {
         $this->logger->info('message has {{doubleBrace}} .', ['doubleBrace' => 'bar']);
         $this->logger->info('message has { space } .', [' space ' => 'bar']);
     }
 
-    public function contextKeyPlaceHolder(): void
+    public function placeholderCorrespondToKeys(): void
     {
         $this->logger->info('message has {nonContext} .');
         $this->logger->info('message has {empty} .', []);

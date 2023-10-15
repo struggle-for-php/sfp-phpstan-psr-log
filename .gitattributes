@@ -6,6 +6,7 @@
 /.gitignore export-ignore
 /.laminas-ci.json export-ignore
 /.laminas-ci export-ignore
+/composer-require-checker.json export-ignore
 /phpbench.json export-ignore
 /phpcs.xml export-ignore
 /phpunit.xml.dist export-ignore

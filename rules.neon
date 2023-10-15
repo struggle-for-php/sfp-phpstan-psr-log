@@ -1,22 +1,29 @@
 parameters:
     sfpPsrLog:
         reportContextExceptionLogLevel: 'debug'
+        contextKeyOriginalPattern: null
 
 parametersSchema:
-    sfpPsrLog: structure([
-        reportContextExceptionLogLevel: schema(string(), nullable())
-    ])
+	sfpPsrLog: structure([
+		reportContextExceptionLogLevel: schema(string(), nullable()),
+		contextKeyOriginalPattern: schema(string(), nullable())
+	])
 
 rules:
-    - Sfp\PHPStan\Psr\Log\Rules\ContextKeyPlaceHolderRule
-    - Sfp\PHPStan\Psr\Log\Rules\ContextKeyNonEmptyStringRule
     - Sfp\PHPStan\Psr\Log\Rules\MessageMustBeStaticRule
-    - Sfp\PHPStan\Psr\Log\Rules\PlaceHolderInMessageRule
+    - Sfp\PHPStan\Psr\Log\Rules\PlaceholderCorrespondToKeysRule
+    - Sfp\PHPStan\Psr\Log\Rules\PlaceholderCharactersRule
 
 services:
-    -
-        class: Sfp\PHPStan\Psr\Log\Rules\ContextRequireExceptionKeyRule
-        arguments:
-            reportContextExceptionLogLevel: %sfpPsrLog.reportContextExceptionLogLevel%
-        tags:
-            - phpstan.rules.rule
+	-
+		class: Sfp\PHPStan\Psr\Log\Rules\ContextRequireExceptionKeyRule
+		arguments:
+			reportContextExceptionLogLevel: %sfpPsrLog.reportContextExceptionLogLevel%
+		tags:
+			- phpstan.rules.rule
+	-
+		class: Sfp\PHPStan\Psr\Log\Rules\ContextKeyRule
+		arguments:
+			contextKeyOriginalPattern: %sfpPsrLog.contextKeyOriginalPattern%
+		tags:
+			- phpstan.rules.rule

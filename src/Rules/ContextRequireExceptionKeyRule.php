@@ -7,6 +7,7 @@ namespace Sfp\PHPStan\Psr\Log\Rules;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\Constant\ConstantStringType;
@@ -21,7 +22,7 @@ use function sprintf;
 /**
  * @implements Rule<Node\Expr\MethodCall>
  */
-class ContextRequireExceptionKeyRule implements Rule
+final class ContextRequireExceptionKeyRule implements Rule
 {
     private const LOGGER_LEVELS = [
         'emergency' => 7,
@@ -113,7 +114,11 @@ class ContextRequireExceptionKeyRule implements Rule
                 return [];
             }
 
-            return [sprintf(self::ERROR_MISSED_EXCEPTION_KEY, $methodName, "\${$throwable}")];
+            return [
+                RuleErrorBuilder::message(
+                    sprintf(self::ERROR_MISSED_EXCEPTION_KEY, $methodName, "\${$throwable}")
+                )->identifier('sfp-psr-log.contextRequireExceptionKey')->build(),
+            ];
         }
 
         return [];

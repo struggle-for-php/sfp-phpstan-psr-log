@@ -10,7 +10,7 @@ function main(Psr\Log\LoggerInterface $logger, string $m): void
     // valid
     $logger->info('message is {valid1_.} ..', ['valid1_.' => 'OK']);
     $logger->info('message is {valid2_.} ..', ['valid1_.' => 'OK', 'valid2_.' => 'OK']);
-    // ignore
+    // ignore - should be checked by PlaceholderCharactersRule
     $logger->info('message has { invalid placeholder} .');
     $logger->info('message has { invalid placeholder} .', [' invalid placeholder' => 'bar']);
 
