@@ -7,11 +7,10 @@ namespace SfpTest\PHPStan\Psr\Log\Rules;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 use Sfp\PHPStan\Psr\Log\Rules\MessageMustBeStaticRule;
-use Sfp\PHPStan\Psr\Log\Rules\PlaceHolderInMessageRule;
 
 /**
- * @implements RuleTestCase<PlaceHolderInMessageRule>
- * @covers \Sfp\PHPStan\Psr\Log\Rules\PlaceHolderInMessageRule
+ * @implements RuleTestCase<MessageMustBeStaticRule>
+ * @covers \Sfp\PHPStan\Psr\Log\Rules\MessageMustBeStaticRule
  */
 final class MessageMustBeStaticRuleTest extends RuleTestCase
 {
