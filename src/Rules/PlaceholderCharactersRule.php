@@ -11,6 +11,7 @@ use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ObjectType;
 
+use function assert;
 use function count;
 use function implode;
 use function in_array;
@@ -72,6 +73,7 @@ final class PlaceholderCharactersRule implements Rule
         }
 
         $message = $args[$messageArgumentNo];
+        assert($message instanceof Node\Arg);
 
         if (! $message->value instanceof Node\Scalar\String_) {
             return [];

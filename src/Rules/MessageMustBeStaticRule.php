@@ -7,9 +7,11 @@ namespace Sfp\PHPStan\Psr\Log\Rules;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ObjectType;
 
+use function assert;
 use function count;
 use function get_class;
 use function in_array;
@@ -68,9 +70,17 @@ final class MessageMustBeStaticRule implements Rule
         }
 
         $message = $args[$messageArgumentNo];
+        assert($message instanceof Node\Arg);
 
         if (! $message->value instanceof Node\Scalar\String_) {
-            return [sprintf(self::ERROR_MESSAGE_NOT_STATIC, $methodName, get_class($message->value))];
+            return [
+                RuleErrorBuilder::message(
+                    sprintf(self::ERROR_MESSAGE_NOT_STATIC, $methodName, get_class($message->value))
+                )
+                    ->identifier('sfp-psr-log.messageNotLiteralString')
+                    ->tip('See https://www.php-fig.org/psr/psr-3/meta/#static-log-messages')
+                    ->build(),
+            ];
         }
 
         return [];
