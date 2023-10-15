@@ -15,4 +15,8 @@ function main(Psr\Log\LoggerInterface $logger, string $m): void
     $logger->info(sprintf('Message contains %s variable', $m));
 
     $logger->log('info', $m);
+
+    // Allow assign
+    $logger->info($ret = 'Invalid Request happened!');
+    echo $ret;
 }
