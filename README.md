@@ -1,8 +1,10 @@
-# struggle-for-php/sfp-phpstan-psr-log
+# psr/log(PSR-3) extensions for PHPStan
 
 [![Latest Stable Version](https://poser.pugx.org/struggle-for-php/sfp-phpstan-psr-log/v/stable)](https://packagist.org/packages/struggle-for-php/sfp-phpstan-psr-log)
 [![License](https://poser.pugx.org/struggle-for-php/sfp-phpstan-psr-log/license)](https://packagist.org/packages/struggle-for-php/sfp-phpstan-psr-log)
 [![Psalm coverage](https://shepherd.dev/github/struggle-for-php/sfp-phpstan-psr-log/coverage.svg)](https://shepherd.dev/github/struggle-for-php/sfp-phpstan-psr-log)
+
+`struggle-for-php/sfp-phpstan-psr-log` is extra strict and opinionated psr/log (psr-3) rules for PHPStan.
 
 * [PHPStan](https://phpstan.org/)
 * [PSR-3: Logger Interface - PHP-FIG](https://www.php-fig.org/psr/psr-3/)
@@ -39,7 +41,7 @@ $logger->info('message are {foo-hyphen}');
 
 | :pushpin: _error identifier_ |
 | --- |
-| sfp-psr-log.placeholderCharactersDoubleBraches |
+| sfp-psr-log.placeholderCharactersDoubleBraces |
 
 * reports when double braces pair `{{` `}}` are used.
 
