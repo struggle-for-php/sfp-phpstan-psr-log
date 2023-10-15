@@ -39,7 +39,7 @@ $logger->info('message are {foo-hyphen}');
 
 | :pushpin: _error identifier_ |
 | --- |
-| sfp-psr-log.placeholderCharactersDoubleBraches |
+| sfp-psr-log.placeholderCharactersDoubleBraces |
 
 * reports when double braces pair `{{` `}}` are used.
 

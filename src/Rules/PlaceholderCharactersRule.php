@@ -7,6 +7,7 @@ namespace Sfp\PHPStan\Psr\Log\Rules;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ObjectType;
@@ -73,50 +74,61 @@ final class PlaceholderCharactersRule implements Rule
 
         $message = $args[$messageArgumentNo];
 
-        if (! $message->value instanceof Node\Scalar\String_) {
+        $strings = $scope->getType($message->value)->getConstantStrings();
+
+        if (count($strings) === 0) {
             return [];
         }
 
         $errors = [];
+        foreach ($strings as $constantStringType) {
+            $message = $constantStringType->getValue();
 
-        $errors += self::checkDoubleBrace($message->value->value, $methodName);
-        $errors += self::checkInvalidChar($message->value->value, $methodName);
+            $doubleBraceError = self::checkDoubleBrace($message, $methodName);
+            if ($doubleBraceError) {
+                $errors[] = $doubleBraceError;
+                continue;
+            }
+
+            $invalidCharError = self::checkInvalidChar($message, $methodName);
+            if ($invalidCharError) {
+                $errors[] = self::checkInvalidChar($message, $methodName);
+            }
+        }
 
         return $errors;
     }
 
     /**
      * phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
-     * @phpstan-return list<\PHPStan\Rules\RuleError>
+     * @phpstan-return \PHPStan\Rules\RuleError
      */
-    private static function checkDoubleBrace(string $message, string $methodName): array
+    private static function checkDoubleBrace(string $message, string $methodName): ?RuleError
     {
         $matched = preg_match_all('#{{(.+?)}}#', $message, $matches);
 
         if ($matched === 0 || $matched === false) {
-            return [];
+            return null;
         }
 
-        return [
-            RuleErrorBuilder::message(
-                sprintf(self::ERROR_DOUBLE_BRACES, $methodName, implode(',', $matches[0]))
-            )
-                ->identifier('sfp-psr-log.placeholderCharactersDoubleBraches')
-                ->tip('See https://www.php-fig.org/psr/psr-3/#12-message')
-                ->build(),
-        ];
+        return RuleErrorBuilder::message(
+            sprintf(self::ERROR_DOUBLE_BRACES, $methodName, implode(',', $matches[0]))
+        )
+            ->identifier('sfp-psr-log.placeholderCharactersDoubleBraches')
+            ->tip('See https://www.php-fig.org/psr/psr-3/#12-message')
+            ->build();
     }
 
     /**
      * phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
-     * @phpstan-return list<\PHPStan\Rules\RuleError>
+     * @phpstan-return \PHPStan\Rules\RuleError
      */
-    private static function checkInvalidChar(string $message, string $methodName): array
+    private static function checkInvalidChar(string $message, string $methodName): ?RuleError
     {
         $matched = preg_match_all('#{(.+?)}#', $message, $matches);
 
         if ($matched === 0 || $matched === false) {
-            return [];
+            return null;
         }
 
         $invalidPlaceHolders = [];
@@ -127,16 +139,14 @@ final class PlaceholderCharactersRule implements Rule
         }
 
         if (count($invalidPlaceHolders) === 0) {
-            return [];
+            return null;
         }
 
-        return [
-            RuleErrorBuilder::message(
-                sprintf(self::ERROR_INVALID_CHAR, $methodName, implode(',', $invalidPlaceHolders))
-            )
+        return RuleErrorBuilder::message(
+            sprintf(self::ERROR_INVALID_CHAR, $methodName, implode(',', $invalidPlaceHolders))
+        )
                 ->identifier('sfp-psr-log.placeholderCharactersInvalidChar')
                 ->tip('See https://www.php-fig.org/psr/psr-3/#12-message')
-                ->build(),
-        ];
+                ->build();
     }
 }
