@@ -7,6 +7,8 @@ namespace src;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
+use function sprintf;
+
 class Example
 {
     /** @var LoggerInterface */
@@ -65,5 +67,15 @@ class Example
         $this->logger->info('message has {notMatched} .', ['foo' => 'bar']);
         $this->logger->info('message has {notMatched1} , {matched1} , {notMatched2} .', ['matched1' => 'bar']);
         $this->logger->log('info', 'message has {notMatched} .', ['foo' => 'bar']);
+    }
+
+    public function messageNotStaticString(string $var): void
+    {
+        $this->logger->info("Message contains {$var} variable");
+        $this->logger->info("Message contains $var variable");
+        $this->logger->info("Message contains " . $var . " variable");
+        $this->logger->info('Message contains ' . $var . ' variable');
+        $this->logger->info(sprintf('Message contains %s variable', $var));
+        $this->logger->log('info', sprintf('Message contains %s variable', $var));
     }
 }

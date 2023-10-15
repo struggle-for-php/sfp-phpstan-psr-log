@@ -10,6 +10,7 @@ parametersSchema:
 	])
 
 rules:
+#    - Sfp\PHPStan\Psr\Log\Rules\MessageStaticStringRule
     - Sfp\PHPStan\Psr\Log\Rules\PlaceholderCorrespondToKeysRule
     - Sfp\PHPStan\Psr\Log\Rules\PlaceholderCharactersRule
 
