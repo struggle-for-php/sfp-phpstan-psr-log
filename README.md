@@ -175,7 +175,7 @@ Then, `debug`| `info` | `notice` LogLevel  is ignored for report.
 | --- |
 | sfp-psr-log.messageNotStaticString |
 
-* reports when $message key is not static string value.
+* reports when $message is not static string value.
 
 ```php
 // bad
