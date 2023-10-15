@@ -7,6 +7,7 @@ namespace Sfp\PHPStan\Psr\Log\Rules;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\ObjectType;
 
@@ -69,36 +70,46 @@ final class PlaceholderCorrespondToKeysRule implements Rule
         }
 
         $message = $args[$contextArgumentNo - 1];
-        if (! $message->value instanceof Node\Scalar\String_) {
+        $strings = $scope->getType($message->value)->getConstantStrings();
+
+        if (count($strings) === 0) {
             return [];
         }
 
-        $matched = preg_match_all('#{([A-Za-z0-9_\.]+?)}#', $message->value->value, $matches);
+        $errors = [];
+        foreach ($strings as $constantStringType) {
+            $message = $constantStringType->getValue();
 
-        if ($matched === 0 || $matched === false) {
-            return [];
-        }
+            $matched = preg_match_all('#{([A-Za-z0-9_\.]+?)}#', $message, $matches);
 
-        if (! isset($args[$contextArgumentNo])) {
-            return [
-                RuleErrorBuilder::message(
+            if ($matched === 0 || $matched === false) {
+                continue;
+            }
+
+            if (! isset($args[$contextArgumentNo])) {
+                $errors[] = RuleErrorBuilder::message(
                     sprintf(self::ERROR_MISSED_CONTEXT, $methodName, implode(',', $matches[0]))
-                )->identifier('sfp-psr-log.placeholderCorrespondToKeysMissedContext')->build(),
-            ];
+                )->identifier('sfp-psr-log.placeholderCorrespondToKeysMissedContext')->build();
+
+                continue;
+            }
+
+            $context = $args[$contextArgumentNo];
+
+            $doesNohHaveError = self::contextDoesNotHavePlaceholderKey($context, $methodName, $matches[0], $matches[1]);
+            if ($doesNohHaveError) {
+                $errors[] = $doesNohHaveError;
+            }
         }
 
-        $context = $args[$contextArgumentNo];
-
-        return self::contextDoesNotHavePlaceholderKey($context, $methodName, $matches[0], $matches[1]);
+        return $errors;
     }
 
     /**
      * @phpstan-param list<string> $braces
      * @phpstan-param list<string> $placeHolders
-     * phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
-     * @phpstan-return list<\PHPStan\Rules\RuleError>
      */
-    private static function contextDoesNotHavePlaceholderKey(Node\Arg $context, string $methodName, array $braces, array $placeHolders): array
+    private static function contextDoesNotHavePlaceholderKey(Node\Arg $context, string $methodName, array $braces, array $placeHolders): ?RuleError
     {
         $contextKeys = self::getContextKeys($context);
         foreach ($placeHolders as $i => $placeholder) {
@@ -108,14 +119,12 @@ final class PlaceholderCorrespondToKeysRule implements Rule
         }
 
         if (count($braces) === 0) {
-            return [];
+            return null;
         }
 
-        return [
-            RuleErrorBuilder::message(
-                sprintf(self::ERROR_MISSED_KEY, $methodName, implode(',', $braces))
-            )->identifier('sfp-psr-log.placeholderCorrespondToKeysMissedKey')->build(),
-        ];
+        return RuleErrorBuilder::message(
+            sprintf(self::ERROR_MISSED_KEY, $methodName, implode(',', $braces))
+        )->identifier('sfp-psr-log.placeholderCorrespondToKeysMissedKey')->build();
     }
 
     /**

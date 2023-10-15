@@ -19,4 +19,6 @@ function main(Psr\Log\LoggerInterface $logger, string $m): void
     $logger->info('message has {notMatched} .', ['foo' => 'bar']);
     $logger->info('message has {notMatched1} , {matched1} , {notMatched2} .', ['matched1' => 'bar']);
     $logger->log('info', 'message has {notMatched} .', ['foo' => 'bar']);
+
+    $logger->info($assign = 'assign {valid}', ['valid' => 'bar']);
 }
