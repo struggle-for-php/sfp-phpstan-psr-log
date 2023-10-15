@@ -114,7 +114,7 @@ final class PlaceholderCharactersRule implements Rule
         return RuleErrorBuilder::message(
             sprintf(self::ERROR_DOUBLE_BRACES, $methodName, implode(',', $matches[0]))
         )
-            ->identifier('sfp-psr-log.placeholderCharactersDoubleBraches')
+            ->identifier('sfp-psr-log.placeholderCharactersDoubleBraces')
             ->tip('See https://www.php-fig.org/psr/psr-3/#12-message')
             ->build();
     }
