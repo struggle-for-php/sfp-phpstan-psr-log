@@ -70,9 +70,9 @@ final class MessageMustBeStaticRule implements Rule
         }
 
         $message = $args[$messageArgumentNo];
-        assert($message instanceof Node\Arg);
+        $strings = $scope->getType($message->value)->getConstantStrings();
 
-        if (! $message->value instanceof Node\Scalar\String_) {
+        if (count($strings) === 0) {
             return [
                 RuleErrorBuilder::message(
                     sprintf(self::ERROR_MESSAGE_NOT_STATIC, $methodName, get_class($message->value))
