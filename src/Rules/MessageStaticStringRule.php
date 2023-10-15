@@ -13,16 +13,15 @@ use PHPStan\Type\ObjectType;
 
 use function assert;
 use function count;
-use function get_class;
 use function in_array;
 use function sprintf;
 
 /**
  * @implements Rule<Node\Expr\MethodCall>
  */
-final class MessageMustBeStaticRule implements Rule
+final class MessageStaticStringRule implements Rule
 {
-    private const ERROR_MESSAGE_NOT_STATIC = 'Parameter $message of logger method Psr\Log\LoggerInterface::%s() is not a static string - %s';
+    private const ERROR_MESSAGE_NOT_STATIC = 'Parameter $message of logger method Psr\Log\LoggerInterface::%s() is not a static string';
 
     public function getNodeType(): string
     {
@@ -70,12 +69,14 @@ final class MessageMustBeStaticRule implements Rule
         }
 
         $message = $args[$messageArgumentNo];
-        $strings = $scope->getType($message->value)->getConstantStrings();
+        assert($message instanceof Node\Arg);
+        $value   = $scope->getType($message->value);
+        $strings = $value->getConstantStrings();
 
         if (count($strings) === 0) {
             return [
                 RuleErrorBuilder::message(
-                    sprintf(self::ERROR_MESSAGE_NOT_STATIC, $methodName, get_class($message->value))
+                    sprintf(self::ERROR_MESSAGE_NOT_STATIC, $methodName)
                 )
                     ->identifier('sfp-psr-log.messageNotLiteralString')
                     ->tip('See https://www.php-fig.org/psr/psr-3/meta/#static-log-messages')

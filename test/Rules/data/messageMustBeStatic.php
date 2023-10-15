@@ -2,7 +2,10 @@
 
 declare(strict_types=1);
 
-function main(Psr\Log\LoggerInterface $logger, string $m): void
+/**
+ * @phpstan-param 'literal-a'|'literal-b' $literals
+ */
+function main(Psr\Log\LoggerInterface $logger, string $m, string $literals): void
 {
     // valid
     $logger->info('message is valid');
@@ -19,4 +22,7 @@ function main(Psr\Log\LoggerInterface $logger, string $m): void
     // Allow assign
     $logger->info($ret = 'Invalid Request happened!');
     echo $ret;
+
+    // Allow literal-string intersection
+    $logger->info($literals);
 }
