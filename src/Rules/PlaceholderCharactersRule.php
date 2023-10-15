@@ -74,6 +74,7 @@ final class PlaceholderCharactersRule implements Rule
         }
 
         $message = $args[$messageArgumentNo];
+        /** @psalm-suppress RedundantConditionGivenDocblockType */
         assert($message instanceof Node\Arg);
 
         $strings = $scope->getType($message->value)->getConstantStrings();

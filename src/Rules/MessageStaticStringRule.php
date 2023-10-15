@@ -69,6 +69,7 @@ final class MessageStaticStringRule implements Rule
         }
 
         $message = $args[$messageArgumentNo];
+        /** @psalm-suppress RedundantConditionGivenDocblockType */
         assert($message instanceof Node\Arg);
         $value   = $scope->getType($message->value);
         $strings = $value->getConstantStrings();
