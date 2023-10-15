@@ -16,6 +16,9 @@ parameters:
     stubFiles:
         - ../vendor/struggle-for-php/sfp-stubs-psr-log/stubs-for-throwable/LoggerInterface.phpstub
 
+rules:
+    - Sfp\PHPStan\Psr\Log\Rules\MessageStaticStringRule
+
 includes:
 # relative path can not work
 #	- %currentWorkingDirectory%/extension.neon

@@ -166,6 +166,31 @@ Then, `debug`| `info` | `notice` LogLevel  is ignored for report.
 }
 ```
 
+### MessageStaticStringRule
+
+> [!IMPORTANT]
+> This Rule is currently experimental.
+
+| :pushpin: _error identifier_ |
+| --- |
+| sfp-psr-log.messageNotStaticString |
+
+* reports when $message key is not static string value.
+
+```php
+// bad
+$logger->info(sprintf('Message contains %s variable', $var));
+```
+
+#### Configuration
+
+* You should add `Sfp\PHPStan\Psr\Log\Rules\MessageStaticStringRule` into your `phpstan.neon` to enable.
+
+```neon
+rules:
+    - Sfp\PHPStan\Psr\Log\Rules\MessageStaticStringRule
+```
+
 ## Installation
 
 To use this extension, require it in [Composer](https://getcomposer.org/):

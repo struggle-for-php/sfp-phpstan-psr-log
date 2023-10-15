@@ -79,7 +79,7 @@ final class MessageStaticStringRule implements Rule
                 RuleErrorBuilder::message(
                     sprintf(self::ERROR_MESSAGE_NOT_STATIC, $methodName)
                 )
-                    ->identifier('sfp-psr-log.messageNotLiteralString')
+                    ->identifier('sfp-psr-log.messageNotStaticString')
                     ->tip('See https://www.php-fig.org/psr/psr-3/meta/#static-log-messages')
                     ->build(),
             ];
