@@ -9,7 +9,7 @@ use PHPStan\Testing\RuleTestCase;
 use Sfp\PHPStan\Psr\Log\Rules\MessageMustBeStaticRule;
 
 /**
- * @implements RuleTestCase<MessageMustBeStaticRule>
+ * @extends  RuleTestCase<MessageMustBeStaticRule>
  * @covers \Sfp\PHPStan\Psr\Log\Rules\MessageMustBeStaticRule
  */
 final class MessageMustBeStaticRuleTest extends RuleTestCase
@@ -25,33 +25,33 @@ final class MessageMustBeStaticRuleTest extends RuleTestCase
     public function testProcessNode(): void
     {
         $this->analyse([__DIR__ . '/data/messageMustBeStatic.php'], [
-            'variable'                            => [
+            [
                 'Parameter $message of logger method Psr\Log\LoggerInterface::info() is not a static string - PhpParser\Node\Expr\Variable',
-                10,
+                10, // variable
             ],
-            'double quote escaped with braces'    => [
+            [
                 'Parameter $message of logger method Psr\Log\LoggerInterface::info() is not a static string - PhpParser\Node\Scalar\Encapsed',
-                11,
+                11, // double quote escaped with braces
             ],
-            'double quote escaped without braces' => [
+            [
                 'Parameter $message of logger method Psr\Log\LoggerInterface::info() is not a static string - PhpParser\Node\Scalar\Encapsed',
-                12,
+                12, // double quote escaped without braces
             ],
-            'concat double quote'                 => [
+            [
                 'Parameter $message of logger method Psr\Log\LoggerInterface::info() is not a static string - PhpParser\Node\Expr\BinaryOp\Concat',
-                13,
+                13, // concat double quote
             ],
-            'concat single quote'                 => [
+            [
                 'Parameter $message of logger method Psr\Log\LoggerInterface::info() is not a static string - PhpParser\Node\Expr\BinaryOp\Concat',
-                14,
+                14, // concat single quote
             ],
-            'function call'                       => [
+            [
                 'Parameter $message of logger method Psr\Log\LoggerInterface::info() is not a static string - PhpParser\Node\Expr\FuncCall',
-                15,
+                15, // function call
             ],
-            'call log() method'                   => [
+            [
                 'Parameter $message of logger method Psr\Log\LoggerInterface::log() is not a static string - PhpParser\Node\Expr\Variable',
-                17,
+                17, // call log() method
             ],
         ]);
     }
