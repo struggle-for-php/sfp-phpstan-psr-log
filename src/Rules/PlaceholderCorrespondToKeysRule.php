@@ -108,8 +108,6 @@ final class PlaceholderCorrespondToKeysRule implements Rule
     /**
      * @phpstan-param list<string> $braces
      * @phpstan-param list<string> $placeHolders
-     * phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
-     * @phpstan-return list<\PHPStan\Rules\RuleError>
      */
     private static function contextDoesNotHavePlaceholderKey(Node\Arg $context, string $methodName, array $braces, array $placeHolders): ?RuleError
     {
