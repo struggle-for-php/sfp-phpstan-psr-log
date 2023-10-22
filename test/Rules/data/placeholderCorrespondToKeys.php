@@ -2,7 +2,11 @@
 
 declare(strict_types=1);
 
-function main(Psr\Log\LoggerInterface $logger, string $m): void
+/**
+ * @phpstan-param array{valid: string, valid2: string}|array{valid: string, valid3: string} $matchContext
+ * @phpstan-param array{valid: string, valid2: string}|array{valid3: string, valid4: string} $nonMatchContext
+ */
+function main(Psr\Log\LoggerInterface $logger, string $m, array $matchContext, array $nonMatchContext): void
 {
     // ignore
     $logger->info('foo', ['ok' => "a"]);
@@ -21,4 +25,7 @@ function main(Psr\Log\LoggerInterface $logger, string $m): void
     $logger->log('info', 'message has {notMatched} .', ['foo' => 'bar']);
 
     $logger->info($assign = 'assign {valid}', ['valid' => 'bar']);
+
+    $logger->info('message has {valid}', $matchContext);
+    $logger->info('message has {valid} ', $nonMatchContext);
 }

@@ -25,23 +25,27 @@ final class PlaceholderCorrespondToKeysRuleTest extends RuleTestCase
         $this->analyse([__DIR__ . '/data/placeholderCorrespondToKeys.php'], [
             [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::info() is required, when placeholder braces exists - {nonContext}',
-                17, // missing context
+                21, // missing context
             ],
             [
-                'Parameter $message of logger method Psr\Log\LoggerInterface::info() has placeholder braces, but context key is not found against them. - {empty}',
-                18, // empty array
+                'Parameter $context of logger method Psr\Log\LoggerInterface::%s() is empty, when placeholder braces exists',
+                22, // empty array
             ],
             [
                 'Parameter $message of logger method Psr\Log\LoggerInterface::info() has placeholder braces, but context key is not found against them. - {notMatched}',
-                19, // notMatched
+                23, // notMatched
             ],
             [
                 'Parameter $message of logger method Psr\Log\LoggerInterface::info() has placeholder braces, but context key is not found against them. - {notMatched1},{notMatched2}',
-                20, // many placeholders
+                24, // many placeholders
             ],
             [
                 'Parameter $message of logger method Psr\Log\LoggerInterface::log() has placeholder braces, but context key is not found against them. - {notMatched}',
-                21, // log method
+                25, // log method
+            ],
+            [
+                'Parameter $message of logger method Psr\Log\LoggerInterface::info() has placeholder braces, but context key is not found against them. - {valid}',
+                30, // union parameter
             ],
         ]);
     }

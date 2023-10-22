@@ -9,9 +9,9 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
+use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\ObjectType;
 
-use function assert;
 use function count;
 use function in_array;
 use function preg_match;
@@ -88,88 +88,87 @@ final class ContextKeyRule implements Rule
             return [];
         }
 
-        if (self::contextIsEmpty($context)) {
+        $arrayType = $scope->getType($context->value);
+
+        if ($arrayType->isIterableAtLeastOnce()->no()) {
             // @codeCoverageIgnoreStart
             return []; // @codeCoverageIgnoreEnd
         }
 
-        $errors = self::keysAreNonEmptyString($context->value, $methodName);
+        $constantArrays = $arrayType->getConstantArrays();
+
+        if (count($constantArrays) === 0) {
+            return [];
+        }
+
+        $errors = self::keysAreNonEmptyString($constantArrays, $methodName);
 
         if ($errors !== []) {
             return $errors;
         }
 
-        return self::originalPatternMatches($context->value, $methodName);
+        return self::originalPatternMatches($constantArrays, $methodName);
     }
 
     /**
-     * @phpstan-assert-if-false Node\Expr\Array_ $context->value
-     */
-    private static function contextIsEmpty(Node\Arg $context): bool
-    {
-        if (! $context->value instanceof Node\Expr\Array_) {
-            // @codeCoverageIgnoreStart
-            return true; // @codeCoverageIgnoreEnd
-        }
-
-        if (count($context->value->items) === 0) {
-            // @codeCoverageIgnoreStart
-            return true; // @codeCoverageIgnoreEnd
-        }
-
-        return false;
-    }
-
-    /**
+     * @phpstan-param list<\PHPStan\Type\Constant\ConstantArrayType> $constantArrays
      * phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
      * @phpstan-return list<\PHPStan\Rules\RuleError>
      */
-    private static function keysAreNonEmptyString(Node\Expr\Array_ $contextArray, string $methodName): array
+    private static function keysAreNonEmptyString(array $constantArrays, string $methodName): array
     {
         $errors = [];
-        foreach ($contextArray->items as $item) {
-            assert($item instanceof Node\Expr\ArrayItem);
-            if ($item->key instanceof Node\Scalar\String_ && $item->key->value !== '') {
-                continue;
-            }
+        foreach ($constantArrays as $constantArray) {
+            foreach ($constantArray->getKeyTypes() as $keyType) {
+                if (! $keyType instanceof ConstantStringType) {
+                    $errors[] = RuleErrorBuilder::message(
+                        sprintf(self::ERROR_NOT_NON_EMPTY_STRING, $methodName)
+                    )->identifier('sfp-psr-log.contextKeyNonEmptyString')->build();
+                    continue;
+                }
 
-            $errors[] = RuleErrorBuilder::message(
-                sprintf(self::ERROR_NOT_NON_EMPTY_STRING, $methodName)
-            )->identifier('sfp-psr-log.contextKeyNonEmptyString')->build();
+                if ($keyType->getValue() === '') {
+                    $errors[] = RuleErrorBuilder::message(
+                        sprintf(self::ERROR_NOT_NON_EMPTY_STRING, $methodName)
+                    )->identifier('sfp-psr-log.contextKeyNonEmptyString')->build();
+                }
+            }
         }
 
         return $errors;
     }
 
     /**
+     * @phpstan-param list<\PHPStan\Type\Constant\ConstantArrayType> $constantArrays
      * phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
      * @phpstan-return list<\PHPStan\Rules\RuleError>
      */
-    private function originalPatternMatches(Node\Expr\Array_ $contextArray, string $methodName): array
+    private function originalPatternMatches(array $constantArrays, string $methodName): array
     {
         if (! $this->contextKeyOriginalPattern) {
             return [];
         }
 
         $errors = [];
-        foreach ($contextArray->items as $item) {
-            assert($item instanceof Node\Expr\ArrayItem);
-            if (! $item->key instanceof Node\Scalar\String_) {
-                continue;
-            }
+        foreach ($constantArrays as $constantArray) {
+            foreach ($constantArray->getKeyTypes() as $keyType) {
+                if (! $keyType instanceof ConstantStringType) {
+                    continue;
+                }
 
-            $matched = preg_match($this->contextKeyOriginalPattern, $item->key->value, $matches);
+                $matched = preg_match($this->contextKeyOriginalPattern, $keyType->getValue(), $matches);
 
-            if ($matched === false) {
-                $errors[] = RuleErrorBuilder::message(
-                    sprintf(self::ERROR_ORIGINAL_PATTERN_BAD, $this->contextKeyOriginalPattern)
-                )->identifier('sfp-psr-log.contextKeyOriginalPatternBadRegex')->build();
-            }
+                if ($matched === false) {
+                    $errors[] = RuleErrorBuilder::message(
+                        sprintf(self::ERROR_ORIGINAL_PATTERN_BAD, $this->contextKeyOriginalPattern)
+                    )->identifier('sfp-psr-log.contextKeyOriginalPatternBadRegex')->build();
+                }
 
-            if ($matched === 0) {
-                $errors[] = RuleErrorBuilder::message(
-                    sprintf(self::ERROR_NOT_MATCH_ORIGINAL_PATTERN, $methodName, $this->contextKeyOriginalPattern)
-                )->identifier('sfp-psr-log.contextKeyOriginalPattern')->build();
+                if ($matched === 0) {
+                    $errors[] = RuleErrorBuilder::message(
+                        sprintf(self::ERROR_NOT_MATCH_ORIGINAL_PATTERN, $methodName, $this->contextKeyOriginalPattern)
+                    )->identifier('sfp-psr-log.contextKeyOriginalPattern')->build();
+                }
             }
         }
 

@@ -31,7 +31,7 @@
     <failure type="ERROR" message="Parameter $context of logger method Psr\Log\LoggerInterface::info() is required, when placeholder braces exists - {nonContext}"/>
   </testcase>
   <testcase name="example/src/Example.php:66">
-    <failure type="ERROR" message="Parameter $message of logger method Psr\Log\LoggerInterface::info() has placeholder braces, but context key is not found against them. - {empty}"/>
+    <failure type="ERROR" message="Parameter $context of logger method Psr\Log\LoggerInterface::%s() is empty, when placeholder braces exists"/>
   </testcase>
   <testcase name="example/src/Example.php:67">
     <failure type="ERROR" message="Parameter $message of logger method Psr\Log\LoggerInterface::info() has placeholder braces, but context key is not found against them. - {notMatched}"/>

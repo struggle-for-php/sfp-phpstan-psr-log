@@ -9,13 +9,13 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
+use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\ObjectType;
+use PHPStan\Type\Type;
 
-use function assert;
 use function count;
 use function implode;
 use function in_array;
-use function is_string;
 use function preg_match_all;
 use function sprintf;
 
@@ -25,7 +25,10 @@ use function sprintf;
 final class PlaceholderCorrespondToKeysRule implements Rule
 {
     private const ERROR_MISSED_CONTEXT = 'Parameter $context of logger method Psr\Log\LoggerInterface::%s() is required, when placeholder braces exists - %s';
-    private const ERROR_MISSED_KEY     = 'Parameter $message of logger method Psr\Log\LoggerInterface::%s() has placeholder braces, but context key is not found against them. - %s';
+
+    private const ERROR_EMPTY_CONTEXT = 'Parameter $context of logger method Psr\Log\LoggerInterface::%s() is empty, when placeholder braces exists';
+
+    private const ERROR_MISSED_KEY = 'Parameter $message of logger method Psr\Log\LoggerInterface::%s() has placeholder braces, but context key is not found against them. - %s';
 
     public function getNodeType(): string
     {
@@ -96,7 +99,7 @@ final class PlaceholderCorrespondToKeysRule implements Rule
 
             $context = $args[$contextArgumentNo];
 
-            $doesNohHaveError = self::contextDoesNotHavePlaceholderKey($context, $methodName, $matches[0], $matches[1]);
+            $doesNohHaveError = self::contextDoesNotHavePlaceholderKey($scope->getType($context->value), $methodName, $matches[0], $matches[1]);
             if ($doesNohHaveError) {
                 $errors[] = $doesNohHaveError;
             }
@@ -107,48 +110,49 @@ final class PlaceholderCorrespondToKeysRule implements Rule
 
     /**
      * @phpstan-param list<string> $braces
-     * @phpstan-param list<string> $placeHolders
+     * @phpstan-param list<string> $placeholders
      */
-    private static function contextDoesNotHavePlaceholderKey(Node\Arg $context, string $methodName, array $braces, array $placeHolders): ?RuleError
+    private static function contextDoesNotHavePlaceholderKey(Type $arrayType, string $methodName, array $braces, array $placeholders): ?RuleError
     {
-        $contextKeys = self::getContextKeys($context);
-        foreach ($placeHolders as $i => $placeholder) {
-            if (in_array($placeholder, $contextKeys, true)) {
-                unset($braces[$i]);
+        if ($arrayType->isIterableAtLeastOnce()->no()) {
+            return RuleErrorBuilder::message(
+                self::ERROR_EMPTY_CONTEXT
+            )->identifier('sfp-psr-log.placeholderCorrespondToKeysMissedKey')->build();
+        }
+
+        $constantArrays = $arrayType->getConstantArrays();
+
+        if (count($constantArrays) === 0) {
+            return RuleErrorBuilder::message(
+                self::ERROR_EMPTY_CONTEXT
+            )->identifier('sfp-psr-log.placeholderCorrespondToKeysMissedKey')->build();
+        }
+
+        foreach ($constantArrays as $constantArray) {
+            $contextKeys = [];
+            $checkBraces = $braces;
+            foreach ($constantArray->getKeyTypes() as $keyType) {
+                if (! $keyType instanceof ConstantStringType) {
+                    continue;
+                }
+                $contextKeys[] = $keyType->getValue();
             }
-        }
 
-        if (count($braces) === 0) {
-            return null;
-        }
-
-        return RuleErrorBuilder::message(
-            sprintf(self::ERROR_MISSED_KEY, $methodName, implode(',', $braces))
-        )->identifier('sfp-psr-log.placeholderCorrespondToKeysMissedKey')->build();
-    }
-
-    /**
-     * @phpstan-return list<string>
-     */
-    private static function getContextKeys(Node\Arg $context): array
-    {
-        if (! $context->value instanceof Node\Expr\Array_) {
-            // @codeCoverageIgnoreStart
-            return []; // @codeCoverageIgnoreEnd
-        }
-
-        if (count($context->value->items) === 0) {
-            return [];
-        }
-
-        $keys = [];
-        foreach ($context->value->items as $item) {
-            assert($item instanceof Node\Expr\ArrayItem);
-            if (isset($item->key->value) && is_string($item->key->value)) {
-                $keys[] = $item->key->value;
+            foreach ($placeholders as $i => $placeholder) {
+                if (in_array($placeholder, $contextKeys, true)) {
+                    unset($checkBraces[$i]);
+                }
             }
+
+            if (count($checkBraces) === 0) {
+                continue;
+            }
+
+            return RuleErrorBuilder::message(
+                sprintf(self::ERROR_MISSED_KEY, $methodName, implode(',', $checkBraces))
+            )->identifier('sfp-psr-log.placeholderCorrespondToKeysMissedKey')->build();
         }
 
-        return $keys;
+        return null;
     }
 }
