@@ -15,6 +15,7 @@
     "PHPStan\\Rules\\RuleErrorBuilder",
     "PHPStan\\Type\\ArrayType",
     "PHPStan\\Type\\Constant\\ConstantStringType",
-    "PHPStan\\Type\\ObjectType"
+    "PHPStan\\Type\\ObjectType",
+    "PHPStan\\Type\\Type"
   ]
 }
