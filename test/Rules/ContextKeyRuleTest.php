@@ -28,23 +28,31 @@ final class ContextKeyRuleTest extends RuleTestCase
         $this->analyse([__DIR__ . '/data/contextKey_nonEmptyString.php'], [
             [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::info(), key should be non empty string.',
-                14, // empty string
+                20, // empty string
             ],
             [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::info(), key should be non empty string.',
-                15, // integer
+                21, // integer
             ],
             [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::info(), key should be non empty string.',
-                16, // DNumber
+                22, // DNumber
             ],
             [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::info(), key should be non empty string.',
-                17, // not specified
+                23, // not specified
             ],
             [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::log(), key should be non empty string.',
-                18, // log method call
+                24, // log method call
+            ],
+            [
+                'Parameter $context of logger method Psr\Log\LoggerInterface::info(), key should be non empty string.',
+                27, // union parameter
+            ],
+            [
+                'Parameter $context of logger method Psr\Log\LoggerInterface::info(), key should be non empty string.',
+                32, // inline array
             ],
         ]);
     }
