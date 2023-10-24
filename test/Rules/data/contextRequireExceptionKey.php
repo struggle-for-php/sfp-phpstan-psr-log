@@ -13,8 +13,7 @@ function main(
     OtherLoggerInterface $otherLogger,
     array $logLevels,
     array $badLogLevels
-): void
-{
+): void {
     try {
         $logger->debug("foo"); // ok - this line's scope does not have Throwable
         $logger->log('debug', "foo"); // also ok (by `log()` call)

@@ -131,6 +131,9 @@ final class ContextRequireExceptionKeyRule implements Rule
         return [];
     }
 
+    /**
+     * @phpstan-param list<string> $logLevels
+     */
     public function hasReportLogLevel(array $logLevels): bool
     {
         foreach ($logLevels as $logLevel) {
