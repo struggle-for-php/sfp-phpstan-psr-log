@@ -14,7 +14,7 @@ use Sfp\PHPStan\Psr\Log\Rules\ContextRequireExceptionKeyRule;
  */
 final class ContextRequireExceptionKeyRuleTest extends RuleTestCase
 {
-    /** @var 'debug'|'info' */
+    /** @phpstan-var 'debug'|'info' */
     private $reportContextExceptionLogLevel = 'debug';
 
     protected function getRule(): Rule

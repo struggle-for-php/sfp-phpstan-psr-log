@@ -5,8 +5,8 @@ declare(strict_types=1);
 use SfpTest\PHPStan\Psr\Log\Rules\OtherLoggerInterface;
 
 /**
- * @param 'debug'|'info'|'notice' $logLevels
- * @param 'none'|'foo' $badLogLevels
+ * @phpstan-param 'debug'|'info'|'notice' $logLevels
+ * @phpstan-param 'none'|'foo' $badLogLevels
  */
 function main(
     Psr\Log\LoggerInterface $logger,
