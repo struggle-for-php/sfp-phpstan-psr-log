@@ -74,18 +74,25 @@ final class ContextRequireExceptionKeyRule implements Rule
 
         $methodName = $node->name->toLowerString();
 
-        $logLevel          = $methodName;
+        $logLevels         = [$methodName];
         $contextArgumentNo = 1;
         if ($methodName === 'log') {
-            if (
-                count($args) < 2
-                || ! $args[0]->value instanceof Node\Scalar\String_
-            ) {
-                // @codeCoverageIgnoreStart
-                return []; // @codeCoverageIgnoreEnd
+            if (count($args) < 2) {
+                return [];
             }
 
-            $logLevel          = $args[0]->value->value;
+            $logLevelType = $scope->getType($args[0]->value);
+
+            $logLevels = [];
+            foreach ($logLevelType->getConstantStrings() as $constantString) {
+                $logLevels[] = $constantString->getValue();
+            }
+
+            if (count($logLevels) === 0) {
+                // cant find logLevels
+                return [];
+            }
+
             $contextArgumentNo = 2;
         } elseif (! in_array($methodName, LogLevelListInterface::LOGGER_LEVEL_METHODS)) {
             return [];
@@ -98,7 +105,7 @@ final class ContextRequireExceptionKeyRule implements Rule
         }
 
         if (! isset($args[$contextArgumentNo])) {
-            if (! $this->isReportLogLevel($logLevel)) {
+            if (! $this->hasReportLogLevel($logLevels)) {
                 return [];
             }
 
@@ -110,7 +117,7 @@ final class ContextRequireExceptionKeyRule implements Rule
         assert($context instanceof Node\Arg);
 
         if (self::contextDoesNotHaveExceptionKey($context, $scope)) {
-            if (! $this->isReportLogLevel($logLevel)) {
+            if (! $this->hasReportLogLevel($logLevels)) {
                 return [];
             }
 
@@ -122,6 +129,17 @@ final class ContextRequireExceptionKeyRule implements Rule
         }
 
         return [];
+    }
+
+    public function hasReportLogLevel(array $logLevels): bool
+    {
+        foreach ($logLevels as $logLevel) {
+            if ($this->isReportLogLevel($logLevel)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function isReportLogLevel(string $logLevel): bool

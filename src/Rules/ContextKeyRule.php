@@ -68,10 +68,7 @@ final class ContextKeyRule implements Rule
 
         $contextArgumentNo = 1;
         if ($methodName === 'log') {
-            if (
-                count($args) < 2
-                || ! $args[0]->value instanceof Node\Scalar\String_
-            ) {
+            if (count($args) < 2) {
                 // @codeCoverageIgnoreStart
                 return []; // @codeCoverageIgnoreEnd
             }
@@ -111,6 +108,7 @@ final class ContextKeyRule implements Rule
     }
 
     /**
+     * phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
      * @phpstan-param list<\PHPStan\Type\Constant\ConstantArrayType> $constantArrays
      * phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
      * @phpstan-return list<\PHPStan\Rules\RuleError>
@@ -139,6 +137,7 @@ final class ContextKeyRule implements Rule
     }
 
     /**
+     * phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
      * @phpstan-param list<\PHPStan\Type\Constant\ConstantArrayType> $constantArrays
      * phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
      * @phpstan-return list<\PHPStan\Rules\RuleError>

@@ -4,61 +4,66 @@ declare(strict_types=1);
 
 use SfpTest\PHPStan\Psr\Log\Rules\OtherLoggerInterface;
 
-function main(Psr\Log\LoggerInterface $logger, OtherLoggerInterface $otherLogger): void
+/**
+ * @param 'debug'|'info'|'notice' $logLevels
+ * @param 'none'|'foo' $badLogLevels
+ */
+function main(
+    Psr\Log\LoggerInterface $logger,
+    OtherLoggerInterface $otherLogger,
+    array $logLevels,
+    array $badLogLevels
+): void
 {
     try {
-        $logger->debug("foo");
-        $logger->log('debug', "foo");
+        $logger->debug("foo"); // ok - this line's scope does not have Throwable
+        $logger->log('debug', "foo"); // also ok (by `log()` call)
 
         throw new InvalidArgumentException();
-    } catch (LogicException $exception) {
-        // ng
-        $logger->debug("foo"); // but would not be report
-        $logger->info("foo");
-        $logger->info('foo', ['throwable' => $exception]);
+    } catch (InvalidArgumentException $exception) {
+        // ng - without 'exception' key
+        $logger->notice('foo');  // missing context
+        $logger->notice('foo', ['throwable' => $exception]); // invalid key
 
-        // ng. (by `log` call)
+        // also ng (by `log()` call)
         $logger->log('notice', 'foo');
-        $logger->log('notice', 'foo', ['throwable' => $exception]);
+        $logger->log('notice', 'foo', ['throwable' => $exception]); // invalid key - log method
 
-        // ok
-        $logger->alert("foo", ['exception' => $exception]);
-        $logger->log('alert', 'foo', ['exception' => $exception]);
-    } catch (RuntimeException | Throwable $exception2) {
-        // ng
-        $logger->critical('foo');
-        $logger->log('critical', 'foo');
-        $logger->debug("foo", ['exception' => new DateTimeImmutable()]); // would be checked by array-shapes
-
-        // ng
+        // ng - array variable passed pattern
         $context = [];
-        $logger->critical('foo', $context);
+        $logger->notice('foo', $context); // empty array
         $context = ['foo' => 'FOO', 'bar' => 'BAR']; // to check offset variable
-        $logger->critical('foo', $context);
-        $logger->debug('foo', $context); // would not be reported < info
+        $logger->notice('foo', $context);
+        // ng - array merge, bad key
+        $logger->notice('foo', array_merge(['foo' => 1], ['exception2' => $exception]));
+        $logger->notice('foo', ['foo' => 1] + ['exception2' => $exception]);  // after array plus
 
-        // ng
-        $logger->critical('foo', array_merge(['foo' => 1], ['exception2' => $exception2]));
-        $logger->critical('foo', ['foo' => 1] + ['exception2' => $exception2]);
+        // OK
+        $logger->notice('foo', ['exception' => $exception]);
+        $logger->log('notice', 'foo', ['exception' => $exception]);
+        // OK - array variable passed pattern
+        $context = ['foo' => 'bar', 'exception' => $exception]; // to check offset variable
+        $logger->notice('foo', $context);
+        $context = ['exception' => $exception];
+        $logger->notice('foo', $context);
+        // OK - array merge
+        $logger->notice('foo', array_merge(['foo' => 1], ['exception' => $exception]));
+        $logger->notice('foo', ['foo' => 1] + ['exception' => $exception]);
+    } catch (RuntimeException | Throwable $exception2) {
+        // also ng - when union exception (other catch)
+        $logger->notice('foo');
+        $logger->log('notice', 'foo');
+        $logger->notice("foo", ['exception' => new DateTimeImmutable()]); // would be checked by array-shapes
         // ok
-        $context = ['foo' => 'bar', 'exception' => $exception2]; // to check offset variable
-        $logger->critical('foo', $context);
-        $context = ['exception' => $exception2];
-        $logger->critical('foo', $context);
-        // ok
-        $logger->critical('foo', array_merge(['foo' => 1], ['exception' => $exception2]));
-        $logger->critical('foo', ['foo' => 1] + ['exception' => $exception2]);
+        $logger->notice("foo", ['exception' => $exception2]);
+        $logger->notice("foo", ['foo' => 1, 'exception' => $exception2]);
 
         // Todo - handle function return type
         $logger->log(determineLogLevel(), 'foo');
         $logger->critical('foo', returnMixedArray());
         $logger->critical('foo', returnExceptionHasArray()); // returnExceptionHasArray would be ErrorType
-
-        // ok
-        $logger->critical("foo", ['exception' => $exception2]);
-        $logger->critical("foo", ['foo' => 1, 'exception' => $exception2]);
     } finally {
-        // ok
+        // ok - when finally
         $logger->emergency('foo');
     }
 
