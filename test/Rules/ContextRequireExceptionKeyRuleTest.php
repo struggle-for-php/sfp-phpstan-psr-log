@@ -86,19 +86,23 @@ final class ContextRequireExceptionKeyRuleTest extends RuleTestCase
         $this->analyse([__DIR__ . '/data/contextRequireExceptionKey.php'], [
             [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::notice() requires \'exception\' key. Current scope has Throwable variable - $exception',
-                24,
+                22,
             ],
             [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::notice() requires \'exception\' key. Current scope has Throwable variable - $exception',
-                25,
+                23,
             ],
             [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::log() requires \'exception\' key. Current scope has Throwable variable - $exception',
-                28,
+                26,
             ],
             [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::log() requires \'exception\' key. Current scope has Throwable variable - $exception',
-                29,
+                27,
+            ],
+            [
+                'Parameter $context of logger method Psr\Log\LoggerInterface::notice() requires \'exception\' key. Current scope has Throwable variable - $exception',
+                31,
             ],
             [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::notice() requires \'exception\' key. Current scope has Throwable variable - $exception',
@@ -110,11 +114,7 @@ final class ContextRequireExceptionKeyRuleTest extends RuleTestCase
             ],
             [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::notice() requires \'exception\' key. Current scope has Throwable variable - $exception',
-                37,
-            ],
-            [
-                'Parameter $context of logger method Psr\Log\LoggerInterface::notice() requires \'exception\' key. Current scope has Throwable variable - $exception',
-                38,
+                36,
             ],
             [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::notice() requires \'exception\' key. Current scope has Throwable variable - $exception2',
