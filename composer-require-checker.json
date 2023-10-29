@@ -16,6 +16,7 @@
     "PHPStan\\Type\\ArrayType",
     "PHPStan\\Type\\Constant\\ConstantStringType",
     "PHPStan\\Type\\ObjectType",
-    "PHPStan\\Type\\Type"
+    "PHPStan\\Type\\Type",
+    "PHPStan\\Type\\ErrorType"
   ]
 }
