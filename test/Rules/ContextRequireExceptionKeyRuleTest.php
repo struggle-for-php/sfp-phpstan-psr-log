@@ -8,8 +8,6 @@ use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 use Sfp\PHPStan\Psr\Log\Rules\ContextRequireExceptionKeyRule;
 
-use function count;
-
 /**
  * @extends RuleTestCase<ContextRequireExceptionKeyRule>
  * @covers \Sfp\PHPStan\Psr\Log\Rules\ContextRequireExceptionKeyRule
@@ -52,6 +50,7 @@ final class ContextRequireExceptionKeyRuleTest extends RuleTestCase
      *           [ false, true, 0, [] ]
      *           [ true, false, 1, [27] ]
      *           [ true, true,  2, [24, 27] ]
+     * @phpstan-param list<int> $expectedErrorLines
      */
     public function testParameterSettings(
         bool $treatPhpDocTypesAsCertain,
@@ -65,7 +64,7 @@ final class ContextRequireExceptionKeyRuleTest extends RuleTestCase
 
         $errors = $this->gatherAnalyserErrors([__DIR__ . '/data/ContextRequireExceptionKeyRule/parameters.php']);
 
-        $this->assertSame($expectedErrorCount, count($errors));
+        $this->assertCount($expectedErrorCount, $errors);
 
         $errorLines = [];
         foreach ($errors as $error) {

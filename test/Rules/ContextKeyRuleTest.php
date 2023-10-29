@@ -29,6 +29,7 @@ final class ContextKeyRuleTest extends RuleTestCase
 
     /**
      * @dataProvider provideNonEmptyStringKeyPattern
+     * @phpstan-param list<array{0:string, 1:int}> $expectedErrors
      */
     public function testAlwaysShouldBeCheckedNonEmptyString(bool $treatPhpDocTypesAsCertain, array $expectedErrors): void
     {
@@ -37,6 +38,9 @@ final class ContextKeyRuleTest extends RuleTestCase
         $this->analyse([__DIR__ . '/data/contextKey_nonEmptyString.php'], $expectedErrors);
     }
 
+    /**
+     * @phpstan-return list<array{treatPhpDocTypesAsCertain: bool, list<array{0:string, 1:int}>}>
+     */
     public static function provideNonEmptyStringKeyPattern(): array
     {
         $expectedErrors = [

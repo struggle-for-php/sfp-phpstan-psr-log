@@ -70,7 +70,6 @@ function main(
     $logger->critical();
     $logger->none('foo');
     $otherLogger->critical('message');
-
 }
 
 // phpcs:disable

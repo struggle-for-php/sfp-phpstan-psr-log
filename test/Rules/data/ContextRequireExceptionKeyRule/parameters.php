@@ -8,7 +8,6 @@ declare(strict_types=1);
  *
  * NOTES: union param would be reported level7(reportMaybes)
  * https://phpstan.org/r/8f1158f4-0cac-4ef9-9abe-29a892d502af
- *
  */
 function main(
     Psr\Log\LoggerInterface $logger,
@@ -23,7 +22,7 @@ function main(
         $logger->notice('foo', $context);
         $logger->notice('foo', $unionContext);
 
-        $logger->notice('foo', array_merge(['foo' => 1],  ['exception' => $exception] ));
-        $logger->notice('foo', array_merge(['foo' => 1],  ['exception2' => $exception] ));
+        $logger->notice('foo', array_merge(['foo' => 1], ['exception' => $exception]));
+        $logger->notice('foo', array_merge(['foo' => 1], ['exception2' => $exception]));
     }
 }
