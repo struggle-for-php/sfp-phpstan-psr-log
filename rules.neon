@@ -26,6 +26,7 @@ services:
 		class: Sfp\PHPStan\Psr\Log\Rules\ContextRequireExceptionKeyRule
 		arguments:
 		    treatPhpDocTypesAsCertain: %treatPhpDocTypesAsCertain%
+		    reportMaybes: %reportMaybes%
 		    reportContextExceptionLogLevel: %sfpPsrLog.reportContextExceptionLogLevel%
 		tags:
 			- phpstan.rules.rule

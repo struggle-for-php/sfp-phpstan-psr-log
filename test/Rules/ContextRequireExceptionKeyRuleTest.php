@@ -48,8 +48,8 @@ final class ContextRequireExceptionKeyRuleTest extends RuleTestCase
     /**
      * @testWith [ false, false, 0, [] ]
      *           [ false, true, 0, [] ]
-     *           [ true, false, 1, [27] ]
-     *           [ true, true,  2, [24, 27] ]
+     *           [ true, false, 1, [26] ]
+     *           [ true, true,  2, [23, 26] ]
      * @phpstan-param list<int> $expectedErrorLines
      */
     public function testParameterSettings(
