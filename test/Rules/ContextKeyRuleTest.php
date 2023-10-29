@@ -8,24 +8,38 @@ use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 use Sfp\PHPStan\Psr\Log\Rules\ContextKeyRule;
 
+use function array_pop;
+
 /**
  * @extends RuleTestCase<ContextKeyRule>
  * @covers \Sfp\PHPStan\Psr\Log\Rules\ContextKeyRule
  */
 final class ContextKeyRuleTest extends RuleTestCase
 {
+    /** @var bool */
+    private $treatPhpDocTypesAsCertain = false;
+
     /** @var null|string */
     private $contextKeyOriginalPattern;
 
     protected function getRule(): Rule
     {
-        return new ContextKeyRule($this->contextKeyOriginalPattern);
+        return new ContextKeyRule($this->treatPhpDocTypesAsCertain, $this->contextKeyOriginalPattern);
     }
 
-    public function testAlwaysShouldBeCheckedNonEmptyString(): void
+    /**
+     * @dataProvider provideNonEmptyStringKeyPattern
+     */
+    public function testAlwaysShouldBeCheckedNonEmptyString(bool $treatPhpDocTypesAsCertain, array $expectedErrors): void
     {
+        $this->treatPhpDocTypesAsCertain = $treatPhpDocTypesAsCertain;
         $this->contextKeyOriginalPattern = null;
-        $this->analyse([__DIR__ . '/data/contextKey_nonEmptyString.php'], [
+        $this->analyse([__DIR__ . '/data/contextKey_nonEmptyString.php'], $expectedErrors);
+    }
+
+    public static function provideNonEmptyStringKeyPattern(): array
+    {
+        $expectedErrors = [
             [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::info(), key should be non empty string.',
                 20, // empty string
@@ -48,29 +62,35 @@ final class ContextKeyRuleTest extends RuleTestCase
             ],
             [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::info(), key should be non empty string.',
-                27, // union parameter
+                29, // inline array
             ],
             [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::info(), key should be non empty string.',
-                32, // inline array
+                32, // union parameter
             ],
-        ]);
+        ];
+
+        $expectedErrors1 = $expectedErrors;
+        array_pop($expectedErrors);
+
+        return [
+            [
+                'treatPhpDocTypesAsCertain' => true,
+                $expectedErrors1,
+            ],
+            [
+                'treatPhpDocTypesAsCertain' => false,
+                $expectedErrors,
+            ],
+        ];
     }
 
     public function testWithPattern(): void
     {
-        $this->contextKeyOriginalPattern = '#\A[A-Za-z0-9-]+';
+        $this->contextKeyOriginalPattern = '#\A[A-Za-z0-9-]+\z#';
         $this->analyse([__DIR__ . '/data/contextKey_originalPattern.php'], [
             [
-                'Your contextKeyOriginalPattern #\A[A-Za-z0-9-]+ seems not valid regex. Failed.',
-                8,
-            ],
-            [
-                'Your contextKeyOriginalPattern #\A[A-Za-z0-9-]+ seems not valid regex. Failed.',
-                9,
-            ],
-            [
-                'Your contextKeyOriginalPattern #\A[A-Za-z0-9-]+ seems not valid regex. Failed.',
+                'Parameter $context of logger method Psr\Log\LoggerInterface::info(), key should be match #\A[A-Za-z0-9-]+\z#.',
                 14,
             ],
         ]);

@@ -60,7 +60,7 @@ function main(
         // Todo - handle function return type
         $logger->log(determineLogLevel(), 'foo');
         $logger->critical('foo', returnMixedArray());
-        $logger->critical('foo', returnExceptionHasArray()); // returnExceptionHasArray would be ErrorType
+        $logger->critical('foo', returnExceptionHasArray()); // returnExceptionHasArray would be ErrorType, should not be reported
     } finally {
         // ok - when finally
         $logger->emergency('foo');

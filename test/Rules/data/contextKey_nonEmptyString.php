@@ -23,11 +23,11 @@ function main(Psr\Log\LoggerInterface $logger, array $nonTypedArray, array $cons
     $logger->info('foo', ["a"]);
     $logger->log('info', 'foo', ["a"]);
 
-    $logger->info('union', $constantContext);
-    $logger->info('union', $badKeyContext); // ng
-
     $okArray = ['ok' => __LINE__];
     $ngArray = [1 => __LINE__];
     $logger->info('ok', $okArray);
     $logger->info('ng', $ngArray); //ng
+
+    $logger->info('union', $constantContext);
+    $logger->info('union', $badKeyContext); // ng (when treatPhpDocTypesAsCertain on)
 }

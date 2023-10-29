@@ -16,14 +16,17 @@ rules:
 
 services:
 	-
-		class: Sfp\PHPStan\Psr\Log\Rules\ContextRequireExceptionKeyRule
+		class: Sfp\PHPStan\Psr\Log\Rules\ContextKeyRule
 		arguments:
-			reportContextExceptionLogLevel: %sfpPsrLog.reportContextExceptionLogLevel%
+		    treatPhpDocTypesAsCertain: %treatPhpDocTypesAsCertain%
+		    contextKeyOriginalPattern: %sfpPsrLog.contextKeyOriginalPattern%
 		tags:
 			- phpstan.rules.rule
 	-
-		class: Sfp\PHPStan\Psr\Log\Rules\ContextKeyRule
+		class: Sfp\PHPStan\Psr\Log\Rules\ContextRequireExceptionKeyRule
 		arguments:
-			contextKeyOriginalPattern: %sfpPsrLog.contextKeyOriginalPattern%
+		    treatPhpDocTypesAsCertain: %treatPhpDocTypesAsCertain%
+		    reportContextExceptionLogLevel: %sfpPsrLog.reportContextExceptionLogLevel%
 		tags:
 			- phpstan.rules.rule
+

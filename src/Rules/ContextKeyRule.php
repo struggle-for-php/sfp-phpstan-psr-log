@@ -29,11 +29,17 @@ final class ContextKeyRule implements Rule
 
     private const ERROR_NOT_MATCH_ORIGINAL_PATTERN = 'Parameter $context of logger method Psr\Log\LoggerInterface::%s(), key should be match %s.';
 
+    /** @var bool */
+    private $treatPhpDocTypesAsCertain;
+
     /** @var string|null */
     private $contextKeyOriginalPattern;
 
-    public function __construct(?string $contextKeyOriginalPattern = null)
-    {
+    public function __construct(
+        bool $treatPhpDocTypesAsCertain,
+        ?string $contextKeyOriginalPattern = null
+    ) {
+        $this->treatPhpDocTypesAsCertain = $treatPhpDocTypesAsCertain;
         $this->contextKeyOriginalPattern = $contextKeyOriginalPattern;
     }
 
@@ -85,7 +91,11 @@ final class ContextKeyRule implements Rule
             return [];
         }
 
-        $arrayType = $scope->getType($context->value);
+        if ($this->treatPhpDocTypesAsCertain) {
+            $arrayType = $scope->getType($context->value);
+        } else {
+            $arrayType = $scope->getNativeType($context->value);
+        }
 
         if ($arrayType->isIterableAtLeastOnce()->no()) {
             // @codeCoverageIgnoreStart
