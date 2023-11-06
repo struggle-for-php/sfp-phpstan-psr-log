@@ -174,7 +174,6 @@ parameters:
         enableContextRequireExceptionKeyRule: false
 ```
 
-
 ### MessageStaticStringRule
 
 > [!IMPORTANT]
