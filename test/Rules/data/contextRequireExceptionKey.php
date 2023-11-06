@@ -6,13 +6,11 @@ use SfpTest\PHPStan\Psr\Log\Rules\OtherLoggerInterface;
 
 /**
  * @phpstan-param 'debug'|'info'|'notice' $logLevels
- * @phpstan-param 'none'|'foo' $badLogLevels
  */
 function main(
     Psr\Log\LoggerInterface $logger,
     OtherLoggerInterface $otherLogger,
-    array $logLevels,
-    array $badLogLevels
+    array $logLevels
 ): void {
     try {
         $logger->debug("foo"); // ok - this line's scope does not have Throwable
@@ -40,6 +38,8 @@ function main(
         // OK
         $logger->notice('foo', ['exception' => $exception]);
         $logger->log('notice', 'foo', ['exception' => $exception]);
+        // OK union log levels
+        $logger->log($logLevels, 'foo', ['exception' => $exception]);
         // OK - array variable passed pattern
         $context = ['foo' => 'bar', 'exception' => $exception]; // to check offset variable
         $logger->notice('foo', $context);
@@ -60,7 +60,7 @@ function main(
         // Todo - handle function return type
         $logger->log(determineLogLevel(), 'foo');
         $logger->critical('foo', returnMixedArray());
-        $logger->critical('foo', returnExceptionHasArray()); // returnExceptionHasArray would be ErrorType
+        $logger->critical('foo', returnExceptionHasArray()); // returnExceptionHasArray would be ErrorType, should not be reported
     } finally {
         // ok - when finally
         $logger->emergency('foo');

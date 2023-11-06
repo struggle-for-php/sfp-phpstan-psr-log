@@ -14,16 +14,26 @@ use Sfp\PHPStan\Psr\Log\Rules\ContextRequireExceptionKeyRule;
  */
 final class ContextRequireExceptionKeyRuleTest extends RuleTestCase
 {
+    /** @var bool */
+    private $treatPhpDocTypesAsCertain = false;
+
+    /** @var bool */
+    private $reportMaybes = false;
+
     /** @phpstan-var 'debug'|'info' */
     private $reportContextExceptionLogLevel = 'debug';
 
     protected function getRule(): Rule
     {
-        return new ContextRequireExceptionKeyRule($this->reportContextExceptionLogLevel);
+        return new ContextRequireExceptionKeyRule(
+            $this->treatPhpDocTypesAsCertain,
+            $this->reportMaybes,
+            $this->reportContextExceptionLogLevel
+        );
     }
 
     /** @test */
-    public function shouldNotBeReportsIfLogLevelIsUnder(): void
+    public function shouldNotBeReportedIfLogLevelIsNotReached(): void
     {
         $this->reportContextExceptionLogLevel = 'info';
 
@@ -36,27 +46,62 @@ final class ContextRequireExceptionKeyRuleTest extends RuleTestCase
     }
 
     /**
+     * @testWith [ false, false, 0, [] ]
+     *           [ false, true, 0, [] ]
+     *           [ true, false, 1, [26] ]
+     *           [ true, true,  2, [23, 26] ]
+     * @phpstan-param list<int> $expectedErrorLines
+     */
+    public function testParameterSettings(
+        bool $treatPhpDocTypesAsCertain,
+        bool $reportMaybes,
+        int $expectedErrorCount,
+        array $expectedErrorLines
+    ): void {
+        $this->treatPhpDocTypesAsCertain      = $treatPhpDocTypesAsCertain;
+        $this->reportMaybes                   = $reportMaybes;
+        $this->reportContextExceptionLogLevel = 'debug';
+
+        $errors = $this->gatherAnalyserErrors([__DIR__ . '/data/ContextRequireExceptionKeyRule/parameters.php']);
+
+        $this->assertCount($expectedErrorCount, $errors);
+
+        $errorLines = [];
+        foreach ($errors as $error) {
+            $errorLines[] = $error->getLine();
+        }
+
+        $this->assertSame($expectedErrorLines, $errorLines);
+    }
+
+    /**
      * @test
      */
     public function testProcessNode(): void
     {
+        $this->treatPhpDocTypesAsCertain      = true;
+        $this->reportMaybes                   = false;
         $this->reportContextExceptionLogLevel = 'debug';
         $this->analyse([__DIR__ . '/data/contextRequireExceptionKey.php'], [
             [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::notice() requires \'exception\' key. Current scope has Throwable variable - $exception',
-                24,
+                22,
             ],
             [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::notice() requires \'exception\' key. Current scope has Throwable variable - $exception',
-                25,
+                23,
             ],
             [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::log() requires \'exception\' key. Current scope has Throwable variable - $exception',
-                28,
+                26,
             ],
             [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::log() requires \'exception\' key. Current scope has Throwable variable - $exception',
-                29,
+                27,
+            ],
+            [
+                'Parameter $context of logger method Psr\Log\LoggerInterface::notice() requires \'exception\' key. Current scope has Throwable variable - $exception',
+                31,
             ],
             [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::notice() requires \'exception\' key. Current scope has Throwable variable - $exception',
@@ -68,11 +113,7 @@ final class ContextRequireExceptionKeyRuleTest extends RuleTestCase
             ],
             [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::notice() requires \'exception\' key. Current scope has Throwable variable - $exception',
-                37,
-            ],
-            [
-                'Parameter $context of logger method Psr\Log\LoggerInterface::notice() requires \'exception\' key. Current scope has Throwable variable - $exception',
-                38,
+                36,
             ],
             [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::notice() requires \'exception\' key. Current scope has Throwable variable - $exception2',
