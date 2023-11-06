@@ -1,29 +1,38 @@
-parameters:
-	sfpPsrLog:
-		reportContextExceptionLogLevel: 'debug'
-		contextKeyOriginalPattern: null
-
 parametersSchema:
 	sfpPsrLog: structure([
+		enableContextRequireExceptionKeyRule: bool(),
+		enableMessageStaticStringRule: bool(),
 		reportContextExceptionLogLevel: schema(string(), nullable()),
 		contextKeyOriginalPattern: schema(string(), nullable())
 	])
 
+parameters:
+	sfpPsrLog:
+		enableContextRequireExceptionKeyRule: true
+		enableMessageStaticStringRule: false
+		reportContextExceptionLogLevel: 'debug'
+		contextKeyOriginalPattern: null
+
+conditionalTags:
+	Sfp\PHPStan\Psr\Log\Rules\ContextRequireExceptionKeyRule:
+		phpstan.rules.rule: %sfpPsrLog.enableContextRequireExceptionKeyRule%
+	Sfp\PHPStan\Psr\Log\Rules\MessageStaticStringRule:
+		phpstan.rules.rule: %sfpPsrLog.enableMessageStaticStringRule%
+
 rules:
-#	- Sfp\PHPStan\Psr\Log\Rules\MessageStaticStringRule
 	- Sfp\PHPStan\Psr\Log\Rules\PlaceholderCorrespondToKeysRule
 	- Sfp\PHPStan\Psr\Log\Rules\PlaceholderCharactersRule
 
 services:
-	-
-		class: Sfp\PHPStan\Psr\Log\Rules\ContextRequireExceptionKeyRule
-		arguments:
-			reportContextExceptionLogLevel: %sfpPsrLog.reportContextExceptionLogLevel%
-		tags:
-			- phpstan.rules.rule
 	-
 		class: Sfp\PHPStan\Psr\Log\Rules\ContextKeyRule
 		arguments:
 			contextKeyOriginalPattern: %sfpPsrLog.contextKeyOriginalPattern%
 		tags:
 			- phpstan.rules.rule
+	-
+		class: Sfp\PHPStan\Psr\Log\Rules\ContextRequireExceptionKeyRule
+		arguments:
+			reportContextExceptionLogLevel: %sfpPsrLog.reportContextExceptionLogLevel%
+	-
+		class: Sfp\PHPStan\Psr\Log\Rules\MessageStaticStringRule

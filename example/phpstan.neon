@@ -3,6 +3,8 @@
 #
 # docker run -v $(realpath .):/github/workspace -w=/github/workspace ghcr.io/laminas/laminas-continuous-integration:1 \
 #  '{"php":"8.2","dependencies":"latest","extensions":[],"ini":["memory_limit=-1"],"command":"./vendor/bin/phpstan analyse -c ./example/phpstan.neon --no-progress --error-format=junit | xmllint --format -"}'
+# docker run -v $(realpath .):/github/workspace -w=/github/workspace ghcr.io/laminas/laminas-continuous-integration:1 \
+#  '{"php":"8.2","dependencies":"latest","extensions":[],"ini":["memory_limit=-1"],"command":"diff <(./vendor/bin/phpstan analyse -c ./example/phpstan.neon --no-progress --error-format=junit | xmllint --format -) ./test/example.output"}'
 
 parameters:
 	level: 5
@@ -11,13 +13,12 @@ parameters:
 	paths:
 		- %currentWorkingDirectory%/example/src
 	sfpPsrLog:
+		# enableContextRequireExceptionKeyRule: true
+		enableMessageStaticStringRule: true
 		reportContextExceptionLogLevel: 'notice'
 		contextKeyOriginalPattern: '#\A[A-Za-z0-9-]+\z#'
 	stubFiles:
 		- ../vendor/struggle-for-php/sfp-stubs-psr-log/stubs-for-throwable/LoggerInterface.phpstub
-
-rules:
-	- Sfp\PHPStan\Psr\Log\Rules\MessageStaticStringRule
 
 includes:
 # relative path can not work

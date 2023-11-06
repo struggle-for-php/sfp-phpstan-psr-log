@@ -126,7 +126,7 @@ parameters:
 <?php
 /** @var \Psr\Log\LoggerInterface $logger */
 try {
-    // 
+    //
 } catch (LogicException $exception) {
     $logger->warning("foo");
 }
@@ -166,6 +166,14 @@ Then, `debug`| `info` | `notice` LogLevel  is ignored for report.
 }
 ```
 
+* If you want to disable this rule, please add `enableContextRequireExceptionKeyRule` as false.
+
+```neon
+parameters:
+    sfpPsrLog:
+        enableContextRequireExceptionKeyRule: false
+```
+
 ### MessageStaticStringRule
 
 > [!IMPORTANT]
@@ -184,11 +192,12 @@ $logger->info(sprintf('Message contains %s variable', $var));
 
 #### Configuration
 
-* You should add `Sfp\PHPStan\Psr\Log\Rules\MessageStaticStringRule` into your `phpstan.neon` to enable.
+* If you want to enable this rule, please add `enableMessageStaticStringRule` as true.
 
 ```neon
-rules:
-    - Sfp\PHPStan\Psr\Log\Rules\MessageStaticStringRule
+parameters:
+    sfpPsrLog:
+        enableMessageStaticStringRule: true
 ```
 
 ## Installation
