@@ -1,11 +1,11 @@
 parameters:
-    level: 9
-    paths:
-        - src
-        - test
-    excludePaths:
-        - test/Rules/data/*
+	level: 9
+	paths:
+		- src
+		- test
+	excludePaths:
+		- test/Rules/data/*
 
 includes:
-    - vendor/phpstan/phpstan-phpunit/extension.neon
-    - vendor/phpstan/phpstan-phpunit/rules.neon
+	- vendor/phpstan/phpstan-phpunit/extension.neon
+	- vendor/phpstan/phpstan-phpunit/rules.neon

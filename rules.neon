@@ -1,7 +1,7 @@
 parameters:
-    sfpPsrLog:
-        reportContextExceptionLogLevel: 'debug'
-        contextKeyOriginalPattern: null
+	sfpPsrLog:
+		reportContextExceptionLogLevel: 'debug'
+		contextKeyOriginalPattern: null
 
 parametersSchema:
 	sfpPsrLog: structure([
@@ -10,9 +10,9 @@ parametersSchema:
 	])
 
 rules:
-#    - Sfp\PHPStan\Psr\Log\Rules\MessageStaticStringRule
-    - Sfp\PHPStan\Psr\Log\Rules\PlaceholderCorrespondToKeysRule
-    - Sfp\PHPStan\Psr\Log\Rules\PlaceholderCharactersRule
+#	- Sfp\PHPStan\Psr\Log\Rules\MessageStaticStringRule
+	- Sfp\PHPStan\Psr\Log\Rules\PlaceholderCorrespondToKeysRule
+	- Sfp\PHPStan\Psr\Log\Rules\PlaceholderCharactersRule
 
 services:
 	-
