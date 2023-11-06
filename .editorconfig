@@ -1,0 +1,31 @@
+# a part of this code is borrowed from PHPStan's .editorconfig
+# https://github.com/phpstan/phpstan-src/blob/1.10.x/.editorconfig
+# @license MIT
+
+root = true
+
+[*]
+end_of_line = lf
+insert_final_newline = true
+charset = utf-8
+trim_trailing_whitespace = true
+
+[*.{php,phpt,stub}]
+indent_style = tab
+indent_size = 4
+
+[*.xml]
+indent_style = tab
+indent_size = 4
+
+[*.neon]
+indent_style = tab
+indent_size = 4
+
+[*.{yaml,yml}]
+indent_style = space
+indent_size = 2
+
+[composer.json]
+indent_style = tab
+indent_size = 4
