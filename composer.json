@@ -2,7 +2,7 @@
     "name": "struggle-for-php/sfp-phpstan-psr-log",
     "description": "Extra strict and opinionated psr/log (psr-3) rules for PHPStan",
     "type": "phpstan-extension",
-    "keywords": ["phpstan", "psr-3", "psr3", "logging"],
+    "keywords": ["phpstan", "psr-3", "psr3", "logging", "static analysis"],
     "license": [
         "MIT"
     ],
