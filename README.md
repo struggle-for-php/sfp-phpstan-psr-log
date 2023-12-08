@@ -10,6 +10,22 @@
 * [PSR-3: Logger Interface - PHP-FIG](https://www.php-fig.org/psr/psr-3/)
 * [PSR-3 Meta Document](https://www.php-fig.org/psr/psr-3/meta/)
 
+> [!IMPORTANT]
+> It is planned to change default rule settings.
+
+* MessageStaticStringRule would be enabled by default.
+* ContextRequireExceptionKeyRule would be disabled by default.
+* [Recommendation] write these parameters to your project's  `phpstan.neon`
+
+```neon
+parameters:
+    sfpPsrLog:
+        enableMessageStaticStringRule: true
+        enableContextRequireExceptionKeyRule: true
+        reportContextExceptionLogLevel: 'info'
+        contextKeyOriginalPattern: '#\A[A-Za-z0-9-_]+\z#'
+```
+
 ## Stubs
 
 This extension depends on our psr/log stub to serve strictness.
