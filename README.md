@@ -15,7 +15,7 @@
 
 * MessageStaticStringRule would be enabled by default.
 * ContextRequireExceptionKeyRule would be disabled by default.
-* [Recommendation] write these parameters to your project's  `phpstan.neon`
+* [Recommendation] write these parameters to your project's `phpstan.neon`.
 
 ```neon
 parameters:
@@ -182,18 +182,15 @@ Then, `debug`| `info` | `notice` LogLevel  is ignored for report.
 }
 ```
 
-* If you want to disable this rule, please add `enableContextRequireExceptionKeyRule` as false.
+* If you want to enable this rule, please add `enableContextRequireExceptionKeyRule` as true.
 
 ```neon
 parameters:
     sfpPsrLog:
-        enableContextRequireExceptionKeyRule: false
+        enableContextRequireExceptionKeyRule: true
 ```
 
 ### MessageStaticStringRule
-
-> [!IMPORTANT]
-> This Rule is currently experimental.
 
 | :pushpin: _error identifier_ |
 | --- |
@@ -208,12 +205,12 @@ $logger->info(sprintf('Message contains %s variable', $var));
 
 #### Configuration
 
-* If you want to enable this rule, please add `enableMessageStaticStringRule` as true.
+* If you want to disable this rule, please add `enableMessageStaticStringRule` as false.
 
 ```neon
 parameters:
     sfpPsrLog:
-        enableMessageStaticStringRule: true
+        enableMessageStaticStringRule: false
 ```
 
 ## Installation
