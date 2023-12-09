@@ -13,7 +13,7 @@ parameters:
 	paths:
 		- %currentWorkingDirectory%/example/src
 	sfpPsrLog:
-		# enableContextRequireExceptionKeyRule: true
+		enableContextRequireExceptionKeyRule: true
 		enableMessageStaticStringRule: true
 		reportContextExceptionLogLevel: 'notice'
 		contextKeyOriginalPattern: '#\A[A-Za-z0-9-]+\z#'
