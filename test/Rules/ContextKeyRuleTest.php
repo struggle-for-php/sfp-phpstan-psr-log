@@ -58,6 +58,13 @@ final class ContextKeyRuleTest extends RuleTestCase
         ]);
     }
 
+    public function testEmptyStringPattern(): void
+    {
+        $this->contextKeyOriginalPattern = '';
+        $this->expectException(LogicException::class);
+        $this->gatherAnalyserErrors([__DIR__ . '/data/contextKey_originalPattern.php']);
+    }
+
     public function testWithBadRegex(): void
     {
         $this->contextKeyOriginalPattern = '#\A[A-Za-z0-9-]+';

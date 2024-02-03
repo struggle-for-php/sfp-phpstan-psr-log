@@ -147,6 +147,10 @@ final class ContextKeyRule implements Rule
             return [];
         }
 
+        if ($this->contextKeyOriginalPattern === '') {
+            throw new LogicException('provided empty string as pattern');
+        }
+
         $errors = [];
         foreach ($constantArrays as $constantArray) {
             foreach ($constantArray->getKeyTypes() as $keyType) {
