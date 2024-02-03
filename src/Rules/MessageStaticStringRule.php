@@ -11,7 +11,6 @@ use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ObjectType;
 
-use function assert;
 use function count;
 use function in_array;
 use function sprintf;
@@ -44,6 +43,7 @@ final class MessageStaticStringRule implements Rule
             return []; // @codeCoverageIgnoreEnd
         }
 
+        /** @var Node\Arg[] $args */
         $args = $node->getArgs();
         if (count($args) === 0) {
             // @codeCoverageIgnoreStart
@@ -69,8 +69,6 @@ final class MessageStaticStringRule implements Rule
         }
 
         $message = $args[$messageArgumentNo];
-        /** @psalm-suppress RedundantConditionGivenDocblockType */
-        assert($message instanceof Node\Arg);
         $value   = $scope->getType($message->value);
         $strings = $value->getConstantStrings();
 

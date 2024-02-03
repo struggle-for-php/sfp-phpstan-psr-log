@@ -80,10 +80,6 @@ final class ContextKeyRule implements Rule
 
         $context = $args[$contextArgumentNo];
 
-        if (! $context instanceof Node\Arg) {
-            return [];
-        }
-
         $arrayType = $scope->getType($context->value);
 
         if ($arrayType->isIterableAtLeastOnce()->no()) {

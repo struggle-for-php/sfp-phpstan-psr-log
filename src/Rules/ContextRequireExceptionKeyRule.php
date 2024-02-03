@@ -14,7 +14,6 @@ use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\ObjectType;
 use Throwable;
 
-use function assert;
 use function count;
 use function in_array;
 use function sprintf;
@@ -66,6 +65,7 @@ final class ContextRequireExceptionKeyRule implements Rule
             return []; // @codeCoverageIgnoreEnd
         }
 
+        /** @var Node\Arg[] $args */
         $args = $node->getArgs();
         if (count($args) === 0) {
             // @codeCoverageIgnoreStart
@@ -113,8 +113,6 @@ final class ContextRequireExceptionKeyRule implements Rule
         }
 
         $context = $args[$contextArgumentNo];
-        /** @psalm-suppress RedundantConditionGivenDocblockType */
-        assert($context instanceof Node\Arg);
 
         if (self::contextDoesNotHaveExceptionKey($context, $scope)) {
             if (! $this->hasReportLogLevel($logLevels)) {
