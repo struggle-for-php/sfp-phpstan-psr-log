@@ -2,7 +2,7 @@
 /benchmark/ export-ignore
 /docs/ export-ignore
 /test/ export-ignore
-/.editorconfig
+/.editorconfig export-ignore
 /.gitattributes export-ignore
 /.gitignore export-ignore
 /.laminas-ci.json export-ignore
