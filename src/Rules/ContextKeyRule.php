@@ -10,11 +10,11 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
-use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\ObjectType;
 
 use function count;
 use function in_array;
+use function is_string;
 use function preg_match;
 use function sprintf;
 
@@ -113,18 +113,13 @@ final class ContextKeyRule implements Rule
         $errors = [];
         foreach ($constantArrays as $constantArray) {
             foreach ($constantArray->getKeyTypes() as $keyType) {
-                if (! $keyType instanceof ConstantStringType) {
-                    $errors[] = RuleErrorBuilder::message(
-                        sprintf(self::ERROR_NOT_NON_EMPTY_STRING, $methodName)
-                    )->identifier('sfp-psr-log.contextKeyNonEmptyString')->build();
+                if ($keyType->isNonEmptyString()->yes()) {
                     continue;
                 }
 
-                if ($keyType->getValue() === '') {
-                    $errors[] = RuleErrorBuilder::message(
-                        sprintf(self::ERROR_NOT_NON_EMPTY_STRING, $methodName)
-                    )->identifier('sfp-psr-log.contextKeyNonEmptyString')->build();
-                }
+                $errors[] = RuleErrorBuilder::message(
+                    sprintf(self::ERROR_NOT_NON_EMPTY_STRING, $methodName)
+                )->identifier('sfp-psr-log.contextKeyNonEmptyString')->build();
             }
         }
 
@@ -150,11 +145,13 @@ final class ContextKeyRule implements Rule
         $errors = [];
         foreach ($constantArrays as $constantArray) {
             foreach ($constantArray->getKeyTypes() as $keyType) {
-                if (! $keyType instanceof ConstantStringType) {
+                $key = $keyType->getValue();
+
+                if (! is_string($key)) {
                     continue;
                 }
 
-                $matched = preg_match($this->contextKeyOriginalPattern, $keyType->getValue(), $matches);
+                $matched = preg_match($this->contextKeyOriginalPattern, $key, $matches);
 
                 if ($matched === false) {
                     throw new LogicException(sprintf('provided regex pattern %s is invalid', $this->contextKeyOriginalPattern));
