@@ -57,6 +57,7 @@ final class ContextKeyRule implements Rule
             return []; // @codeCoverageIgnoreEnd
         }
 
+        /** @var Node\Arg[] $args */
         $args = $node->getArgs();
         if (count($args) === 0) {
             // @codeCoverageIgnoreStart
@@ -65,17 +66,20 @@ final class ContextKeyRule implements Rule
 
         $methodName = $node->name->toLowerString();
 
+        if (! in_array($methodName, LogLevelListInterface::LOGGER_LEVEL_METHODS)) {
+            // @codeCoverageIgnoreStart
+            return []; // @codeCoverageIgnoreEnd
+        }
+
         $contextArgumentNo = 1;
         if ($methodName === 'log') {
             if (count($args) < 3) {
-                // @codeCoverageIgnoreStart
-                return []; // @codeCoverageIgnoreEnd
+                return [];
             }
 
             $contextArgumentNo = 2;
-        } elseif (! in_array($methodName, LogLevelListInterface::LOGGER_LEVEL_METHODS)) {
-            // @codeCoverageIgnoreStart
-            return []; // @codeCoverageIgnoreEnd
+        } elseif (count($args) < 2) {
+            return [];
         }
 
         $context = $args[$contextArgumentNo];

@@ -30,4 +30,7 @@ function main(Psr\Log\LoggerInterface $logger, array $nonTypedArray, array $cons
     $ngArray = [1 => __LINE__];
     $logger->info('ok', $okArray);
     $logger->info('ng', $ngArray); //ng
+
+    // ok - without context - should be ignored
+    $logger->info('foo');
 }
