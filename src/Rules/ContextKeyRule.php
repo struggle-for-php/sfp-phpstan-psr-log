@@ -67,7 +67,7 @@ final class ContextKeyRule implements Rule
 
         $contextArgumentNo = 1;
         if ($methodName === 'log') {
-            if (count($args) < 2) {
+            if (count($args) < 3) {
                 // @codeCoverageIgnoreStart
                 return []; // @codeCoverageIgnoreEnd
             }
