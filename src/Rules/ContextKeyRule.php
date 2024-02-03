@@ -143,7 +143,7 @@ final class ContextKeyRule implements Rule
      */
     private function originalPatternMatches(array $constantArrays, string $methodName): array
     {
-        if (! $this->contextKeyOriginalPattern) {
+        if ($this->contextKeyOriginalPattern === null) {
             return [];
         }
 
