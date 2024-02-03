@@ -9,7 +9,6 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
-use PHPStan\Type\ArrayType;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\ObjectType;
 use Throwable;
@@ -162,7 +161,7 @@ final class ContextRequireExceptionKeyRule implements Rule
     private static function contextDoesNotHaveExceptionKey(Node\Arg $context, Scope $scope): bool
     {
         $type = $scope->getType($context->value);
-        if ($type instanceof ArrayType) {
+        if ($type->isArray()->yes()) {
             if ($type->hasOffsetValueType(new ConstantStringType('exception'))->yes()) {
                 return false;
             }
