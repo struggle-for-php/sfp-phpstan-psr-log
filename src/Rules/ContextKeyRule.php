@@ -10,11 +10,11 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
-use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\ObjectType;
 
 use function count;
 use function in_array;
+use function is_string;
 use function preg_match;
 use function sprintf;
 
@@ -57,6 +57,7 @@ final class ContextKeyRule implements Rule
             return []; // @codeCoverageIgnoreEnd
         }
 
+        /** @var Node\Arg[] $args */
         $args = $node->getArgs();
         if (count($args) === 0) {
             // @codeCoverageIgnoreStart
@@ -65,24 +66,23 @@ final class ContextKeyRule implements Rule
 
         $methodName = $node->name->toLowerString();
 
-        $contextArgumentNo = 1;
-        if ($methodName === 'log') {
-            if (count($args) < 2) {
-                // @codeCoverageIgnoreStart
-                return []; // @codeCoverageIgnoreEnd
-            }
-
-            $contextArgumentNo = 2;
-        } elseif (! in_array($methodName, LogLevelListInterface::LOGGER_LEVEL_METHODS)) {
+        if ($methodName !== 'log' && ! in_array($methodName, LogLevelListInterface::LOGGER_LEVEL_METHODS)) {
             // @codeCoverageIgnoreStart
             return []; // @codeCoverageIgnoreEnd
         }
 
-        $context = $args[$contextArgumentNo];
+        $contextArgumentNo = 1;
+        if ($methodName === 'log') {
+            if (count($args) < 3) {
+                return [];
+            }
 
-        if (! $context instanceof Node\Arg) {
+            $contextArgumentNo = 2;
+        } elseif (count($args) < 2) {
             return [];
         }
+
+        $context = $args[$contextArgumentNo];
 
         $arrayType = $scope->getType($context->value);
 
@@ -117,18 +117,13 @@ final class ContextKeyRule implements Rule
         $errors = [];
         foreach ($constantArrays as $constantArray) {
             foreach ($constantArray->getKeyTypes() as $keyType) {
-                if (! $keyType instanceof ConstantStringType) {
-                    $errors[] = RuleErrorBuilder::message(
-                        sprintf(self::ERROR_NOT_NON_EMPTY_STRING, $methodName)
-                    )->identifier('sfp-psr-log.contextKeyNonEmptyString')->build();
+                if ($keyType->isNonEmptyString()->yes()) {
                     continue;
                 }
 
-                if ($keyType->getValue() === '') {
-                    $errors[] = RuleErrorBuilder::message(
-                        sprintf(self::ERROR_NOT_NON_EMPTY_STRING, $methodName)
-                    )->identifier('sfp-psr-log.contextKeyNonEmptyString')->build();
-                }
+                $errors[] = RuleErrorBuilder::message(
+                    sprintf(self::ERROR_NOT_NON_EMPTY_STRING, $methodName)
+                )->identifier('sfp-psr-log.contextKeyNonEmptyString')->build();
             }
         }
 
@@ -154,11 +149,13 @@ final class ContextKeyRule implements Rule
         $errors = [];
         foreach ($constantArrays as $constantArray) {
             foreach ($constantArray->getKeyTypes() as $keyType) {
-                if (! $keyType instanceof ConstantStringType) {
+                $key = $keyType->getValue();
+
+                if (! is_string($key)) {
                     continue;
                 }
 
-                $matched = preg_match($this->contextKeyOriginalPattern, $keyType->getValue(), $matches);
+                $matched = preg_match($this->contextKeyOriginalPattern, $key, $matches);
 
                 if ($matched === false) {
                     throw new LogicException(sprintf('provided regex pattern %s is invalid', $this->contextKeyOriginalPattern));

@@ -12,7 +12,6 @@ use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ObjectType;
 
-use function assert;
 use function count;
 use function implode;
 use function in_array;
@@ -49,6 +48,7 @@ final class PlaceholderCharactersRule implements Rule
             return []; // @codeCoverageIgnoreEnd
         }
 
+        /** @var Node\Arg[] $args */
         $args = $node->getArgs();
         if (count($args) === 0) {
             // @codeCoverageIgnoreStart
@@ -74,8 +74,6 @@ final class PlaceholderCharactersRule implements Rule
         }
 
         $message = $args[$messageArgumentNo];
-        /** @psalm-suppress RedundantConditionGivenDocblockType */
-        assert($message instanceof Node\Arg);
 
         $strings = $scope->getType($message->value)->getConstantStrings();
 

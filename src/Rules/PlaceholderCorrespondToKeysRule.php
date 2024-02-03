@@ -9,7 +9,6 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
-use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 
@@ -132,9 +131,10 @@ final class PlaceholderCorrespondToKeysRule implements Rule
             $contextKeys = [];
             $checkBraces = $braces;
             foreach ($constantArray->getKeyTypes() as $keyType) {
-                if (! $keyType instanceof ConstantStringType) {
+                if ($keyType->isString()->no()) {
                     continue;
                 }
+
                 $contextKeys[] = $keyType->getValue();
             }
 
