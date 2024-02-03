@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SfpTest\PHPStan\Psr\Log\Rules;
 
+use LogicException;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 use Sfp\PHPStan\Psr\Log\Rules\ContextKeyRule;
@@ -57,41 +58,17 @@ final class ContextKeyRuleTest extends RuleTestCase
         ]);
     }
 
-    public function testWithPattern(): void
+    public function testEmptyStringPattern(): void
     {
-        $this->contextKeyOriginalPattern = '#\A[A-Za-z0-9-]+';
-        $this->analyse([__DIR__ . '/data/contextKey_originalPattern.php'], [
-            [
-                'Your contextKeyOriginalPattern #\A[A-Za-z0-9-]+ seems not valid regex. Failed.',
-                8,
-            ],
-            [
-                'Your contextKeyOriginalPattern #\A[A-Za-z0-9-]+ seems not valid regex. Failed.',
-                9,
-            ],
-            [
-                'Your contextKeyOriginalPattern #\A[A-Za-z0-9-]+ seems not valid regex. Failed.',
-                14,
-            ],
-        ]);
+        $this->contextKeyOriginalPattern = '';
+        $this->expectException(LogicException::class);
+        $this->gatherAnalyserErrors([__DIR__ . '/data/contextKey_originalPattern.php']);
     }
 
     public function testWithBadRegex(): void
     {
         $this->contextKeyOriginalPattern = '#\A[A-Za-z0-9-]+';
-        $this->analyse([__DIR__ . '/data/contextKey_originalPattern.php'], [
-            [
-                'Your contextKeyOriginalPattern #\A[A-Za-z0-9-]+ seems not valid regex. Failed.',
-                8,
-            ],
-            [
-                'Your contextKeyOriginalPattern #\A[A-Za-z0-9-]+ seems not valid regex. Failed.',
-                9,
-            ],
-            [
-                'Your contextKeyOriginalPattern #\A[A-Za-z0-9-]+ seems not valid regex. Failed.',
-                14,
-            ],
-        ]);
+        $this->expectException(LogicException::class);
+        $this->gatherAnalyserErrors([__DIR__ . '/data/contextKey_originalPattern.php']);
     }
 }

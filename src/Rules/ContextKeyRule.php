@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sfp\PHPStan\Psr\Log\Rules;
 
+use LogicException;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
@@ -24,8 +25,6 @@ final class ContextKeyRule implements Rule
 {
     // eg, DNumber
     private const ERROR_NOT_NON_EMPTY_STRING = 'Parameter $context of logger method Psr\Log\LoggerInterface::%s(), key should be non empty string.';
-
-    private const ERROR_ORIGINAL_PATTERN_BAD = 'Your contextKeyOriginalPattern %s seems not valid regex. Failed.';
 
     private const ERROR_NOT_MATCH_ORIGINAL_PATTERN = 'Parameter $context of logger method Psr\Log\LoggerInterface::%s(), key should be match %s.';
 
@@ -144,8 +143,12 @@ final class ContextKeyRule implements Rule
      */
     private function originalPatternMatches(array $constantArrays, string $methodName): array
     {
-        if (! $this->contextKeyOriginalPattern) {
+        if ($this->contextKeyOriginalPattern === null) {
             return [];
+        }
+
+        if ($this->contextKeyOriginalPattern === '') {
+            throw new LogicException('provided empty string as pattern');
         }
 
         $errors = [];
@@ -158,9 +161,7 @@ final class ContextKeyRule implements Rule
                 $matched = preg_match($this->contextKeyOriginalPattern, $keyType->getValue(), $matches);
 
                 if ($matched === false) {
-                    $errors[] = RuleErrorBuilder::message(
-                        sprintf(self::ERROR_ORIGINAL_PATTERN_BAD, $this->contextKeyOriginalPattern)
-                    )->identifier('sfp-psr-log.contextKeyOriginalPatternBadRegex')->build();
+                    throw new LogicException(sprintf('provided regex pattern %s is invalid', $this->contextKeyOriginalPattern));
                 }
 
                 if ($matched === 0) {
