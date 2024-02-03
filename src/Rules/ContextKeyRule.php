@@ -66,7 +66,7 @@ final class ContextKeyRule implements Rule
 
         $methodName = $node->name->toLowerString();
 
-        if (! in_array($methodName, LogLevelListInterface::LOGGER_LEVEL_METHODS)) {
+        if ($methodName !== 'log' && ! in_array($methodName, LogLevelListInterface::LOGGER_LEVEL_METHODS)) {
             // @codeCoverageIgnoreStart
             return []; // @codeCoverageIgnoreEnd
         }
