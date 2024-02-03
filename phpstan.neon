@@ -7,5 +7,6 @@ parameters:
 		- test/Rules/data/*
 
 includes:
+	- phar://phpstan.phar/conf/bleedingEdge.neon
 	- vendor/phpstan/phpstan-phpunit/extension.neon
 	- vendor/phpstan/phpstan-phpunit/rules.neon
