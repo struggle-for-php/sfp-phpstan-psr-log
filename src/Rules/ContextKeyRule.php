@@ -152,7 +152,9 @@ final class ContextKeyRule implements Rule
                 $key = $keyType->getValue();
 
                 if (! is_string($key)) {
-                    continue;
+                    // keyType be string is checked by keysAreNonEmptyString()
+                    // @codeCoverageIgnoreStart
+                    continue; // @codeCoverageIgnoreEnd
                 }
 
                 $matched = preg_match($this->contextKeyOriginalPattern, $key, $matches);
