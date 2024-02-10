@@ -63,7 +63,7 @@ final class MessageStaticStringRule implements Rule
             }
 
             $messageArgumentNo = 1;
-        } elseif (! in_array($methodName, LogLevelListInterface::LOGGER_LEVEL_METHODS)) {
+        } elseif (! in_array($methodName, LogLevelListInterface::LOGGER_LEVEL_METHODS, true)) {
             // @codeCoverageIgnoreStart
             return []; // @codeCoverageIgnoreEnd
         }
