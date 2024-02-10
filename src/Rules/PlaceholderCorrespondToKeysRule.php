@@ -66,7 +66,7 @@ final class PlaceholderCorrespondToKeysRule implements Rule
             }
 
             $contextArgumentNo = 2;
-        } elseif (! in_array($methodName, LogLevelListInterface::LOGGER_LEVEL_METHODS)) {
+        } elseif (! in_array($methodName, LogLevelListInterface::LOGGER_LEVEL_METHODS, true)) {
             // @codeCoverageIgnoreStart
             return []; // @codeCoverageIgnoreEnd
         }

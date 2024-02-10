@@ -93,7 +93,7 @@ final class ContextRequireExceptionKeyRule implements Rule
             }
 
             $contextArgumentNo = 2;
-        } elseif (! in_array($methodName, LogLevelListInterface::LOGGER_LEVEL_METHODS)) {
+        } elseif (! in_array($methodName, LogLevelListInterface::LOGGER_LEVEL_METHODS, true)) {
             return [];
         }
 
