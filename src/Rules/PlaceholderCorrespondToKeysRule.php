@@ -99,7 +99,7 @@ final class PlaceholderCorrespondToKeysRule implements Rule
             $context = $args[$contextArgumentNo];
 
             $doesNohHaveError = self::contextDoesNotHavePlaceholderKey($scope->getType($context->value), $methodName, $matches[0], $matches[1]);
-            if ($doesNohHaveError) {
+            if ($doesNohHaveError instanceof RuleError) {
                 $errors[] = $doesNohHaveError;
             }
         }

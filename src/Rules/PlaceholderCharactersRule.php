@@ -86,13 +86,13 @@ final class PlaceholderCharactersRule implements Rule
             $message = $constantStringType->getValue();
 
             $doubleBraceError = self::checkDoubleBrace($message, $methodName);
-            if ($doubleBraceError) {
+            if ($doubleBraceError instanceof RuleError) {
                 $errors[] = $doubleBraceError;
                 continue;
             }
 
             $invalidCharError = self::checkInvalidChar($message, $methodName);
-            if ($invalidCharError) {
+            if ($invalidCharError instanceof RuleError) {
                 $errors[] = $invalidCharError;
             }
         }
