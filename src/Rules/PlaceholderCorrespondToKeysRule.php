@@ -98,9 +98,9 @@ final class PlaceholderCorrespondToKeysRule implements Rule
 
             $context = $args[$contextArgumentNo];
 
-            $doesNohHaveError = self::contextDoesNotHavePlaceholderKey($scope->getType($context->value), $methodName, $matches[0], $matches[1]);
-            if ($doesNohHaveError instanceof RuleError) {
-                $errors[] = $doesNohHaveError;
+            $contextDoesNotHaveError = self::contextDoesNotHavePlaceholderKey($scope->getType($context->value), $methodName, $matches[0], $matches[1]);
+            if ($contextDoesNotHaveError instanceof RuleError) {
+                $errors[] = $contextDoesNotHaveError;
             }
         }
 
@@ -120,12 +120,6 @@ final class PlaceholderCorrespondToKeysRule implements Rule
         }
 
         $constantArrays = $arrayType->getConstantArrays();
-
-        if (count($constantArrays) === 0) {
-            return RuleErrorBuilder::message(
-                self::ERROR_EMPTY_CONTEXT
-            )->identifier('sfp-psr-log.placeholderCorrespondToKeysMissedKey')->build();
-        }
 
         foreach ($constantArrays as $constantArray) {
             $contextKeys = [];
