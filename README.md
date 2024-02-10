@@ -11,10 +11,10 @@
 * [PSR-3 Meta Document](https://www.php-fig.org/psr/psr-3/meta/)
 
 > [!IMPORTANT]
-> It is planned to change default rule settings.
+> Since `0.20.0`, changed default rule settings.
 
-* MessageStaticStringRule would be enabled by default.
-* ContextRequireExceptionKeyRule would be disabled by default.
+* MessageStaticStringRule is enabled by default.
+* ContextRequireExceptionKeyRule is disabled by default.
 * [Recommendation] write these parameters to your project's `phpstan.neon`.
 
 ```neon
