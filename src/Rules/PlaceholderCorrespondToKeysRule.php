@@ -126,7 +126,7 @@ final class PlaceholderCorrespondToKeysRule implements Rule
             $checkBraces = $braces;
             foreach ($constantArray->getKeyTypes() as $keyType) {
                 if ($keyType->isString()->no()) {
-                    // keyType is checked by ContextKeyRule
+                    // keyType be string checked by ContextKeyRule
                     // @codeCoverageIgnoreStart
                     continue; // @codeCoverageIgnoreEnd
                 }

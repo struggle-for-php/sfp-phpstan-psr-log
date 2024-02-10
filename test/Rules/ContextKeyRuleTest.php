@@ -58,6 +58,17 @@ final class ContextKeyRuleTest extends RuleTestCase
         ]);
     }
 
+    public function testOriginalPattern(): void
+    {
+        $this->contextKeyOriginalPattern = '#\A[A-Za-z0-9-]+\z#';
+        $this->analyse([__DIR__ . '/data/contextKey_originalPattern.php'], [
+            [
+                'Parameter $context of logger method Psr\Log\LoggerInterface::info(), key should be match #\A[A-Za-z0-9-]+\z#.',
+                14,
+            ],
+        ]);
+    }
+
     public function testEmptyStringPattern(): void
     {
         $this->contextKeyOriginalPattern = '';
