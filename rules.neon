@@ -8,8 +8,8 @@ parametersSchema:
 
 parameters:
 	sfpPsrLog:
-		enableContextRequireExceptionKeyRule: true
-		enableMessageStaticStringRule: false
+		enableContextRequireExceptionKeyRule: false
+		enableMessageStaticStringRule: true
 		reportContextExceptionLogLevel: 'debug'
 		contextKeyOriginalPattern: null
 
