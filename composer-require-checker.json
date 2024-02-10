@@ -12,6 +12,7 @@
     "PhpParser\\Node\\Scalar\\String_",
     "PHPStan\\Analyser\\Scope",
     "PHPStan\\Rules\\Rule",
+    "PHPStan\\Rules\\RuleError",
     "PHPStan\\Rules\\RuleErrorBuilder",
     "PHPStan\\Type\\ArrayType",
     "PHPStan\\Type\\Constant\\ConstantStringType",
