@@ -40,12 +40,12 @@ includes:
     - vendor/struggle-for-php/sfp-phpstan-psr-log/extension.neon
 ```
 
-and, set parameters `enableLogLevelMethodRule` and `enableContextTypeRule`
+and, set parameters `enableLogMethodLevelRule` and `enableContextTypeRule`
 
 ```neon
 parameters:
     sfpPsrLog:
-        enableLogLevelMethodRule: true # default:false
+        enableLogMethodLevelRule: true # default:false
         enableContextTypeRule: true # default:false
 ```
 

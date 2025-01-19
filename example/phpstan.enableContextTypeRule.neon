@@ -13,7 +13,7 @@ parameters:
 	paths:
 		- %currentWorkingDirectory%/example/src
 	sfpPsrLog:
-		enableLogLevelMethodRule: true
+		enableLogMethodLevelRule: true
 		enableContextTypeRule: true
 
 # services:
