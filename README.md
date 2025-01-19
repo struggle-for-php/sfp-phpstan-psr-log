@@ -54,8 +54,8 @@ parameters:
 Currently, this extension depends on our psr/log stub to serve strictness.
 
 * eg.
-  * `@param LogLevel::*  $level` at `log()` method
-  * `@param array{exception?: \Throwable} $context`
+    * `@param LogLevel::*  $level` at `log()` method
+    * `@param array{exception?: \Throwable} $context`
 
 See [psr/log stub](https://github.com/struggle-for-php/sfp-stubs-psr-log) repository page to get more detail.
 
@@ -136,7 +136,7 @@ $logger->info('user {user_id} gets an error {error} .', ['user_id' => $user_id])
 | sfpPsrLog.contextKeyOriginalPattern |
 
 * reports when context key is not matched you defined pattern.
-  * if `contextKeyOriginalPattern` parameter is not set, this check would be ignored.
+    * if `contextKeyOriginalPattern` parameter is not set, this check would be ignored.
 
 #### Configuration
 
