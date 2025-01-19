@@ -1,24 +1,45 @@
 {
   "additional_checks": [
     {
-      "name": "phpstan",
+      "name": "phpstan-lowest",
       "job": {
         "php": "@lowest",
         "command": "./vendor/bin/phpstan analyse --no-progress"
       }
     },
     {
-      "name": "psalm",
+      "name": "phpstan-latest",
       "job": {
         "php": "@latest",
+        "command": "./vendor/bin/phpstan analyse --no-progress"
+      }
+    },
+    {
+      "name": "psalm",
+      "job": {
+        "php": "8.3",
         "command": "./vendor/bin/psalm --shepherd --stats --output-format=github --no-cache -c psalm5.xml"
       }
     },
     {
-      "name": "example",
+      "name": "example-default",
       "job": {
         "php": "@latest",
-        "command": "diff <(./vendor/bin/phpstan analyse -c ./example/phpstan.neon --no-progress --error-format=junit | xmllint --format -) ./test/example.output"
+        "command": "diff <(./vendor/bin/phpstan analyse -c ./example/phpstan.default.neon --no-progress --error-format=junit | xmllint --format -) ./test/example.default.output"
+      }
+    },
+    {
+      "name": "example-recommend",
+      "job": {
+        "php": "@latest",
+        "command": "diff <(./vendor/bin/phpstan analyse -c ./example/phpstan.recommend.neon --no-progress --error-format=junit | xmllint --format -) ./test/example.recommend.output"
+      }
+    },
+    {
+      "name": "example-enableContextTypeRule",
+      "job": {
+        "php": "@latest",
+        "command": "diff <(./vendor/bin/phpstan analyse -c ./example/phpstan.enableContextTypeRule.neon --no-progress --error-format=junit | xmllint --format -) ./test/example.enableContextTypeRule.output"
       }
     }
   ],

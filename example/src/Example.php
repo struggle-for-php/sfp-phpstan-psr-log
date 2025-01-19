@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace src;
 
 use Psr\Log\LoggerInterface;
-use Throwable;
 
 use function sprintf;
 
@@ -19,8 +18,10 @@ class Example
         $this->logger = $logger;
     }
 
-    public function exceptionKeyOnlyAllowThrowable(Throwable $throwable): void
-    {
+    public function exceptionKeyOnlyAllowThrowable(
+		// phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
+        \Throwable $throwable
+    ): void {
         // invalid
         $this->logger->notice('foo', ['exception' => $throwable->getMessage()]);
         $this->logger->log('panic', 'foo', ['exception' => $throwable]);
@@ -29,17 +30,21 @@ class Example
         $this->logger->log('notice', 'foo', ['exception' => $throwable]);
     }
 
-    public function mustIncludesCurrentScopeThrowableIntoContext(Throwable $throwable): void
-    {
+    public function mustIncludesCurrentScopeThrowableIntoContext(
+		// phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
+        \Throwable $throwable
+    ): void {
         // Parameter $context of logger method Psr\Log\LoggerInterface::info() requires 'exception' key. Current scope has Throwable variable - $throwable
         $this->logger->notice('foo');
 
         $this->logger->notice('foo', ['user' => 1]);
     }
 
-    public function reportContextExceptionLogLevel(Throwable $throwable): void
-    {
-        // phpstan.neon sfpPsrLog.reportContextExceptionLogLevel is 'notice'
+    public function reportContextExceptionLogLevel(
+		// phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
+        \Throwable $throwable
+    ): void {
+        // phpstan.enableContextTypeRule.neon sfpPsrLog.reportContextExceptionLogLevel is 'notice'
         // so bellow would not report.
         $this->logger->debug('foo');
     }

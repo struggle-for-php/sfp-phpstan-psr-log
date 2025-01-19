@@ -3,7 +3,9 @@ parametersSchema:
 		enableContextRequireExceptionKeyRule: bool(),
 		enableMessageStaticStringRule: bool(),
 		reportContextExceptionLogLevel: schema(string(), nullable()),
-		contextKeyOriginalPattern: schema(string(), nullable())
+		contextKeyOriginalPattern: schema(string(), nullable()),
+		enableLogLevelMethodRule: bool()
+		enableContextTypeRule: bool()
 	])
 
 parameters:
@@ -12,12 +14,18 @@ parameters:
 		enableMessageStaticStringRule: true
 		reportContextExceptionLogLevel: 'debug'
 		contextKeyOriginalPattern: null
+		enableLogLevelMethodRule: false
+		enableContextTypeRule: false
 
 conditionalTags:
 	Sfp\PHPStan\Psr\Log\Rules\ContextRequireExceptionKeyRule:
 		phpstan.rules.rule: %sfpPsrLog.enableContextRequireExceptionKeyRule%
 	Sfp\PHPStan\Psr\Log\Rules\MessageStaticStringRule:
 		phpstan.rules.rule: %sfpPsrLog.enableMessageStaticStringRule%
+	Sfp\PHPStan\Psr\Log\Rules\LogMethodLevelRule:
+		phpstan.rules.rule: %sfpPsrLog.enableLogLevelMethodRule%
+	Sfp\PHPStan\Psr\Log\Rules\ContextTypeRule:
+		phpstan.rules.rule: %sfpPsrLog.enableContextTypeRule%
 
 rules:
 	- Sfp\PHPStan\Psr\Log\Rules\PlaceholderCorrespondToKeysRule
@@ -30,9 +38,33 @@ services:
 			contextKeyOriginalPattern: %sfpPsrLog.contextKeyOriginalPattern%
 		tags:
 			- phpstan.rules.rule
+
 	-
 		class: Sfp\PHPStan\Psr\Log\Rules\ContextRequireExceptionKeyRule
 		arguments:
 			reportContextExceptionLogLevel: %sfpPsrLog.reportContextExceptionLogLevel%
 	-
 		class: Sfp\PHPStan\Psr\Log\Rules\MessageStaticStringRule
+
+	-
+		class: Sfp\PHPStan\Psr\Log\Rules\LogMethodLevelRule
+
+	-
+		class: Sfp\PHPStan\Psr\Log\Rules\ContextTypeRule
+		arguments:
+			contextTypeProvider: @sfpPsrLogContextTypeProvider
+
+	sfpPsrLogContextTypeProvider :
+		class: Sfp\PHPStan\Psr\Log\TypeProvider\Psr3ContextTypeProvider
+		arguments:
+			exceptionClass: '\Throwable'
+
+	# # BigQuery
+	#
+	# sfpPsrLogContextTypeProvider :
+	# 	class: Sfp\PHPStan\Psr\Log\TypeProvider\BigQueryContextTypeProvider
+	# 	arguments:
+	# 		schemaFile:
+
+	# -
+	# 	class: Sfp\PHPStan\Psr\Log\TypeMapping\BigQuery\GenericTableFieldSchemaJsonPayloadTypeMapper
