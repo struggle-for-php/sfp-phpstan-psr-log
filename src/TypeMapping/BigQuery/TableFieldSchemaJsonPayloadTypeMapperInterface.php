@@ -9,6 +9,7 @@ use PHPStan\Type\Constant\ConstantArrayType;
 /**
  * @see https://cloud.google.com/bigquery/docs/reference/rest/v2/tables?hl=en#TableFieldSchema
  *
+ * @api
  * @phpstan-type non_record_field_type 'STRING'|'BYTES'|'INTEGER'|'INT64'|'FLOAT'|'FLOAT64'|'BOOLEAN'|'BOOL'|'TIMESTAMP'|'DATE'|'TIME'|'DATETIME'|'GEOGRAPHY'|'NUMERIC'|'BIGNUMERIC'|'JSON'|'RANGE'
  * @phpstan-type field_type non_record_field_type|'RECORD'|'STRUCT'
  * @phpstan-type schema_item_minimal array{name: string, type: field_type}
