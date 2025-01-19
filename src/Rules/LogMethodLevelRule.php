@@ -22,7 +22,7 @@ use function sprintf;
 final class LogMethodLevelRule implements Rule
 {
     private const ERROR_INVALID_LEVEL = <<<'MESSAGE'
-Parameter #1 $level of method Psr\Log\LoggerInterface::log() expects 'alert'|'critical'|'debug'|'emergency'|'error'|'info'|'notice'|'warning', '%s' given.
+Parameter #1 $level of method Psr\Log\LoggerInterface::log() expects 'alert'|'critical'|'debug'|'emergency'|'error'|'info'|'notice'|'warning', %s given.
 MESSAGE;
 
     public function getNodeType(): string
@@ -67,12 +67,9 @@ MESSAGE;
         }
 
         if (count($logLevels) === 0) {
-            // cant find logLevels
             return [
                 RuleErrorBuilder::message(
-                    <<<'MESSAGE'
-Parameter #1 $level of method Psr\Log\LoggerInterface::log() expects 'alert'|'critical'|'debug'|'emergency'|'error'|'info'|'notice'|'warning'.
-MESSAGE
+                    sprintf(self::ERROR_INVALID_LEVEL, $logLevelType->toPhpDocNode()->__toString())
                 )->identifier('sfpPsrLog.logMethodLevel')->build(),
             ];
         }
@@ -90,7 +87,7 @@ MESSAGE
 
         return [
             RuleErrorBuilder::message(
-                sprintf(self::ERROR_INVALID_LEVEL, implode(', ', $invalidLogLevels))
+                sprintf(self::ERROR_INVALID_LEVEL, $logLevelType->toPhpDocNode()->__toString())
             )->identifier('sfpPsrLog.logMethodLevel')->build(),
         ];
     }

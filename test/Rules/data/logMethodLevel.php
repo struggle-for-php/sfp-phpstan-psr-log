@@ -23,4 +23,5 @@ function main(
     $logger->log('panic', 'message');
     $logger->log($unknownLevel, 'message');
     $logger->log($invalidLevels, 'message');
+    $logger->log(100, 'message');
 }
