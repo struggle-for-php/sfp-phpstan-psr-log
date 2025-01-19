@@ -1,0 +1,218 @@
+[
+  {
+    "mode": "NULLABLE",
+    "name": "logName",
+    "type": "STRING"
+  },
+  {
+    "fields": [
+      {
+        "name": "first_name",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "product",
+        "type": "RECORD",
+        "mode": "NULLABLE",
+        "fields": [
+          {
+            "name": "id",
+            "type": "STRING",
+            "mode": "NULLABLE"
+          }
+        ]
+      },
+      {
+        "name": "cancellation_reason",
+        "type": "FLOAT",
+        "mode": "NULLABLE"
+      },
+      {
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "timezone",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "timezone_type",
+            "type": "FLOAT"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "date",
+            "type": "STRING"
+          }
+        ],
+        "mode": "NULLABLE",
+        "name": "cancellation_date",
+        "type": "RECORD"
+      },
+      {
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "code",
+            "type": "FLOAT"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "file",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "class",
+            "type": "STRING"
+          },
+          {
+            "mode": "REPEATED",
+            "name": "trace",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "message",
+            "type": "STRING"
+          },
+          {
+            "fields": [
+              {
+                "fields": [
+                  {
+                    "mode": "NULLABLE",
+                    "name": "message",
+                    "type": "STRING"
+                  },
+                  {
+                    "mode": "NULLABLE",
+                    "name": "file",
+                    "type": "STRING"
+                  },
+                  {
+                    "mode": "REPEATED",
+                    "name": "trace",
+                    "type": "STRING"
+                  },
+                  {
+                    "mode": "NULLABLE",
+                    "name": "class",
+                    "type": "STRING"
+                  },
+                  {
+                    "mode": "NULLABLE",
+                    "name": "code",
+                    "type": "FLOAT"
+                  },
+                  {
+                    "fields": [
+                      {
+                        "mode": "NULLABLE",
+                        "name": "code",
+                        "type": "FLOAT"
+                      },
+                      {
+                        "mode": "NULLABLE",
+                        "name": "file",
+                        "type": "STRING"
+                      },
+                      {
+                        "mode": "NULLABLE",
+                        "name": "message",
+                        "type": "STRING"
+                      },
+                      {
+                        "mode": "REPEATED",
+                        "name": "trace",
+                        "type": "STRING"
+                      },
+                      {
+                        "mode": "NULLABLE",
+                        "name": "class",
+                        "type": "STRING"
+                      },
+                      {
+                        "fields": [
+                          {
+                            "mode": "NULLABLE",
+                            "name": "class",
+                            "type": "STRING"
+                          },
+                          {
+                            "mode": "NULLABLE",
+                            "name": "file",
+                            "type": "STRING"
+                          },
+                          {
+                            "mode": "NULLABLE",
+                            "name": "message",
+                            "type": "STRING"
+                          },
+                          {
+                            "mode": "REPEATED",
+                            "name": "trace",
+                            "type": "STRING"
+                          },
+                          {
+                            "mode": "NULLABLE",
+                            "name": "code",
+                            "type": "FLOAT"
+                          }
+                        ],
+                        "mode": "NULLABLE",
+                        "name": "previous",
+                        "type": "RECORD"
+                      }
+                    ],
+                    "mode": "NULLABLE",
+                    "name": "previous",
+                    "type": "RECORD"
+                  }
+                ],
+                "mode": "NULLABLE",
+                "name": "previous",
+                "type": "RECORD"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "class",
+                "type": "STRING"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "code",
+                "type": "FLOAT"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "message",
+                "type": "STRING"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "file",
+                "type": "STRING"
+              },
+              {
+                "mode": "REPEATED",
+                "name": "trace",
+                "type": "STRING"
+              }
+            ],
+            "mode": "NULLABLE",
+            "name": "previous",
+            "type": "RECORD"
+          }
+        ],
+        "mode": "NULLABLE",
+        "name": "exception",
+        "type": "RECORD"
+      }
+    ],
+    "mode": "NULLABLE",
+    "name": "jsonPayload",
+    "type": "RECORD"
+  }
+]

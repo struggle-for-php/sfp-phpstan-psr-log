@@ -1,0 +1,49 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+use PHPStan\DependencyInjection\ContainerFactory;
+use Sfp\PHPStan\Psr\Log\TypeMapping\BigQuery\GenericTableFieldSchemaJsonPayloadTypeMapper;
+use Sfp\PHPStan\Psr\Log\TypeProvider\BigQueryContextTypeProvider;
+
+/**
+ * borrowed from doctrine/sql-formatter 's sql-formatter
+ */
+
+if ('cli' !== php_sapi_name()) {
+    echo "<p>Run this PHP script from the command line to see mapping BigQuery schema to PHPStan Type.  It supports Unix pipes or command line argument style.</p>";
+    exit;
+}
+
+if (isset($argv[1])) {
+    $schema = $argv[1];
+} else {
+    $schema = stream_get_contents(fopen('php://stdin', 'r'));
+}
+
+$autoloadFiles = [
+    2 => __DIR__ . '/../vendor/autoload.php',
+    3 => __DIR__ . '/../../../autoload.php',
+];
+
+$rootDir = false;
+foreach ($autoloadFiles as $deps => $autoloadFile) {
+    if (file_exists($autoloadFile)) {
+		$rootDir = dirname($autoloadFile, $deps);
+        require_once $autoloadFile;
+        break;
+    }
+}
+
+// bootstrap ReflectionProvider
+$containerFactory = new ContainerFactory($rootDir);
+$containerFactory->create(sys_get_temp_dir() . DIRECTORY_SEPARATOR . __FILE__, [], []);
+
+$converter = new GenericTableFieldSchemaJsonPayloadTypeMapper();
+$provider  = new BigQueryContextTypeProvider(
+    'data://,' . $schema,
+    $converter
+);
+
+echo $provider->getType()->toPhpDocNode();
