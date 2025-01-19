@@ -12,7 +12,6 @@ use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ObjectType;
 
 use function count;
-use function implode;
 use function in_array;
 use function sprintf;
 

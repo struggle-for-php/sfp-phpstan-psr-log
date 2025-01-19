@@ -51,20 +51,23 @@ services:
 
 	-
 		class: Sfp\PHPStan\Psr\Log\Rules\ContextTypeRule
-		arguments:
-			contextTypeProvider: @sfpPsrLogContextTypeProvider
 
-	sfpPsrLogContextTypeProvider :
-		class: Sfp\PHPStan\Psr\Log\TypeProvider\Psr3ContextTypeProvider
-		arguments:
-			exceptionClass: '\Throwable'
+	#	-
+	#		class: Sfp\PHPStan\Psr\Log\Rules\ContextTypeRule
+	#		arguments:
+	#			contextTypeProvider: @psrLogContextTypeProvider
 
-	# # BigQuery
+
+	#	psrLogContextTypeProvider :
+	#		class: Sfp\PHPStan\Psr\Log\TypeProvider\Psr3ContextTypeProvider
+	#		arguments:
+	#			exceptionClass: '\Exception'
+
+	# BigQuery
 	#
-	# sfpPsrLogContextTypeProvider :
+	# psrLogContextTypeProvider :
 	# 	class: Sfp\PHPStan\Psr\Log\TypeProvider\BigQueryContextTypeProvider
 	# 	arguments:
 	# 		schemaFile:
-
 	# -
 	# 	class: Sfp\PHPStan\Psr\Log\TypeMapping\BigQuery\GenericTableFieldSchemaJsonPayloadTypeMapper
