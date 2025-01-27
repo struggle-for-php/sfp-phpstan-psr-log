@@ -25,6 +25,7 @@
     "PHPStan\\Type\\FloatType",
     "PHPStan\\Type\\IntegerType",
     "PHPStan\\Type\\StringType",
-    "PHPStan\\Type\\TypeCombinator"
+    "PHPStan\\Type\\TypeCombinator",
+    "PHPStan\\Reflection\\ClassReflection"
   ]
 }

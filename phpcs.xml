@@ -3,26 +3,28 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="./vendor/squizlabs/php_codesniffer/phpcs.xsd">
 
-    <arg name="basepath" value="."/>
-    <arg name="cache" value=".phpcs-cache"/>
-    <arg name="colors"/>
-    <arg name="extensions" value="php"/>
-    <arg name="parallel" value="80"/>
+	<arg name="basepath" value="."/>
+	<arg name="cache" value=".phpcs-cache"/>
+	<arg name="colors"/>
+	<arg name="extensions" value="php"/>
+	<arg name="parallel" value="80"/>
 
-    <!-- Show progress -->
-    <arg value="p"/>
+	<!-- Show progress -->
+	<arg value="p"/>
 
-    <!-- Paths to check -->
-    <file>src</file>
-    <file>test</file>
+	<!-- Paths to check -->
+	<file>src</file>
+	<file>test</file>
 
-    <exclude-pattern>test/TypeProvider/data/*</exclude-pattern>
+	<exclude-pattern>test/TypeProvider/data/*</exclude-pattern>
 
-    <!-- Include all rules from Laminas Coding Standard -->
-    <rule ref="LaminasCodingStandard"/>
+	<!-- Include all rules from Laminas Coding Standard -->
+	<rule ref="LaminasCodingStandard">
+		<exclude name="SlevomatCodingStandard.Commenting.ForbiddenAnnotations" />
+	</rule>
 
-    <rule ref="PSR12">
-        <exclude name="Generic.Files.LineLength"/>
-        <exclude name="WebimpressCodingStandard.Formatting.StringClassReference" />
-    </rule>
+	<rule ref="PSR12">
+		<exclude name="Generic.Files.LineLength"/>
+		<exclude name="WebimpressCodingStandard.Formatting.StringClassReference" />
+	</rule>
 </ruleset>

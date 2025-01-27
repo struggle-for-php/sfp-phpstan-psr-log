@@ -9,7 +9,8 @@ use PHPStan\Testing\RuleTestCase;
 use Sfp\PHPStan\Psr\Log\Rules\ContextTypeRule;
 use Sfp\PHPStan\Psr\Log\TypeMapping\BigQuery\GenericTableFieldSchemaJsonPayloadTypeMapper;
 use Sfp\PHPStan\Psr\Log\TypeProvider\BigQueryContextTypeProvider;
-use Sfp\PHPStan\Psr\Log\TypeProvider\ContextTypeProviderInterface;
+use Sfp\PHPStan\Psr\Log\TypeProviderResolver\AnyScopeContextTypeProviderResolver;
+use Sfp\PHPStan\Psr\Log\TypeProviderResolver\ContextTypeProviderResolverInterface;
 
 use function sprintf;
 
@@ -19,12 +20,12 @@ use function sprintf;
  */
 final class ContextTypeRuleTest extends RuleTestCase
 {
-    /** @var null|ContextTypeProviderInterface */
-    private $contextTypeProvider;
+    /** @var null|ContextTypeProviderResolverInterface */
+    private $contextTypeProviderResolver;
 
     protected function getRule(): Rule
     {
-        return new ContextTypeRule($this->contextTypeProvider);
+        return new ContextTypeRule($this->contextTypeProviderResolver);
     }
 
     /**
@@ -32,7 +33,7 @@ final class ContextTypeRuleTest extends RuleTestCase
      */
     public function testProcessNode(): void
     {
-        $this->contextTypeProvider = null;
+        $this->contextTypeProviderResolver = null;
         $this->analyse([__DIR__ . '/data/contextType.php'], [
             [
                 sprintf(
@@ -49,7 +50,8 @@ final class ContextTypeRuleTest extends RuleTestCase
       */
     public function testProcessNodeWithBigQueryContextTypeProvider(): void
     {
-        $this->contextTypeProvider = new BigQueryContextTypeProvider(__DIR__ . '/../TypeProvider/data/bigQuerySchema.json', new GenericTableFieldSchemaJsonPayloadTypeMapper());
+        $contextTypeProvider               = new BigQueryContextTypeProvider(__DIR__ . '/../TypeProvider/data/bigQuerySchema.json', new GenericTableFieldSchemaJsonPayloadTypeMapper());
+        $this->contextTypeProviderResolver = new AnyScopeContextTypeProviderResolver($contextTypeProvider);
         $this->analyse([__DIR__ . '/data/contextType.php'], [
             [
                 sprintf(

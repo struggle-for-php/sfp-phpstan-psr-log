@@ -27,12 +27,16 @@ final class LogMethodLevelRuleTest extends RuleTestCase
                 23,
             ],
             [
-                "Parameter #1 \$level of method Psr\Log\LoggerInterface::log() expects 'alert'|'critical'|'debug'|'emergency'|'error'|'info'|'notice'|'warning'.",
+                "Parameter #1 \$level of method Psr\Log\LoggerInterface::log() expects 'alert'|'critical'|'debug'|'emergency'|'error'|'info'|'notice'|'warning', string given.",
                 24,
             ],
             [
-                "Parameter #1 \$level of method Psr\Log\LoggerInterface::log() expects 'alert'|'critical'|'debug'|'emergency'|'error'|'info'|'notice'|'warning', 'foo, panic' given.",
+                "Parameter #1 \$level of method Psr\Log\LoggerInterface::log() expects 'alert'|'critical'|'debug'|'emergency'|'error'|'info'|'notice'|'warning', ('foo' | 'info' | 'panic') given.",
                 25,
+            ],
+            [
+                "Parameter #1 \$level of method Psr\Log\LoggerInterface::log() expects 'alert'|'critical'|'debug'|'emergency'|'error'|'info'|'notice'|'warning', 100 given.",
+                26,
             ],
         ]);
     }

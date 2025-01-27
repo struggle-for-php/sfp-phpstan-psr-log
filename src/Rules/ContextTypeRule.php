@@ -10,8 +10,9 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ObjectType;
-use Sfp\PHPStan\Psr\Log\TypeProvider\ContextTypeProviderInterface;
 use Sfp\PHPStan\Psr\Log\TypeProvider\Psr3ContextTypeProvider;
+use Sfp\PHPStan\Psr\Log\TypeProviderResolver\AnyScopeContextTypeProviderResolver;
+use Sfp\PHPStan\Psr\Log\TypeProviderResolver\ContextTypeProviderResolverInterface;
 
 use function count;
 use function in_array;
@@ -22,12 +23,12 @@ use function sprintf;
  */
 final class ContextTypeRule implements Rule
 {
-    /** @var ContextTypeProviderInterface */
-    private $contextTypeProvider;
+    /** @var ContextTypeProviderResolverInterface */
+    private $contextTypeProviderResolver;
 
-    public function __construct(?ContextTypeProviderInterface $contextTypeProvider = null)
+    public function __construct(?ContextTypeProviderResolverInterface $contextTypeProviderResolver)
     {
-        $this->contextTypeProvider = $contextTypeProvider ?? new Psr3ContextTypeProvider();
+        $this->contextTypeProviderResolver = $contextTypeProviderResolver ?? new AnyScopeContextTypeProviderResolver(new Psr3ContextTypeProvider());
     }
 
     public function getNodeType(): string
@@ -62,22 +63,6 @@ final class ContextTypeRule implements Rule
 
         $contextArgumentNo = 1;
         if ($methodName === 'log') {
-            if (count($args) < 2) {
-                return [];
-            }
-
-            $logLevelType = $scope->getType($args[0]->value);
-
-            $logLevels = [];
-            foreach ($logLevelType->getConstantStrings() as $constantString) {
-                $logLevels[] = $constantString->getValue();
-            }
-
-            if (count($logLevels) === 0) {
-                // cant find logLevels
-                return [];
-            }
-
             $contextArgumentNo = 2;
         } elseif (! in_array($methodName, LogLevelListInterface::LOGGER_LEVEL_METHODS, true)) {
             return [];
@@ -87,8 +72,9 @@ final class ContextTypeRule implements Rule
             return [];
         }
 
-        $expectedContextType = $this->contextTypeProvider->getType();
-        $argContextType      = $scope->getType($args[$contextArgumentNo]->value);
+        $argContextType = $scope->getType($args[$contextArgumentNo]->value);
+
+        $expectedContextType = $this->contextTypeProviderResolver->resolveContextTypeProvider($scope, $argContextType)->getType();
 
         $ret = $expectedContextType->accepts($argContextType, true);
 
