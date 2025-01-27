@@ -13,7 +13,7 @@ use Sfp\PHPStan\Psr\Log\TypeProvider\Psr3ContextTypeProvider;
 
 final class LayeredScopeContextTypeProviderResolver implements ContextTypeProviderResolverInterface
 {
-    /** @var array<class-string, ContextTypeProviderInterface> */
+    /** @phpstan-var array<class-string, ContextTypeProviderInterface> */
     private $layerSet;
 
     /** @var AnyScopeContextTypeProviderResolver */
