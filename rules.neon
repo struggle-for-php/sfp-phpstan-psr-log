@@ -55,8 +55,10 @@ services:
 	#	-
 	#		class: Sfp\PHPStan\Psr\Log\Rules\ContextTypeRule
 	#		arguments:
-	#			contextTypeProvider: @psrLogContextTypeProvider
+	#			contextTypeProviderResolver: @contextTypeProviderResolver
 
+
+	# contextTypeProviderResolver:
 
 	#	psrLogContextTypeProvider :
 	#		class: Sfp\PHPStan\Psr\Log\TypeProvider\Psr3ContextTypeProvider
