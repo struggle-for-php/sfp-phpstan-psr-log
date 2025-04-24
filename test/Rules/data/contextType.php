@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SfpTest\PHPStan\Psr\Log\ContextType;
 
 use Psr\Log\LoggerInterface;
+use Throwable;
 
 /**
  * @phpstan-param array{exception: string} $context1

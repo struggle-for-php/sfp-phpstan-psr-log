@@ -22,6 +22,12 @@ final class LogMethodLevelRuleTest extends RuleTestCase
     {
         $reflectionProvider = self::createReflectionProvider();
 
+        // I know RuleLevelHelper constructor parameters is difference both 1.12, 2.1.12.
+        // parameters 7,8 are
+        // 1.12 - newRuleLevelHelper, checkBenevolentUnionTypes
+        // 2.1.12 - checkBenevolentUnionTypes, discoveringSymbolsTip
+        // But this test case doesn't pay attention to that difference.
+
         return new LogMethodLevelRule(
             /** @phpstan-ignore phpstanApi.constructor */
             new RuleLevelHelper(
