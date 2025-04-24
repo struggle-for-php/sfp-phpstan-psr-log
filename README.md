@@ -5,7 +5,7 @@
 [![Psalm coverage](https://shepherd.dev/github/struggle-for-php/sfp-phpstan-psr-log/coverage.svg)](https://shepherd.dev/github/struggle-for-php/sfp-phpstan-psr-log)
 
 > [!IMPORTANT]
-> The next version `0.25.0` will have a BC break. Please refer `Stubs` section.
+> The future version `0.25.0` or later will have a BC break. Please refer `Stubs` section.
 
 `struggle-for-php/sfp-phpstan-psr-log` is extra strict and opinionated psr/log (psr-3) rules for PHPStan.
 
@@ -29,9 +29,9 @@ parameters:
 ## Stubs
 
 > [!IMPORTANT]
-> include psr/log stub be planned to dropped in next release.
+> include psr/log stub be planned to dropped in comming release.
 
-To try out the changes in the next version,
+To try out the changes in the comming version,
 
 DELETE `vendor/struggle-for-php/sfp-phpstan-psr-log/extension.neon` line from your `phpstan.neon`
 

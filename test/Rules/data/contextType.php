@@ -7,9 +7,15 @@ namespace SfpTest\PHPStan\Psr\Log\ContextType;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
+/**
+ * @phpstan-param array{exception: string} $context1
+ * @phpstan-param array{exception: string}|array{exception: Throwable} $context2
+ */
 function main(
     LoggerInterface $logger,
-    Throwable $throwable
+    array $context1,
+    array $context2
 ): void {
-    $logger->info('info', ['exception' => $throwable->getMessage()]);
+    $logger->info('info', $context1);
+    $logger->info('info', $context2);
 }

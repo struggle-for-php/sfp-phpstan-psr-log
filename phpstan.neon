@@ -5,6 +5,7 @@ parameters:
 		- test
 	excludePaths:
 		- test/Rules/data/*
+	reportUnmatchedIgnoredErrors: false
 
 includes:
 	- phar://phpstan.phar/conf/bleedingEdge.neon

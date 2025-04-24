@@ -2,10 +2,13 @@
 
 declare(strict_types=1);
 
+const FOO = 'foo';
+
 /**
  * @phpstan-param 'literal-a'|'literal-b' $literals
+ * @phpstan-param 'literal-a'|non-empty-lowercase-string $literalOr
  */
-function main(Psr\Log\LoggerInterface $logger, string $m, string $literals): void
+function main(Psr\Log\LoggerInterface $logger, string $m, string $literals, string $literalOr): void
 {
     // valid
     $logger->info('message is valid');
@@ -18,6 +21,11 @@ function main(Psr\Log\LoggerInterface $logger, string $m, string $literals): voi
     $logger->info(sprintf('Message contains %s variable', $m));
 
     $logger->log('info', $m);
+
+    $logger->info($literalOr);
+
+    // Allow const
+    $logger->info(FOO);
 
     // Allow assign
     $logger->info($ret = 'Invalid Request happened!');

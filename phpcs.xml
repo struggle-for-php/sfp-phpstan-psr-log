@@ -16,6 +16,7 @@
 	<file>src</file>
 	<file>test</file>
 
+	<exclude-pattern>test/Rules/data/*</exclude-pattern>
 	<exclude-pattern>test/TypeProvider/data/*</exclude-pattern>
 
 	<!-- Include all rules from Laminas Coding Standard -->

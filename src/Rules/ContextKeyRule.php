@@ -103,7 +103,7 @@ final class ContextKeyRule implements Rule
             return $errors;
         }
 
-        return self::originalPatternMatches($constantArrays, $methodName);
+        return $this->originalPatternMatches($constantArrays, $methodName);
     }
 
     /**

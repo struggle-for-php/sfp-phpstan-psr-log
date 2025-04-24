@@ -8,6 +8,8 @@ use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PHPStan\Rules\RuleLevelHelper;
+use PHPStan\Rules\RuleLevelHelperAcceptsResult;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ObjectType;
 use Sfp\PHPStan\Psr\Log\TypeProvider\Psr3ContextTypeProvider;
@@ -23,11 +25,17 @@ use function sprintf;
  */
 final class ContextTypeRule implements Rule
 {
+    /** @var RuleLevelHelper */
+    private $ruleLevelHelper;
+
     /** @var ContextTypeProviderResolverInterface */
     private $contextTypeProviderResolver;
 
-    public function __construct(?ContextTypeProviderResolverInterface $contextTypeProviderResolver)
-    {
+    public function __construct(
+        RuleLevelHelper $ruleLevelHelper,
+        ?ContextTypeProviderResolverInterface $contextTypeProviderResolver
+    ) {
+        $this->ruleLevelHelper             = $ruleLevelHelper;
         $this->contextTypeProviderResolver = $contextTypeProviderResolver ?? new AnyScopeContextTypeProviderResolver(new Psr3ContextTypeProvider());
     }
 
@@ -74,11 +82,21 @@ final class ContextTypeRule implements Rule
 
         $argContextType = $scope->getType($args[$contextArgumentNo]->value);
 
-        $expectedContextType = $this->contextTypeProviderResolver->resolveContextTypeProvider($scope, $argContextType)->getType();
+        $acceptingContextType = $this->contextTypeProviderResolver->resolveContextTypeProvider($scope)->getType();
 
-        $ret = $expectedContextType->accepts($argContextType, true);
+        $acceptsResult = $this->ruleLevelHelper->accepts($acceptingContextType, $argContextType, $scope->isDeclareStrictTypes());
 
-        if ($ret->yes()) {
+        // To support PHPStan 1 & 2 both.
+        // RuleLevelHelper::accepts() return type changed from bool to RuleLevelHelperAcceptsResult
+        // https://github.com/phpstan/phpstan/blob/2.1.x/UPGRADING.md
+        if (
+            /** @phpstan-ignore identical.alwaysFalse */
+            $acceptsResult === true ||
+            (
+                /** @phpstan-ignore phpstanApi.class, instanceof.alwaysFalse, booleanAnd.alwaysFalse, identical.alwaysFalse, instanceof.alwaysTrue */
+                $acceptsResult instanceof RuleLevelHelperAcceptsResult && $acceptsResult->result === true
+            )
+        ) {
             return [];
         }
 
@@ -88,7 +106,7 @@ final class ContextTypeRule implements Rule
                     'Parameter #%d $context of method Psr\Log\LoggerInterface::%s() expects %s, %s given.',
                     $contextArgumentNo + 1,
                     $methodName,
-                    (string) $expectedContextType->toPhpDocNode(),
+                    (string) $acceptingContextType->toPhpDocNode(),
                     (string) $argContextType->toPhpDocNode()
                 )
             )->identifier('sfpPsrLog.contextType')->build(),

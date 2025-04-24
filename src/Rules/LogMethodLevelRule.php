@@ -8,11 +8,14 @@ use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PHPStan\Rules\RuleLevelHelper;
+use PHPStan\Rules\RuleLevelHelperAcceptsResult;
 use PHPStan\ShouldNotHappenException;
+use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\ObjectType;
+use PHPStan\Type\UnionType;
 
 use function count;
-use function in_array;
 use function sprintf;
 
 /**
@@ -21,8 +24,29 @@ use function sprintf;
 final class LogMethodLevelRule implements Rule
 {
     private const ERROR_INVALID_LEVEL = <<<'MESSAGE'
-Parameter #1 $level of method Psr\Log\LoggerInterface::log() expects 'alert'|'critical'|'debug'|'emergency'|'error'|'info'|'notice'|'warning', %s given.
+Parameter #1 $level of method Psr\Log\LoggerInterface::log() expects %s, %s given.
 MESSAGE;
+
+    /** @var RuleLevelHelper */
+    private $ruleLevelHelper;
+
+    /** @var UnionType */
+    private $acceptingLogLevel;
+
+    public function __construct(RuleLevelHelper $ruleLevelHelper)
+    {
+        $this->ruleLevelHelper   = $ruleLevelHelper;
+        $this->acceptingLogLevel = new UnionType([
+            new ConstantStringType('emergency'),
+            new ConstantStringType('alert'),
+            new ConstantStringType('critical'),
+            new ConstantStringType('error'),
+            new ConstantStringType('warning'),
+            new ConstantStringType('notice'),
+            new ConstantStringType('info'),
+            new ConstantStringType('debug'),
+        ]);
+    }
 
     public function getNodeType(): string
     {
@@ -58,35 +82,31 @@ MESSAGE;
             return [];
         }
 
-        $logLevelType = $scope->getType($args[0]->value);
+        $argLevel = $scope->getType($args[0]->value);
 
-        $logLevels = [];
-        foreach ($logLevelType->getConstantStrings() as $constantString) {
-            $logLevels[] = $constantString->getValue();
-        }
+        $acceptsResult = $this->ruleLevelHelper->accepts($this->acceptingLogLevel, $argLevel, $scope->isDeclareStrictTypes());
 
-        if (count($logLevels) === 0) {
-            return [
-                RuleErrorBuilder::message(
-                    sprintf(self::ERROR_INVALID_LEVEL, $logLevelType->toPhpDocNode()->__toString())
-                )->identifier('sfpPsrLog.logMethodLevel')->build(),
-            ];
-        }
-
-        $invalidLogLevels = [];
-        foreach ($logLevels as $logLevel) {
-            if (! in_array($logLevel, LogLevelListInterface::LOGGER_LEVEL_METHODS, true)) {
-                $invalidLogLevels[] = $logLevel;
-            }
-        }
-
-        if (count($invalidLogLevels) === 0) {
+        // To support PHPStan 1 & 2 both.
+        // RuleLevelHelper::accepts() return type changed from bool to RuleLevelHelperAcceptsResult
+        // https://github.com/phpstan/phpstan/blob/2.1.x/UPGRADING.md
+        if (
+            /** @phpstan-ignore identical.alwaysFalse */
+            $acceptsResult === true ||
+            (
+                /** @phpstan-ignore phpstanApi.class, instanceof.alwaysFalse, booleanAnd.alwaysFalse, identical.alwaysFalse, instanceof.alwaysTrue */
+                $acceptsResult instanceof RuleLevelHelperAcceptsResult && $acceptsResult->result === true
+            )
+        ) {
             return [];
         }
 
         return [
             RuleErrorBuilder::message(
-                sprintf(self::ERROR_INVALID_LEVEL, $logLevelType->toPhpDocNode()->__toString())
+                sprintf(
+                    self::ERROR_INVALID_LEVEL,
+                    $this->acceptingLogLevel->toPhpDocNode()->__toString(),
+                    $argLevel->toPhpDocNode()->__toString()
+                )
             )->identifier('sfpPsrLog.logMethodLevel')->build(),
         ];
     }
