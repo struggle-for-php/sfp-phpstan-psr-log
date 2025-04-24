@@ -26,6 +26,9 @@
     "PHPStan\\Type\\IntegerType",
     "PHPStan\\Type\\StringType",
     "PHPStan\\Type\\TypeCombinator",
-    "PHPStan\\Reflection\\ClassReflection"
+    "PHPStan\\Reflection\\ClassReflection",
+    "PHPStan\\Rules\\RuleLevelHelper",
+    "PHPStan\\Rules\\RuleLevelHelperAcceptsResult",
+    "PHPStan\\Type\\UnionType"
   ]
 }
