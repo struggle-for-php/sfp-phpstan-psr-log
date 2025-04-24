@@ -7,7 +7,6 @@ namespace Sfp\PHPStan\Psr\Log\TypeProviderResolver;
 use LogicException;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
-use PHPStan\Type\Type;
 use Sfp\PHPStan\Psr\Log\TypeProvider\ContextTypeProviderInterface;
 use Sfp\PHPStan\Psr\Log\TypeProvider\Psr3ContextTypeProvider;
 
@@ -32,12 +31,12 @@ final class LayeredScopeContextTypeProviderResolver implements ContextTypeProvid
         $this->anyScopeContextTypeProviderResolver = new AnyScopeContextTypeProviderResolver(new Psr3ContextTypeProvider());
     }
 
-    public function resolveContextTypeProvider(Scope $scope, Type $contextType): ContextTypeProviderInterface
+    public function resolveContextTypeProvider(Scope $scope): ContextTypeProviderInterface
     {
         $classReflection = $scope->getClassReflection();
         if (! $classReflection instanceof ClassReflection) {
             if ($this->fallbackAnyScope) {
-                return $this->anyScopeContextTypeProviderResolver->resolveContextTypeProvider($scope, $contextType);
+                return $this->anyScopeContextTypeProviderResolver->resolveContextTypeProvider($scope);
             }
             throw new LogicException('can not find belongs to ');
         }
@@ -52,6 +51,6 @@ final class LayeredScopeContextTypeProviderResolver implements ContextTypeProvid
             throw new LogicException('can not find belongs to ');
         }
 
-        return $this->anyScopeContextTypeProviderResolver->resolveContextTypeProvider($scope, $contextType);
+        return $this->anyScopeContextTypeProviderResolver->resolveContextTypeProvider($scope);
     }
 }

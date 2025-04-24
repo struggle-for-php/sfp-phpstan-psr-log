@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Sfp\PHPStan\Psr\Log\TypeProviderResolver;
 
 use PHPStan\Analyser\Scope;
-use PHPStan\Type\Type;
 use Sfp\PHPStan\Psr\Log\TypeProvider\ContextTypeProviderInterface;
 
 final class AnyScopeContextTypeProviderResolver implements ContextTypeProviderResolverInterface
@@ -17,7 +16,7 @@ final class AnyScopeContextTypeProviderResolver implements ContextTypeProviderRe
         $this->contextTypeProvider = $contextTypeProvider;
     }
 
-    public function resolveContextTypeProvider(Scope $scope, Type $contextType): ContextTypeProviderInterface
+    public function resolveContextTypeProvider(Scope $scope): ContextTypeProviderInterface
     {
         return $this->contextTypeProvider;
     }
