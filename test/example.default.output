@@ -6,29 +6,35 @@
   <testcase name="example/src/Example.php:27">
     <failure type="ERROR" message="Parameter #1 $level of method Psr\Log\LoggerInterface::log() expects 'alert'|'critical'|'debug'|'emergency'|'error'|'info'|'notice'|'warning', 'panic' given."/>
   </testcase>
-  <testcase name="example/src/Example.php:54">
+  <testcase name="example/src/Example.php:52">
     <failure type="ERROR" message="Parameter $context of logger method Psr\Log\LoggerInterface::debug(), key should be non empty string."/>
   </testcase>
-  <testcase name="example/src/Example.php:64">
+  <testcase name="example/src/Example.php:62">
     <failure type="ERROR" message="Parameter $message of logger method Psr\Log\LoggerInterface::info() should not includes double braces. - {{doubleBrace}}"/>
   </testcase>
-  <testcase name="example/src/Example.php:65">
+  <testcase name="example/src/Example.php:63">
     <failure type="ERROR" message="Parameter $message of logger method Psr\Log\LoggerInterface::info() has braces. But it includes invalid characters for placeholder. - { space }"/>
   </testcase>
-  <testcase name="example/src/Example.php:70">
+  <testcase name="example/src/Example.php:68">
     <failure type="ERROR" message="Parameter $context of logger method Psr\Log\LoggerInterface::info() is required, when placeholder braces exists - {nonContext}"/>
   </testcase>
-  <testcase name="example/src/Example.php:71">
+  <testcase name="example/src/Example.php:69">
     <failure type="ERROR" message="Parameter $context of logger method Psr\Log\LoggerInterface::%s() is empty, when placeholder braces exists"/>
   </testcase>
-  <testcase name="example/src/Example.php:72">
+  <testcase name="example/src/Example.php:70">
     <failure type="ERROR" message="Parameter $message of logger method Psr\Log\LoggerInterface::info() has placeholder braces, but context key is not found against them. - {notMatched}"/>
   </testcase>
-  <testcase name="example/src/Example.php:73">
+  <testcase name="example/src/Example.php:71">
     <failure type="ERROR" message="Parameter $message of logger method Psr\Log\LoggerInterface::info() has placeholder braces, but context key is not found against them. - {notMatched1},{notMatched2}"/>
   </testcase>
-  <testcase name="example/src/Example.php:74">
+  <testcase name="example/src/Example.php:72">
     <failure type="ERROR" message="Parameter $message of logger method Psr\Log\LoggerInterface::log() has placeholder braces, but context key is not found against them. - {notMatched}"/>
+  </testcase>
+  <testcase name="example/src/Example.php:77">
+    <failure type="ERROR" message="Parameter $message of logger method Psr\Log\LoggerInterface::info() is not a static string"/>
+  </testcase>
+  <testcase name="example/src/Example.php:78">
+    <failure type="ERROR" message="Parameter $message of logger method Psr\Log\LoggerInterface::info() is not a static string"/>
   </testcase>
   <testcase name="example/src/Example.php:79">
     <failure type="ERROR" message="Parameter $message of logger method Psr\Log\LoggerInterface::info() is not a static string"/>
@@ -40,12 +46,6 @@
     <failure type="ERROR" message="Parameter $message of logger method Psr\Log\LoggerInterface::info() is not a static string"/>
   </testcase>
   <testcase name="example/src/Example.php:82">
-    <failure type="ERROR" message="Parameter $message of logger method Psr\Log\LoggerInterface::info() is not a static string"/>
-  </testcase>
-  <testcase name="example/src/Example.php:83">
-    <failure type="ERROR" message="Parameter $message of logger method Psr\Log\LoggerInterface::info() is not a static string"/>
-  </testcase>
-  <testcase name="example/src/Example.php:84">
     <failure type="ERROR" message="Parameter $message of logger method Psr\Log\LoggerInterface::log() is not a static string"/>
   </testcase>
 </testsuite>
