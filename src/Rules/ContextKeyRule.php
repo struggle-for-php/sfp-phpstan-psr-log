@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sfp\PHPStan\Psr\Log\Rules;
 
 use LogicException;
+use Override;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
@@ -36,6 +37,7 @@ final class ContextKeyRule implements Rule
         $this->contextKeyOriginalPattern = $contextKeyOriginalPattern;
     }
 
+    #[Override]
     public function getNodeType(): string
     {
         return Node\Expr\MethodCall::class;
@@ -44,6 +46,7 @@ final class ContextKeyRule implements Rule
     /**
      * @throws ShouldNotHappenException
      */
+    #[Override]
     public function processNode(Node $node, Scope $scope): array
     {
         if (! $node->name instanceof Node\Identifier) {
@@ -57,7 +60,6 @@ final class ContextKeyRule implements Rule
             return []; // @codeCoverageIgnoreEnd
         }
 
-        /** @var Node\Arg[] $args */
         $args = $node->getArgs();
         if (count($args) === 0) {
             // @codeCoverageIgnoreStart

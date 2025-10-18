@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sfp\PHPStan\Psr\Log\TypeProvider;
 
 use Exception;
+use Override;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\ObjectType;
@@ -41,6 +42,7 @@ final class BigQueryContextTypeProvider implements ContextTypeProviderInterface
         $this->tableFieldSchemaJsonPayloadTypeMapper = $tableFieldSchemaJsonPayloadTypeMapper;
     }
 
+    #[Override]
     public function getType(): Type
     {
         $builder = ConstantArrayTypeBuilder::createFromConstantArray(

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Sfp\PHPStan\Psr\Log\Rules;
 
+use Override;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Rules\RuleLevelHelper;
-use PHPStan\Rules\RuleLevelHelperAcceptsResult;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ObjectType;
 use Sfp\PHPStan\Psr\Log\TypeProvider\Psr3ContextTypeProvider;
@@ -39,6 +39,7 @@ final class ContextTypeRule implements Rule
         $this->contextTypeProviderResolver = $contextTypeProviderResolver ?? new AnyScopeContextTypeProviderResolver(new Psr3ContextTypeProvider());
     }
 
+    #[Override]
     public function getNodeType(): string
     {
         return Node\Expr\MethodCall::class;
@@ -47,6 +48,7 @@ final class ContextTypeRule implements Rule
     /**
      * @throws ShouldNotHappenException
      */
+    #[Override]
     public function processNode(Node $node, Scope $scope): array
     {
         if (! $node->name instanceof Node\Identifier) {
@@ -60,7 +62,6 @@ final class ContextTypeRule implements Rule
             return []; // @codeCoverageIgnoreEnd
         }
 
-        /** @var Node\Arg[] $args */
         $args = $node->getArgs();
         if (count($args) === 0) {
             // @codeCoverageIgnoreStart
@@ -86,17 +87,7 @@ final class ContextTypeRule implements Rule
 
         $acceptsResult = $this->ruleLevelHelper->accepts($acceptingContextType, $argContextType, $scope->isDeclareStrictTypes());
 
-        // To support PHPStan 1 & 2 both.
-        // RuleLevelHelper::accepts() return type changed from bool to RuleLevelHelperAcceptsResult
-        // https://github.com/phpstan/phpstan/blob/2.1.x/UPGRADING.md
-        if (
-            /** @phpstan-ignore identical.alwaysFalse */
-            $acceptsResult === true ||
-            (
-                /** @phpstan-ignore phpstanApi.class, instanceof.alwaysFalse, booleanAnd.alwaysFalse, identical.alwaysFalse, instanceof.alwaysTrue */
-                $acceptsResult instanceof RuleLevelHelperAcceptsResult && $acceptsResult->result === true
-            )
-        ) {
+        if ($acceptsResult->result === true) {
             return [];
         }
 

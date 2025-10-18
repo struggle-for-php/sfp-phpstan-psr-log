@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sfp\PHPStan\Psr\Log\Rules;
 
+use Override;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\IdentifierRuleError;
@@ -30,11 +31,13 @@ final class PlaceholderCorrespondToKeysRule implements Rule
 
     private const ERROR_MISSED_KEY = 'Parameter $message of logger method Psr\Log\LoggerInterface::%s() has placeholder braces, but context key is not found against them. - %s';
 
+    #[Override]
     public function getNodeType(): string
     {
         return Node\Expr\MethodCall::class;
     }
 
+    #[Override]
     public function processNode(Node $node, Scope $scope): array
     {
         if (! $node->name instanceof Node\Identifier) {
