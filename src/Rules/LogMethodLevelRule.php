@@ -9,7 +9,6 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Rules\RuleLevelHelper;
-use PHPStan\Rules\RuleLevelHelperAcceptsResult;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\ObjectType;
@@ -86,17 +85,7 @@ MESSAGE;
 
         $acceptsResult = $this->ruleLevelHelper->accepts($this->acceptingLogLevel, $argLevel, $scope->isDeclareStrictTypes());
 
-        // To support PHPStan 1 & 2 both.
-        // RuleLevelHelper::accepts() return type changed from bool to RuleLevelHelperAcceptsResult
-        // https://github.com/phpstan/phpstan/blob/2.1.x/UPGRADING.md
-        if (
-            /** @phpstan-ignore identical.alwaysFalse */
-            $acceptsResult === true ||
-            (
-                /** @phpstan-ignore phpstanApi.class, instanceof.alwaysFalse, booleanAnd.alwaysFalse, identical.alwaysFalse, instanceof.alwaysTrue */
-                $acceptsResult instanceof RuleLevelHelperAcceptsResult && $acceptsResult->result === true
-            )
-        ) {
+        if ($acceptsResult->result === true) {
             return [];
         }
 
