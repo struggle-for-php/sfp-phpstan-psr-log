@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sfp\PHPStan\Psr\Log\Rules;
 
+use Override;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
@@ -43,6 +44,7 @@ final class ContextRequireExceptionKeyRule implements Rule
         $this->reportContextExceptionLogLevel = $reportContextExceptionLogLevel;
     }
 
+    #[Override]
     public function getNodeType(): string
     {
         return Node\Expr\MethodCall::class;
@@ -51,6 +53,7 @@ final class ContextRequireExceptionKeyRule implements Rule
     /**
      * @throws ShouldNotHappenException
      */
+    #[Override]
     public function processNode(Node $node, Scope $scope): array
     {
         if (! $node->name instanceof Node\Identifier) {
@@ -64,7 +67,6 @@ final class ContextRequireExceptionKeyRule implements Rule
             return []; // @codeCoverageIgnoreEnd
         }
 
-        /** @var Node\Arg[] $args */
         $args = $node->getArgs();
         if (count($args) === 0) {
             // @codeCoverageIgnoreStart

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sfp\PHPStan\Psr\Log\Rules;
 
+use Override;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
@@ -22,6 +23,7 @@ final class MessageStaticStringRule implements Rule
 {
     private const ERROR_MESSAGE_NOT_STATIC = 'Parameter $message of logger method Psr\Log\LoggerInterface::%s() is not a static string';
 
+    #[Override]
     public function getNodeType(): string
     {
         return Node\Expr\MethodCall::class;
@@ -30,6 +32,7 @@ final class MessageStaticStringRule implements Rule
     /**
      * @throws ShouldNotHappenException
      */
+    #[Override]
     public function processNode(Node $node, Scope $scope): array
     {
         if (! $node->name instanceof Node\Identifier) {
@@ -43,7 +46,6 @@ final class MessageStaticStringRule implements Rule
             return []; // @codeCoverageIgnoreEnd
         }
 
-        /** @var Node\Arg[] $args */
         $args = $node->getArgs();
         if (count($args) === 0) {
             // @codeCoverageIgnoreStart

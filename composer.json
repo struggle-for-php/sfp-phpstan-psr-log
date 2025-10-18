@@ -20,7 +20,8 @@
         "phpunit/phpunit": "^9.6.29 || ^10 || ^11",
         "roave/security-advisories": "dev-master",
         "squizlabs/php_codesniffer": "^3.13.4",
-        "symfony/polyfill-php80": "^1.33"
+        "symfony/polyfill-php80": "^1.33",
+        "vimeo/psalm": "^5.26 || ^6"
     },
     "conflict": {
         "nikic/php-parser": "<4.13.0"

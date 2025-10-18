@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sfp\PHPStan\Psr\Log\TypeProvider;
 
+use Override;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\ObjectType;
@@ -20,6 +21,7 @@ final class Psr3ContextTypeProvider implements ContextTypeProviderInterface
         $this->exceptionClass = $exceptionClass;
     }
 
+    #[Override]
     public function getType(): Type
     {
         return new ConstantArrayType(

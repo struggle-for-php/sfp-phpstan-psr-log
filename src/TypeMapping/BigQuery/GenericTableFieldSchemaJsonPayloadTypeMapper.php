@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sfp\PHPStan\Psr\Log\TypeMapping\BigQuery;
 
+use Override;
 use PHPStan\Type\Accessory\AccessoryNumericStringType;
 use PHPStan\Type\BooleanType;
 use PHPStan\Type\Constant\ConstantArrayType;
@@ -31,6 +32,7 @@ final class GenericTableFieldSchemaJsonPayloadTypeMapper implements TableFieldSc
     /**
      * @phpstan-param list<schema_item> $jsonPayloadFields
      */
+    #[Override]
     public function toArrayType(array $jsonPayloadFields): ConstantArrayType
     {
         return self::convertFieldsToTypes($jsonPayloadFields);

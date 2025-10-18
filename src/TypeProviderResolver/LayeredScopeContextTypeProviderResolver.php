@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sfp\PHPStan\Psr\Log\TypeProviderResolver;
 
 use LogicException;
+use Override;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use Sfp\PHPStan\Psr\Log\TypeProvider\ContextTypeProviderInterface;
@@ -31,6 +32,7 @@ final class LayeredScopeContextTypeProviderResolver implements ContextTypeProvid
         $this->anyScopeContextTypeProviderResolver = new AnyScopeContextTypeProviderResolver(new Psr3ContextTypeProvider());
     }
 
+    #[Override]
     public function resolveContextTypeProvider(Scope $scope): ContextTypeProviderInterface
     {
         $classReflection = $scope->getClassReflection();

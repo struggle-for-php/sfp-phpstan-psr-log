@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sfp\PHPStan\Psr\Log\Rules;
 
+use Override;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\IdentifierRuleError;
@@ -28,6 +29,7 @@ final class PlaceholderCharactersRule implements Rule
     private const ERROR_DOUBLE_BRACES = 'Parameter $message of logger method Psr\Log\LoggerInterface::%s() should not includes double braces. - %s';
     private const ERROR_INVALID_CHAR  = 'Parameter $message of logger method Psr\Log\LoggerInterface::%s() has braces. But it includes invalid characters for placeholder. - %s';
 
+    #[Override]
     public function getNodeType(): string
     {
         return Node\Expr\MethodCall::class;
@@ -36,6 +38,7 @@ final class PlaceholderCharactersRule implements Rule
     /**
      * @throws ShouldNotHappenException
      */
+    #[Override]
     public function processNode(Node $node, Scope $scope): array
     {
         if (! $node->name instanceof Node\Identifier) {
@@ -49,7 +52,6 @@ final class PlaceholderCharactersRule implements Rule
             return []; // @codeCoverageIgnoreEnd
         }
 
-        /** @var Node\Arg[] $args */
         $args = $node->getArgs();
         if (count($args) === 0) {
             // @codeCoverageIgnoreStart
