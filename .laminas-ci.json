@@ -18,21 +18,21 @@
       "name": "example-default",
       "job": {
         "php": "@latest",
-        "command": "diff <(./vendor/bin/phpstan analyse -c ./example/phpstan.default.neon --no-progress --error-format=junit | xmllint --format -) ./test/example.default.output"
+        "command": "composer install -d example; diff <(./vendor/bin/phpstan analyse -c ./example/phpstan.default.neon --no-progress --error-format=junit | xmllint --format -) ./test/example.default.output"
       }
     },
     {
       "name": "example-recommend",
       "job": {
         "php": "@latest",
-        "command": "diff <(./vendor/bin/phpstan analyse -c ./example/phpstan.recommend.neon --no-progress --error-format=junit | xmllint --format -) ./test/example.recommend.output"
+        "command": "composer install -d example; diff <(./vendor/bin/phpstan analyse -c ./example/phpstan.recommend.neon --no-progress --error-format=junit | xmllint --format -) ./test/example.recommend.output"
       }
     },
     {
       "name": "example-enableContextTypeRule",
       "job": {
         "php": "@latest",
-        "command": "diff <(./vendor/bin/phpstan analyse -c ./example/phpstan.enableContextTypeRule.neon --no-progress --error-format=junit | xmllint --format -) ./test/example.enableContextTypeRule.output"
+        "command": "composer install -d example; diff <(./vendor/bin/phpstan analyse -c ./example/phpstan.enableContextTypeRule.neon --no-progress --error-format=junit | xmllint --format -) ./test/example.enableContextTypeRule.output"
       }
     }
   ],
