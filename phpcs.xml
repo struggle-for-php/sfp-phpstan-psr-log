@@ -13,6 +13,7 @@
 	<arg value="p"/>
 
 	<!-- Paths to check -->
+	<file>example/src</file>
 	<file>src</file>
 	<file>test</file>
 
@@ -22,7 +23,10 @@
 	<!-- Include all rules from Laminas Coding Standard -->
 	<rule ref="LaminasCodingStandard">
 		<exclude name="SlevomatCodingStandard.Commenting.ForbiddenAnnotations" />
+		<exclude name="Squiz.WhiteSpace.LanguageConstructSpacing" />
 	</rule>
+
+	<rule ref="Generic.WhiteSpace.LanguageConstructSpacing" />
 
 	<rule ref="PSR12">
 		<exclude name="Generic.Files.LineLength"/>

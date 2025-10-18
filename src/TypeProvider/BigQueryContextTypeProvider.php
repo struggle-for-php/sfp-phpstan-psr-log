@@ -96,7 +96,6 @@ final class BigQueryContextTypeProvider implements ContextTypeProviderInterface
                 throw new Exception('schemaFile must have jsonPayload field');
             }
 
-            // phpcs:ignore
             /**
              * @todo validate list<schema_item>
              * @phpstan-var list<schema_item> $jsonPayloadFields

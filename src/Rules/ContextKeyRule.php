@@ -8,6 +8,7 @@ use LogicException;
 use Override;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
@@ -110,11 +111,8 @@ final class ContextKeyRule implements Rule
     }
 
     /**
-     * phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
-     *
      * @phpstan-param list<ConstantArrayType> $constantArrays
-     * phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
-     * @phpstan-return list<\PHPStan\Rules\IdentifierRuleError>
+     * @phpstan-return list<IdentifierRuleError>
      */
     private static function keysAreNonEmptyString(array $constantArrays, string $methodName): array
     {
@@ -135,11 +133,8 @@ final class ContextKeyRule implements Rule
     }
 
     /**
-     * phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
-     *
      * @phpstan-param list<ConstantArrayType> $constantArrays
-     * phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
-     * @phpstan-return list<\PHPStan\Rules\IdentifierRuleError>
+     * @phpstan-return list<IdentifierRuleError>
      */
     private function originalPatternMatches(array $constantArrays, string $methodName): array
     {
