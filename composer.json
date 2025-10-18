@@ -13,7 +13,7 @@
         "struggle-for-php/sfp-stubs-psr-log": "^1.0.1 || ^2 || ^3.0.1"
     },
     "require-dev": {
-        "laminas/laminas-coding-standard": "^2.5.0",
+        "laminas/laminas-coding-standard": "^3",
         "maglnet/composer-require-checker": "^3 || ^4.15",
         "phpstan/phpstan-phpunit": "^2.0.7",
         "phpstan/phpstan-strict-rules": "^2.0.7",

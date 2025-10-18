@@ -11,6 +11,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
+use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\ObjectType;
 
 use function count;
@@ -110,7 +111,8 @@ final class ContextKeyRule implements Rule
 
     /**
      * phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
-     * @phpstan-param list<\PHPStan\Type\Constant\ConstantArrayType> $constantArrays
+     *
+     * @phpstan-param list<ConstantArrayType> $constantArrays
      * phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
      * @phpstan-return list<\PHPStan\Rules\IdentifierRuleError>
      */
@@ -134,7 +136,8 @@ final class ContextKeyRule implements Rule
 
     /**
      * phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
-     * @phpstan-param list<\PHPStan\Type\Constant\ConstantArrayType> $constantArrays
+     *
+     * @phpstan-param list<ConstantArrayType> $constantArrays
      * phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
      * @phpstan-return list<\PHPStan\Rules\IdentifierRuleError>
      */
