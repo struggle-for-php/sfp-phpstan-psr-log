@@ -15,8 +15,7 @@ use Sfp\PHPStan\Psr\Log\Rules\ContextKeyRule;
  */
 final class ContextKeyRuleTest extends RuleTestCase
 {
-    /** @var null|string */
-    private $contextKeyOriginalPattern;
+    private ?string $contextKeyOriginalPattern;
 
     protected function getRule(): Rule
     {

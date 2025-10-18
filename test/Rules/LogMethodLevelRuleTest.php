@@ -15,8 +15,7 @@ use Sfp\PHPStan\Psr\Log\Rules\LogMethodLevelRule;
  */
 final class LogMethodLevelRuleTest extends RuleTestCase
 {
-    /** @var bool */
-    private $checkUnionTypes = true;
+    private bool $checkUnionTypes = true;
 
     protected function getRule(): Rule
     {

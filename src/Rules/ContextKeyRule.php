@@ -31,8 +31,7 @@ final class ContextKeyRule implements Rule
 
     private const ERROR_NOT_MATCH_ORIGINAL_PATTERN = 'Parameter $context of logger method Psr\Log\LoggerInterface::%s(), key should be match %s.';
 
-    /** @var string|null */
-    private $contextKeyOriginalPattern;
+    private ?string $contextKeyOriginalPattern;
 
     public function __construct(?string $contextKeyOriginalPattern = null)
     {

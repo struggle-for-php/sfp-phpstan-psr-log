@@ -27,11 +27,9 @@ final class LogMethodLevelRule implements Rule
 Parameter #1 $level of method Psr\Log\LoggerInterface::log() expects %s, %s given.
 MESSAGE;
 
-    /** @var RuleLevelHelper */
-    private $ruleLevelHelper;
+    private RuleLevelHelper $ruleLevelHelper;
 
-    /** @var UnionType */
-    private $acceptingLogLevel;
+    private UnionType $acceptingLogLevel;
 
     public function __construct(RuleLevelHelper $ruleLevelHelper)
     {

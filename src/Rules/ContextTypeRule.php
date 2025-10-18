@@ -25,11 +25,9 @@ use function sprintf;
  */
 final class ContextTypeRule implements Rule
 {
-    /** @var RuleLevelHelper */
-    private $ruleLevelHelper;
+    private RuleLevelHelper $ruleLevelHelper;
 
-    /** @var ContextTypeProviderResolverInterface */
-    private $contextTypeProviderResolver;
+    private ContextTypeProviderResolverInterface $contextTypeProviderResolver;
 
     public function __construct(
         RuleLevelHelper $ruleLevelHelper,

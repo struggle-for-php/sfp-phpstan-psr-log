@@ -10,7 +10,7 @@ use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\ObjectType;
 use Throwable;
 
-class GeneralContextTypeDataProvider
+final class GeneralContextTypeDataProvider
 {
     /**
      * @phpstan-return array<string, array{0: ConstantArrayType, 1: bool}>

@@ -10,8 +10,7 @@ use Sfp\PHPStan\Psr\Log\TypeProvider\ContextTypeProviderInterface;
 
 final class AnyScopeContextTypeProviderResolver implements ContextTypeProviderResolverInterface
 {
-    /** @var ContextTypeProviderInterface */
-    private $contextTypeProvider;
+    private ContextTypeProviderInterface $contextTypeProvider;
     public function __construct(ContextTypeProviderInterface $contextTypeProvider)
     {
         $this->contextTypeProvider = $contextTypeProvider;

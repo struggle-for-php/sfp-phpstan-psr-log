@@ -12,7 +12,7 @@ use PHPStan\Type\StringType;
 use Sfp\PHPStan\Psr\Log\TypeMapping\BigQuery\GenericTableFieldSchemaJsonPayloadTypeMapper;
 use Sfp\PHPStan\Psr\Log\TypeProvider\BigQueryContextTypeProvider;
 
-class BigQueryContextTypeProviderTest extends AbstractContextTypeProviderTestCase
+final class BigQueryContextTypeProviderTest extends AbstractContextTypeProviderTestCase
 {
     /**
      * @dataProvider \SfpTest\PHPStan\Psr\Log\TypeProvider\GeneralContextTypeDataProvider::provideTypes
