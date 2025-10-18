@@ -8,9 +8,11 @@ use LogicException;
 use Override;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
+use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\ObjectType;
 
 use function count;
@@ -29,8 +31,7 @@ final class ContextKeyRule implements Rule
 
     private const ERROR_NOT_MATCH_ORIGINAL_PATTERN = 'Parameter $context of logger method Psr\Log\LoggerInterface::%s(), key should be match %s.';
 
-    /** @var string|null */
-    private $contextKeyOriginalPattern;
+    private ?string $contextKeyOriginalPattern;
 
     public function __construct(?string $contextKeyOriginalPattern = null)
     {
@@ -109,10 +110,8 @@ final class ContextKeyRule implements Rule
     }
 
     /**
-     * phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
-     * @phpstan-param list<\PHPStan\Type\Constant\ConstantArrayType> $constantArrays
-     * phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
-     * @phpstan-return list<\PHPStan\Rules\IdentifierRuleError>
+     * @phpstan-param list<ConstantArrayType> $constantArrays
+     * @phpstan-return list<IdentifierRuleError>
      */
     private static function keysAreNonEmptyString(array $constantArrays, string $methodName): array
     {
@@ -133,10 +132,8 @@ final class ContextKeyRule implements Rule
     }
 
     /**
-     * phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
-     * @phpstan-param list<\PHPStan\Type\Constant\ConstantArrayType> $constantArrays
-     * phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly
-     * @phpstan-return list<\PHPStan\Rules\IdentifierRuleError>
+     * @phpstan-param list<ConstantArrayType> $constantArrays
+     * @phpstan-return list<IdentifierRuleError>
      */
     private function originalPatternMatches(array $constantArrays, string $methodName): array
     {

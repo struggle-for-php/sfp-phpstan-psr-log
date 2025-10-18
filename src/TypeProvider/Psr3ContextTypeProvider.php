@@ -13,9 +13,10 @@ use Throwable;
 
 final class Psr3ContextTypeProvider implements ContextTypeProviderInterface
 {
-    /** @var string */
-    private $exceptionClass;
+    /** @var class-string */
+    private string $exceptionClass;
 
+    /** @param class-string $exceptionClass */
     public function __construct(string $exceptionClass = Throwable::class)
     {
         $this->exceptionClass = $exceptionClass;

@@ -36,9 +36,10 @@ final class ContextRequireExceptionKeyRule implements Rule
 
     private const ERROR_MISSED_EXCEPTION_KEY = 'Parameter $context of logger method Psr\Log\LoggerInterface::%s() requires \'exception\' key. Current scope has Throwable variable - %s';
 
-    /** @var string */
-    private $reportContextExceptionLogLevel;
+    /** @var value-of<LogLevelListInterface::LOGGER_LEVEL_METHODS> */
+    private string $reportContextExceptionLogLevel;
 
+    /** @param value-of<LogLevelListInterface::LOGGER_LEVEL_METHODS> $reportContextExceptionLogLevel */
     public function __construct(string $reportContextExceptionLogLevel = 'debug')
     {
         $this->reportContextExceptionLogLevel = $reportContextExceptionLogLevel;

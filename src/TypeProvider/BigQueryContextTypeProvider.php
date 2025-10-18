@@ -25,14 +25,12 @@ use function sprintf;
  */
 final class BigQueryContextTypeProvider implements ContextTypeProviderInterface
 {
-    /** @var string */
-    private $schemaFile;
+    private string $schemaFile;
 
-    /** @var TableFieldSchemaJsonPayloadTypeMapperInterface */
-    private $tableFieldSchemaJsonPayloadTypeMapper;
+    private TableFieldSchemaJsonPayloadTypeMapperInterface $tableFieldSchemaJsonPayloadTypeMapper;
 
     /** @phpstan-var ?list<schema_item> */
-    private $jsonPayloadFields;
+    private ?array $jsonPayloadFields = null;
 
     public function __construct(
         string $schemaFile,
@@ -96,7 +94,6 @@ final class BigQueryContextTypeProvider implements ContextTypeProviderInterface
                 throw new Exception('schemaFile must have jsonPayload field');
             }
 
-            // phpcs:ignore
             /**
              * @todo validate list<schema_item>
              * @phpstan-var list<schema_item> $jsonPayloadFields

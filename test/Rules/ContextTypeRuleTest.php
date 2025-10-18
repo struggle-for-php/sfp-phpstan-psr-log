@@ -21,11 +21,9 @@ use function sprintf;
  */
 final class ContextTypeRuleTest extends RuleTestCase
 {
-    /** @var bool */
-    private $checkUnionTypes = true;
+    private bool $checkUnionTypes = true;
 
-    /** @var null|ContextTypeProviderResolverInterface */
-    private $contextTypeProviderResolver;
+    private ?ContextTypeProviderResolverInterface $contextTypeProviderResolver;
 
     protected function getRule(): Rule
     {
