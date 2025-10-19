@@ -63,7 +63,10 @@ final class ContextTypeRuleTest extends RuleTestCase
     public static function provideContextTypePattern(): array
     {
         $expectedError = [
-            'Parameter #2 $context of method Psr\Log\LoggerInterface::info() expects array{exception?: Throwable}, array{exception: string} given.',
+            <<<'EOF'
+Parameter #2 $context of method Psr\Log\LoggerInterface::info() expects array{exception?: Throwable}, array{exception: string} given.
+    💡 Offset 'exception' (Throwable) does not accept type string.
+EOF,
             19,
         ];
 
@@ -79,7 +82,10 @@ final class ContextTypeRuleTest extends RuleTestCase
                 'expectedErrors'  => [
                     $expectedError,
                     [
-                        'Parameter #2 $context of method Psr\Log\LoggerInterface::info() expects array{exception?: Throwable}, (array{exception: string} | array{exception: Throwable}) given.',
+                        <<<'EOF'
+Parameter #2 $context of method Psr\Log\LoggerInterface::info() expects array{exception?: Throwable}, (array{exception: string} | array{exception: Throwable}) given.
+    💡 Offset 'exception' (Throwable) does not accept type string.
+EOF,
                         20,
                     ],
                 ],
@@ -97,13 +103,24 @@ final class ContextTypeRuleTest extends RuleTestCase
         $this->analyse([__DIR__ . '/data/contextType.php'], [
             [
                 sprintf(
-                    'Parameter #2 $context of method Psr\Log\LoggerInterface::info() expects %s, array{exception: string} given.',
-                    'array{first_name?: string, product?: array{id?: string}, cancellation_reason?: (float | int | numeric-string), cancellation_date?: \DateTimeInterface, exception?: \Throwable}'
+                    <<<'EOF'
+Parameter #2 $context of method Psr\Log\LoggerInterface::info() expects %s, %s given.
+    💡 Offset 'exception' (Throwable) does not accept type string.
+EOF,
+                    'array{first_name?: string, product?: array{id?: string}, cancellation_reason?: (float | int | numeric-string), cancellation_date?: \DateTimeInterface, exception?: \Throwable}',
+                    'array{exception: string}'
                 ),
                 19,
             ],
             [
-                'Parameter #2 $context of method Psr\Log\LoggerInterface::info() expects array{first_name?: string, product?: array{id?: string}, cancellation_reason?: (float | int | numeric-string), cancellation_date?: \DateTimeInterface, exception?: \Throwable}, (array{exception: string} | array{exception: Throwable}) given.',
+                sprintf(
+                    <<<'EOF'
+Parameter #2 $context of method Psr\Log\LoggerInterface::info() expects %s, %s given.
+    💡 Offset 'exception' (Throwable) does not accept type string.
+EOF,
+                    'array{first_name?: string, product?: array{id?: string}, cancellation_reason?: (float | int | numeric-string), cancellation_date?: \DateTimeInterface, exception?: \Throwable}',
+                    '(array{exception: string} | array{exception: Throwable})'
+                ),
                 20,
             ],
         ]);
