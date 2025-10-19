@@ -13,11 +13,6 @@ parameters:
 		- %currentWorkingDirectory%/vendor/autoload.php
 	paths:
 		- %currentWorkingDirectory%/example/src
-	stubFiles:
-		# relative path can not work
-		- ../vendor/struggle-for-php/sfp-stubs-psr-log/stubs-for-throwable/LoggerInterface.phpstub
 
 includes:
-# relative path can not work
-	# - %currentWorkingDirectory%/extension.neon
 	- %currentWorkingDirectory%/rules.neon

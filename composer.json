@@ -46,7 +46,6 @@
     "extra": {
         "phpstan": {
             "includes": [
-                "extension.neon",
                 "rules.neon"
             ]
         }
