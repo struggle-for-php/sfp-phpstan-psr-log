@@ -8,10 +8,17 @@ use Sfp\PHPStan\Psr\Log\TypeMapping\BigQuery\GenericTableFieldSchemaJsonPayloadT
 use Sfp\PHPStan\Psr\Log\TypeProvider\BigQueryContextTypeProvider;
 
 /**
- * borrowed from doctrine/sql-formatter 's sql-formatter
+ * This script provides converting BigQuery Schema Json to array shape type
+ *
+ * Usage Example:
+ * `cat test/TypeProvider/data/bigQuerySchema.json | ./bin/sfp-phpstan-psr-log-bigquery-schema-convert`
+ * will show
+ * `array{first_name?: string, product?: array{id?: string}, cancellation_reason?: (float | int | numeric-string), cancellation_date?: \DateTimeInterface, exception?: \Throwable}`
+ *
+ * This part of the code is borrowed from doctrine/sql-formatter 's sql-formatter
  */
 
-if ('cli' !== php_sapi_name()) {
+if ('cli' !== PHP_SAPI) {
     echo "<p>Run this PHP script from the command line to see mapping BigQuery schema to PHPStan Type.  It supports Unix pipes or command line argument style.</p>";
     exit;
 }
@@ -19,7 +26,9 @@ if ('cli' !== php_sapi_name()) {
 if (isset($argv[1])) {
     $schema = $argv[1];
 } else {
-    $schema = stream_get_contents(fopen('php://stdin', 'r'));
+    $stdin = fopen('php://stdin', 'r');
+    assert(is_resource($stdin));
+    $schema = stream_get_contents($stdin);
 }
 
 $autoloadFiles = [
@@ -30,11 +39,12 @@ $autoloadFiles = [
 $rootDir = false;
 foreach ($autoloadFiles as $deps => $autoloadFile) {
     if (file_exists($autoloadFile)) {
-		$rootDir = dirname($autoloadFile, $deps);
+        $rootDir = dirname($autoloadFile, $deps);
         require_once $autoloadFile;
         break;
     }
 }
+assert(is_string($rootDir));
 
 // bootstrap ReflectionProvider
 $containerFactory = new ContainerFactory($rootDir);

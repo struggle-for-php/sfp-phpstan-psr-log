@@ -20,6 +20,13 @@
         "php": "@latest",
         "command": "composer install -d example; diff <(./vendor/bin/phpstan analyse -c ./example/phpstan.enableContextTypeRule.neon --no-progress --error-format=junit | xmllint --format -) ./test/example.enableContextTypeRule.output"
       }
+    },
+    {
+      "name": "sfp-phpstan-psr-log-bigquery-schema-convert",
+      "job": {
+        "php": "@latest",
+        "command": "diff <(cat test/TypeProvider/data/bigQuerySchema.json | ./bin/sfp-phpstan-psr-log-bigquery-schema-convert) <(echo -n 'array{first_name?: string, product?: array{id?: string}, cancellation_reason?: (float | int | numeric-string), cancellation_date?: \\DateTimeInterface, exception?: \\Throwable}')"
+      }
     }
   ],
   "ignore_php_platform_requirements": {
