@@ -96,7 +96,10 @@ MESSAGE;
                     $this->acceptingLogLevel->toPhpDocNode()->__toString(),
                     $argLevel->toPhpDocNode()->__toString()
                 )
-            )->identifier('sfpPsrLog.logMethodLevel')->build(),
+            )
+                ->acceptsReasonsTip($acceptsResult->reasons)
+                ->identifier('sfpPsrLog.logMethodLevel')
+                ->build(),
         ];
     }
 }

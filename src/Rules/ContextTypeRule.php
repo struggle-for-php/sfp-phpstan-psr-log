@@ -17,7 +17,6 @@ use Sfp\PHPStan\Psr\Log\TypeProviderResolver\AnyScopeContextTypeProviderResolver
 use Sfp\PHPStan\Psr\Log\TypeProviderResolver\ContextTypeProviderResolverInterface;
 
 use function count;
-use function implode;
 use function in_array;
 use function sprintf;
 
@@ -99,11 +98,8 @@ final class ContextTypeRule implements Rule
                 (string) $argContextType->toPhpDocNode()
             )
         )
+            ->acceptsReasonsTip($acceptsResult->reasons)
             ->identifier('sfpPsrLog.contextType');
-
-        if (count($acceptsResult->reasons) > 0) {
-            $ruleErrorBuilder->tip(implode(',', $acceptsResult->reasons));
-        }
 
         return [
             $ruleErrorBuilder->build(),
