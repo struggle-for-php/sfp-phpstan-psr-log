@@ -9,8 +9,7 @@
     "require": {
         "php": "^7.4.0 || ~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
         "ext-json": "*",
-        "phpstan/phpstan": "^2.1.23",
-        "struggle-for-php/sfp-stubs-psr-log": "^1.0.1 || ^2 || ^3.0.1"
+        "phpstan/phpstan": "^2.1.23"
     },
     "require-dev": {
         "laminas/laminas-coding-standard": "^3",
@@ -46,7 +45,6 @@
     "extra": {
         "phpstan": {
             "includes": [
-                "extension.neon",
                 "rules.neon"
             ]
         }

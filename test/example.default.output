@@ -4,7 +4,7 @@
     <failure type="ERROR" message="Parameter #2 $context of method Psr\Log\LoggerInterface::notice() expects array{exception?: Throwable}, array{exception: string} given."/>
   </testcase>
   <testcase name="example/src/Example.php:27">
-    <failure type="ERROR" message="Parameter #1 $level of method Psr\Log\LoggerInterface::log() expects 'alert'|'critical'|'debug'|'emergency'|'error'|'info'|'notice'|'warning', 'panic' given."/>
+    <failure type="ERROR" message="Parameter #1 $level of method Psr\Log\LoggerInterface::log() expects ('alert' | 'critical' | 'debug' | 'emergency' | 'error' | 'info' | 'notice' | 'warning'), 'panic' given."/>
   </testcase>
   <testcase name="example/src/Example.php:52">
     <failure type="ERROR" message="Parameter $context of logger method Psr\Log\LoggerInterface::debug(), key should be non empty string."/>

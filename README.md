@@ -4,9 +4,6 @@
 [![License](https://poser.pugx.org/struggle-for-php/sfp-phpstan-psr-log/license)](https://packagist.org/packages/struggle-for-php/sfp-phpstan-psr-log)
 [![Psalm coverage](https://shepherd.dev/github/struggle-for-php/sfp-phpstan-psr-log/coverage.svg)](https://shepherd.dev/github/struggle-for-php/sfp-phpstan-psr-log)
 
-> [!IMPORTANT]
-> The future version `0.25.0` or later will have a BC break. Please refer `Stubs` section.
-
 `struggle-for-php/sfp-phpstan-psr-log` is extra strict and opinionated psr/log (psr-3) rules for PHPStan.
 
 * [PHPStan](https://phpstan.org/)
@@ -25,39 +22,6 @@ parameters:
         reportContextExceptionLogLevel: 'info'
         contextKeyOriginalPattern: '#\A[A-Za-z0-9-_]+\z#'
 ```
-
-## Stubs
-
-> [!IMPORTANT]
-> include psr/log stub be planned to dropped in comming release.
-
-To try out the changes in the comming version,
-
-DELETE `vendor/struggle-for-php/sfp-phpstan-psr-log/extension.neon` line from your `phpstan.neon`
-
-```neon
-includes:
-    - vendor/struggle-for-php/sfp-phpstan-psr-log/extension.neon
-```
-
-and, set parameters `enableLogMethodLevelRule` and `enableContextTypeRule`
-
-```neon
-parameters:
-    sfpPsrLog:
-        enableLogMethodLevelRule: true # default:false
-        enableContextTypeRule: true # default:false
-```
-
-### About stub
-
-Currently, this extension depends on our psr/log stub to serve strictness.
-
-* eg.
-    * `@param LogLevel::*  $level` at `log()` method
-    * `@param array{exception?: \Throwable} $context`
-
-See [psr/log stub](https://github.com/struggle-for-php/sfp-stubs-psr-log) repository page to get more detail.
 
 ## Rules
 
@@ -250,6 +214,5 @@ include extension.neon & rules.neon in your project's PHPStan config:
 
 ```neon
 includes:
-    - vendor/struggle-for-php/sfp-phpstan-psr-log/extension.neon
     - vendor/struggle-for-php/sfp-phpstan-psr-log/rules.neon
 ```

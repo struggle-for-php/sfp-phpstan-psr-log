@@ -14,8 +14,8 @@ parameters:
 		enableMessageStaticStringRule: true
 		reportContextExceptionLogLevel: 'debug'
 		contextKeyOriginalPattern: null
-		enableLogMethodLevelRule: false
-		enableContextTypeRule: false
+		enableLogMethodLevelRule: true
+		enableContextTypeRule: true
 
 conditionalTags:
 	Sfp\PHPStan\Psr\Log\Rules\ContextRequireExceptionKeyRule:

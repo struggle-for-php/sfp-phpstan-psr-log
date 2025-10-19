@@ -17,6 +17,7 @@ use Sfp\PHPStan\Psr\Log\TypeProviderResolver\AnyScopeContextTypeProviderResolver
 use Sfp\PHPStan\Psr\Log\TypeProviderResolver\ContextTypeProviderResolverInterface;
 
 use function count;
+use function implode;
 use function in_array;
 use function sprintf;
 
@@ -89,16 +90,23 @@ final class ContextTypeRule implements Rule
             return [];
         }
 
+        $ruleErrorBuilder = RuleErrorBuilder::message(
+            sprintf(
+                'Parameter #%d $context of method Psr\Log\LoggerInterface::%s() expects %s, %s given.',
+                $contextArgumentNo + 1,
+                $methodName,
+                (string) $acceptingContextType->toPhpDocNode(),
+                (string) $argContextType->toPhpDocNode()
+            )
+        )
+            ->identifier('sfpPsrLog.contextType');
+
+        if (count($acceptsResult->reasons) > 0) {
+            $ruleErrorBuilder->tip(implode(',', $acceptsResult->reasons));
+        }
+
         return [
-            RuleErrorBuilder::message(
-                sprintf(
-                    'Parameter #%d $context of method Psr\Log\LoggerInterface::%s() expects %s, %s given.',
-                    $contextArgumentNo + 1,
-                    $methodName,
-                    (string) $acceptingContextType->toPhpDocNode(),
-                    (string) $argContextType->toPhpDocNode()
-                )
-            )->identifier('sfpPsrLog.contextType')->build(),
+            $ruleErrorBuilder->build(),
         ];
     }
 }
