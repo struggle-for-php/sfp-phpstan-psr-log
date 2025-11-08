@@ -204,6 +204,69 @@ parameters:
         enableContextTypeRule: false
 ```
 
+#### Advanced: Custom Context Type Provider
+
+You can enforce stricter context types by implementing `ContextTypeProviderInterface` and injecting it via dependency injection.
+
+**Example: Restricting to specific context keys**
+
+```php
+<?php
+// src/YourCustomContextTypeProvider.php
+
+use PHPStan\Type\ArrayType;
+use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
+use PHPStan\Type\Constant\ConstantStringType;
+use PHPStan\Type\ObjectType;
+use PHPStan\Type\StringType;
+use PHPStan\Type\Type;
+use Sfp\PHPStan\Psr\Log\TypeProvider\ContextTypeProviderInterface;
+
+final class YourCustomContextTypeProvider implements ContextTypeProviderInterface
+{
+    public function getType(): Type
+    {
+        $builder = ConstantArrayTypeBuilder::createEmpty();
+
+        // Define allowed context keys with their types
+        $builder->setOffsetValueType(
+            new ConstantStringType('user_id'),
+            new StringType(),
+            true // optional
+        );
+        $builder->setOffsetValueType(
+            new ConstantStringType('exception'),
+            new ObjectType(\Throwable::class),
+            true // optional
+        );
+
+        return $builder->getArray();
+    }
+}
+```
+
+**Configure in phpstan.neon:**
+
+```neon
+services:
+    yourCustomContextTypeProvider:
+        class: YourCustomContextTypeProvider
+
+    contextTypeProviderResolver:
+        class: Sfp\PHPStan\Psr\Log\TypeProviderResolver\AnyScopeContextTypeProviderResolver
+        arguments:
+            contextTypeProvider: @yourCustomContextTypeProvider
+
+    -
+        class: Sfp\PHPStan\Psr\Log\Rules\ContextTypeRule
+        arguments:
+            contextTypeProviderResolver: @contextTypeProviderResolver
+        tags:
+            - phpstan.rules.rule
+```
+
+This allows you to enforce project-specific context types, such as structured logging schemas (e.g., BigQuery, Datadog) or custom application requirements.
+
 ### MessageStaticStringRule
 
 | :pushpin: _error identifier_ |
