@@ -10,6 +10,23 @@
 * [PSR-3: Logger Interface - PHP-FIG](https://www.php-fig.org/psr/psr-3/)
 * [PSR-3 Meta Document](https://www.php-fig.org/psr/psr-3/meta/)
 
+## Installation
+
+To use this extension, require it in [Composer](https://getcomposer.org/):
+
+```bash
+composer require --dev struggle-for-php/sfp-phpstan-psr-log
+```
+
+### Manual installation
+
+include extension.neon & rules.neon in your project's PHPStan config:
+
+```neon
+includes:
+    - vendor/struggle-for-php/sfp-phpstan-psr-log/rules.neon
+```
+
 ## Recommendation Settings
 
 Write these parameters to your project's `phpstan.neon`.
@@ -177,6 +194,96 @@ parameters:
         enableContextRequireExceptionKeyRule: true
 ```
 
+### ContextTypeRule
+
+> [!NOTE]
+> This rule validates that the `$context` parameter has the correct type according to PSR-3 specification.
+
+| :pushpin: _error identifier_ |
+| --- |
+| sfpPsrLog.contextType |
+
+* reports when `$context` parameter type does not match the expected type.
+    * The default expected type is `array{exception?: Throwable}` according to PSR-3.
+
+```php
+// bad
+$logger->info('message', ['exception' => 'string value']); // exception must be Throwable
+```
+
+#### Configuration
+
+* If you want to disable this rule, please add `enableContextTypeRule` as false.
+
+```neon
+parameters:
+    sfpPsrLog:
+        enableContextTypeRule: false
+```
+
+#### Advanced: Custom Context Type Provider
+
+You can enforce stricter context types by implementing `ContextTypeProviderInterface` and injecting it via dependency injection.
+
+* Example: Restricting to specific context keys
+
+```php
+<?php
+// src/YourCustomContextTypeProvider.php
+
+use PHPStan\Type\ArrayType;
+use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
+use PHPStan\Type\Constant\ConstantStringType;
+use PHPStan\Type\ObjectType;
+use PHPStan\Type\StringType;
+use PHPStan\Type\Type;
+use Sfp\PHPStan\Psr\Log\TypeProvider\ContextTypeProviderInterface;
+
+final class YourCustomContextTypeProvider implements ContextTypeProviderInterface
+{
+    public function getType(): Type
+    {
+        $builder = ConstantArrayTypeBuilder::createEmpty();
+
+        // Define allowed context keys with their types
+        $builder->setOffsetValueType(
+            new ConstantStringType('user_id'),
+            new StringType(),
+            true // optional
+        );
+        $builder->setOffsetValueType(
+            new ConstantStringType('exception'),
+            new ObjectType(\Throwable::class),
+            true // optional
+        );
+
+        return $builder->getArray();
+    }
+}
+```
+
+**Configure in phpstan.neon:**
+
+```neon
+services:
+    yourCustomContextTypeProvider:
+        class: YourCustomContextTypeProvider
+
+    contextTypeProviderResolver:
+        class: Sfp\PHPStan\Psr\Log\TypeProviderResolver\AnyScopeContextTypeProviderResolver
+        arguments:
+            contextTypeProvider: @yourCustomContextTypeProvider
+
+    -
+        class: Sfp\PHPStan\Psr\Log\Rules\ContextTypeRule
+        arguments:
+            contextTypeProviderResolver: @contextTypeProviderResolver
+        tags:
+            - phpstan.rules.rule
+```
+
+This allows you to enforce project-specific context types, such as structured logging schemas (e.g., BigQuery) or custom application requirements.
+
 ### MessageStaticStringRule
 
 | :pushpin: _error identifier_ |
@@ -200,19 +307,30 @@ parameters:
         enableMessageStaticStringRule: false
 ```
 
-## Installation
+### LogMethodLevelRule
 
-To use this extension, require it in [Composer](https://getcomposer.org/):
+> Implementors MUST implement the following interface, which describes the eight methods to write logs to the eight RFC 5424 levels (debug, info, notice, warning, error, critical, alert, emergency).
+> — [PSR-3 Logger Interface](https://www.php-fig.org/psr/psr-3/)
 
-```bash
-composer require --dev struggle-for-php/sfp-phpstan-psr-log
+| :pushpin: _error identifier_ |
+| --- |
+| sfpPsrLog.logMethodLevel |
+
+* reports when the `$level` parameter of `log()` method is not a valid PSR-3 log level.
+    * Valid log levels: `emergency`, `alert`, `critical`, `error`, `warning`, `notice`, `info`, `debug`
+
+```php
+// bad
+$logger->log('panic', 'message'); // 'panic' is not a valid PSR-3 log level
+$logger->log(100, 'message'); // level must be a string
 ```
 
-### Manual installation
+#### Configuration
 
-include extension.neon & rules.neon in your project's PHPStan config:
+* If you want to disable this rule, please add `enableLogMethodLevelRule` as false.
 
 ```neon
-includes:
-    - vendor/struggle-for-php/sfp-phpstan-psr-log/rules.neon
+parameters:
+    sfpPsrLog:
+        enableLogMethodLevelRule: false
 ```
