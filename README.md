@@ -177,6 +177,33 @@ parameters:
         enableContextRequireExceptionKeyRule: true
 ```
 
+### ContextTypeRule
+
+> [!NOTE]
+> This rule validates that the `$context` parameter has the correct type according to PSR-3 specification.
+
+| :pushpin: _error identifier_ |
+| --- |
+| sfpPsrLog.contextType |
+
+* reports when `$context` parameter type does not match the expected type.
+    * The default expected type is `array{exception?: Throwable}` according to PSR-3.
+
+```php
+// bad
+$logger->info('message', ['exception' => 'string value']); // exception must be Throwable
+```
+
+#### Configuration
+
+* If you want to disable this rule, please add `enableContextTypeRule` as false.
+
+```neon
+parameters:
+    sfpPsrLog:
+        enableContextTypeRule: false
+```
+
 ### MessageStaticStringRule
 
 | :pushpin: _error identifier_ |
@@ -198,6 +225,34 @@ $logger->info(sprintf('Message contains %s variable', $var));
 parameters:
     sfpPsrLog:
         enableMessageStaticStringRule: false
+```
+
+### LogMethodLevelRule
+
+> Implementors MUST implement the following interface, which describes the eight methods to write logs to the eight RFC 5424 levels (debug, info, notice, warning, error, critical, alert, emergency).
+> — [PSR-3 Logger Interface](https://www.php-fig.org/psr/psr-3/)
+
+| :pushpin: _error identifier_ |
+| --- |
+| sfpPsrLog.logMethodLevel |
+
+* reports when the `$level` parameter of `log()` method is not a valid PSR-3 log level.
+    * Valid log levels: `emergency`, `alert`, `critical`, `error`, `warning`, `notice`, `info`, `debug`
+
+```php
+// bad
+$logger->log('panic', 'message'); // 'panic' is not a valid PSR-3 log level
+$logger->log(100, 'message'); // level must be a string
+```
+
+#### Configuration
+
+* If you want to disable this rule, please add `enableLogMethodLevelRule` as false.
+
+```neon
+parameters:
+    sfpPsrLog:
+        enableLogMethodLevelRule: false
 ```
 
 ## Installation
