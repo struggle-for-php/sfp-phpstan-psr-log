@@ -10,6 +10,23 @@
 * [PSR-3: Logger Interface - PHP-FIG](https://www.php-fig.org/psr/psr-3/)
 * [PSR-3 Meta Document](https://www.php-fig.org/psr/psr-3/meta/)
 
+## Installation
+
+To use this extension, require it in [Composer](https://getcomposer.org/):
+
+```bash
+composer require --dev struggle-for-php/sfp-phpstan-psr-log
+```
+
+### Manual installation
+
+include extension.neon & rules.neon in your project's PHPStan config:
+
+```neon
+includes:
+    - vendor/struggle-for-php/sfp-phpstan-psr-log/rules.neon
+```
+
 ## Recommendation Settings
 
 Write these parameters to your project's `phpstan.neon`.
@@ -208,7 +225,7 @@ parameters:
 
 You can enforce stricter context types by implementing `ContextTypeProviderInterface` and injecting it via dependency injection.
 
-**Example: Restricting to specific context keys**
+* Example: Restricting to specific context keys
 
 ```php
 <?php
@@ -265,7 +282,7 @@ services:
             - phpstan.rules.rule
 ```
 
-This allows you to enforce project-specific context types, such as structured logging schemas (e.g., BigQuery, Datadog) or custom application requirements.
+This allows you to enforce project-specific context types, such as structured logging schemas (e.g., BigQuery) or custom application requirements.
 
 ### MessageStaticStringRule
 
@@ -316,21 +333,4 @@ $logger->log(100, 'message'); // level must be a string
 parameters:
     sfpPsrLog:
         enableLogMethodLevelRule: false
-```
-
-## Installation
-
-To use this extension, require it in [Composer](https://getcomposer.org/):
-
-```bash
-composer require --dev struggle-for-php/sfp-phpstan-psr-log
-```
-
-### Manual installation
-
-include extension.neon & rules.neon in your project's PHPStan config:
-
-```neon
-includes:
-    - vendor/struggle-for-php/sfp-phpstan-psr-log/rules.neon
 ```
