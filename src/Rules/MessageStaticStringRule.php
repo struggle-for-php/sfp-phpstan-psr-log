@@ -71,10 +71,9 @@ final class MessageStaticStringRule implements Rule
         }
 
         $message = $args[$messageArgumentNo];
-        $value   = $scope->getType($message->value);
-        $strings = $value->getConstantStrings();
+        $type    = $scope->getType($message->value);
 
-        if (count($strings) === 0) {
+        if ($type->isLiteralString()->maybe()) {
             return [
                 RuleErrorBuilder::message(
                     sprintf(self::ERROR_MESSAGE_NOT_STATIC, $methodName)

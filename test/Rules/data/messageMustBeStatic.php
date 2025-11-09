@@ -34,3 +34,11 @@ function main(Psr\Log\LoggerInterface $logger, string $m, string $literals, stri
     // Allow literal-string intersection
     $logger->info($literals);
 }
+
+/**
+ * @param literal-string $literal
+ */
+function logging(Psr\Log\LoggerInterface $logger, string $literal): void
+{
+	$logger->info($literal);
+}
