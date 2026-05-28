@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" failures="16" name="phpstan" tests="16" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/junit-team/junit5/r5.5.1/platform-tests/src/test/resources/jenkins-junit.xsd">
   <testcase name="example/src/Example.php:26">
-    <failure type="ERROR" message="Parameter #2 $context of method Psr\Log\LoggerInterface::notice() expects array{exception?: Throwable}, array{exception: string} given."/>
+    <failure type="ERROR" message="Parameter #2 $context of method Psr\Log\LoggerInterface::notice() expects array{exception?: Throwable, ...}, array{exception: string} given."/>
   </testcase>
   <testcase name="example/src/Example.php:27">
     <failure type="ERROR" message="Parameter #1 $level of method Psr\Log\LoggerInterface::log() expects ('alert' | 'critical' | 'debug' | 'emergency' | 'error' | 'info' | 'notice' | 'warning'), 'panic' given."/>
