@@ -15,6 +15,7 @@ use PHPStan\Type\ObjectType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use Sfp\PHPStan\Psr\Log\Internal\UnsealedConstantArrayShape;
 use Sfp\PHPStan\Psr\Log\TypeMapping\BigQuery\Exception\UnsupportedTypeException;
 use UnexpectedValueException;
 
@@ -65,7 +66,9 @@ final class GenericTableFieldSchemaJsonPayloadTypeMapper implements TableFieldSc
                     // if ($nestedLevel > 2) {
                     //    continue;
                     // }
-                    $valueTypes[] = self::convertFieldsToTypes($item['fields'], ++$nestedLevel);
+                    $valueTypes[] = UnsealedConstantArrayShape::apply(
+                        self::convertFieldsToTypes($item['fields'], ++$nestedLevel)
+                    );
                 } else {
                     $valueTypes[] = $objectType;
                 }

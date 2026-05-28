@@ -9,6 +9,7 @@ use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
+use Sfp\PHPStan\Psr\Log\Internal\UnsealedConstantArrayShape;
 use Throwable;
 
 final class Psr3ContextTypeProvider implements ContextTypeProviderInterface
@@ -25,11 +26,11 @@ final class Psr3ContextTypeProvider implements ContextTypeProviderInterface
     #[Override]
     public function getType(): Type
     {
-        return new ConstantArrayType(
+        return UnsealedConstantArrayShape::apply(new ConstantArrayType(
             [new ConstantStringType('exception')],
             [new ObjectType($this->exceptionClass)],
             [0],
             [0]
-        );
+        ));
     }
 }

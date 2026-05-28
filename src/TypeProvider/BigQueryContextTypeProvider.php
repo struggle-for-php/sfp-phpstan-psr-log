@@ -11,6 +11,7 @@ use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use RuntimeException;
+use Sfp\PHPStan\Psr\Log\Internal\UnsealedConstantArrayShape;
 use Sfp\PHPStan\Psr\Log\TypeMapping\BigQuery\TableFieldSchemaJsonPayloadTypeMapperInterface;
 use UnexpectedValueException;
 
@@ -53,7 +54,10 @@ final class BigQueryContextTypeProvider implements ContextTypeProviderInterface
             true
         );
 
-        return $builder->getArray();
+        $array          = $builder->getArray();
+        $constantArrays = $array->getConstantArrays();
+
+        return $constantArrays === [] ? $array : UnsealedConstantArrayShape::apply($constantArrays[0]);
     }
 
     /**
