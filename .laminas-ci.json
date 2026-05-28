@@ -1,7 +1,14 @@
 {
   "additional_checks": [
     {
-      "name": "example-default",
+      "name": "example-lowest-default",
+      "job": {
+        "php": "@latest",
+        "command": "composer update --prefer-lowest; composer install -d example; diff <(./vendor/bin/phpstan analyse -c ./example/phpstan.default.neon --no-progress --error-format=junit | xmllint --format -) ./test/example.default-lowest.output"
+      }
+    },
+    {
+      "name": "example-latest-default",
       "job": {
         "php": "@latest",
         "command": "composer install -d example; diff <(./vendor/bin/phpstan analyse -c ./example/phpstan.default.neon --no-progress --error-format=junit | xmllint --format -) ./test/example.default.output"
@@ -25,7 +32,7 @@
       "name": "sfp-phpstan-psr-log-bigquery-schema-convert",
       "job": {
         "php": "@latest",
-        "command": "diff <(cat test/TypeProvider/data/bigQuerySchema.json | ./bin/sfp-phpstan-psr-log-bigquery-schema-convert) <(echo -n 'array{first_name?: string, product?: array{id?: string}, cancellation_reason?: (float | int | numeric-string), cancellation_date?: \\DateTimeInterface, exception?: \\Throwable}')"
+        "command": "diff <(cat test/TypeProvider/data/bigQuerySchema.json | ./bin/sfp-phpstan-psr-log-bigquery-schema-convert) <(echo -n 'array{first_name?: string, product?: array{id?: string, ...}, cancellation_reason?: (float | int | numeric-string), cancellation_date?: \\DateTimeInterface, exception?: \\Throwable, ...}')"
       }
     }
   ],
