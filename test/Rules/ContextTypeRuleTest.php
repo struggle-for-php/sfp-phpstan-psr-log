@@ -7,12 +7,14 @@ namespace SfpTest\PHPStan\Psr\Log\Rules;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleLevelHelper;
 use PHPStan\Testing\RuleTestCase;
+use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use Sfp\PHPStan\Psr\Log\Rules\ContextTypeRule;
 use Sfp\PHPStan\Psr\Log\TypeMapping\BigQuery\GenericTableFieldSchemaJsonPayloadTypeMapper;
 use Sfp\PHPStan\Psr\Log\TypeProvider\BigQueryContextTypeProvider;
 use Sfp\PHPStan\Psr\Log\TypeProviderResolver\AnyScopeContextTypeProviderResolver;
 use Sfp\PHPStan\Psr\Log\TypeProviderResolver\ContextTypeProviderResolverInterface;
 
+use function method_exists;
 use function sprintf;
 
 /**
@@ -62,9 +64,11 @@ final class ContextTypeRuleTest extends RuleTestCase
      */
     public static function provideContextTypePattern(): array
     {
+        $expected = self::expectedContextShape();
+
         $expectedError = [
-            <<<'EOF'
-Parameter #2 $context of method Psr\Log\LoggerInterface::info() expects array{exception?: Throwable}, array{exception: string} given.
+            <<<EOF
+Parameter #2 \$context of method Psr\Log\LoggerInterface::info() expects $expected, array{exception: string} given.
     💡 Offset 'exception' (Throwable) does not accept type string.
 EOF,
             19,
@@ -82,8 +86,8 @@ EOF,
                 'expectedErrors'  => [
                     $expectedError,
                     [
-                        <<<'EOF'
-Parameter #2 $context of method Psr\Log\LoggerInterface::info() expects array{exception?: Throwable}, (array{exception: string} | array{exception: Throwable}) given.
+                        <<<EOF
+Parameter #2 \$context of method Psr\Log\LoggerInterface::info() expects $expected, (array{exception: string} | array{exception: Throwable}) given.
     💡 Offset 'exception' (Throwable) does not accept type string.
 EOF,
                         20,
@@ -100,6 +104,7 @@ EOF,
     {
         $contextTypeProvider               = new BigQueryContextTypeProvider(__DIR__ . '/../TypeProvider/data/bigQuerySchema.json', new GenericTableFieldSchemaJsonPayloadTypeMapper());
         $this->contextTypeProviderResolver = new AnyScopeContextTypeProviderResolver($contextTypeProvider);
+        $expected                          = self::expectedBigQueryShape();
         $this->analyse([__DIR__ . '/data/contextType.php'], [
             [
                 sprintf(
@@ -107,7 +112,7 @@ EOF,
 Parameter #2 $context of method Psr\Log\LoggerInterface::info() expects %s, %s given.
     💡 Offset 'exception' (Throwable) does not accept type string.
 EOF,
-                    'array{first_name?: string, product?: array{id?: string}, cancellation_reason?: (float | int | numeric-string), cancellation_date?: \DateTimeInterface, exception?: \Throwable}',
+                    $expected,
                     'array{exception: string}'
                 ),
                 19,
@@ -118,11 +123,31 @@ EOF,
 Parameter #2 $context of method Psr\Log\LoggerInterface::info() expects %s, %s given.
     💡 Offset 'exception' (Throwable) does not accept type string.
 EOF,
-                    'array{first_name?: string, product?: array{id?: string}, cancellation_reason?: (float | int | numeric-string), cancellation_date?: \DateTimeInterface, exception?: \Throwable}',
+                    $expected,
                     '(array{exception: string} | array{exception: Throwable})'
                 ),
                 20,
             ],
         ]);
+    }
+
+    private static function expectedContextShape(): string
+    {
+        return self::unsealedShapesSupported()
+            ? 'array{exception?: Throwable, ...}'
+            : 'array{exception?: Throwable}';
+    }
+
+    private static function expectedBigQueryShape(): string
+    {
+        return self::unsealedShapesSupported()
+            ? 'array{first_name?: string, product?: array{id?: string, ...}, cancellation_reason?: (float | int | numeric-string), cancellation_date?: \DateTimeInterface, exception?: \Throwable, ...}'
+            : 'array{first_name?: string, product?: array{id?: string}, cancellation_reason?: (float | int | numeric-string), cancellation_date?: \DateTimeInterface, exception?: \Throwable}';
+    }
+
+    private static function unsealedShapesSupported(): bool
+    {
+        /** @phpstan-ignore function.alreadyNarrowedType, function.impossibleType */
+        return method_exists(ConstantArrayTypeBuilder::class, 'makeUnsealed');
     }
 }
