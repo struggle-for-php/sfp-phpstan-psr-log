@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-function main(Psr\Log\LoggerInterface $logger, string $m): void
+use Psr\Log\LoggerInterface;
+
+function main(LoggerInterface $logger, string $m): void
 {
     // ignore
     $logger->info('foo', ['ok' => "a"]);

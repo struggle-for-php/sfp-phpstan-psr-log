@@ -27,27 +27,27 @@ final class PlaceholderCharactersRuleTest extends RuleTestCase
         $this->analyse([__DIR__ . '/data/placeholderCharacters.php'], [
             [
                 'Parameter $message of logger method Psr\Log\LoggerInterface::info() should not includes double braces. - {{doubleBrace}}',
-                15, // double braces
+                17, // double braces
                 'See https://www.php-fig.org/psr/psr-3/#12-message',
             ],
             [
                 'Parameter $message of logger method Psr\Log\LoggerInterface::info() has braces. But it includes invalid characters for placeholder. - { space }',
-                16, // invalid placeholder char
+                18, // invalid placeholder char
                 'See https://www.php-fig.org/psr/psr-3/#12-message',
             ],
             [
                 'Parameter $message of logger method Psr\Log\LoggerInterface::info() has braces. But it includes invalid characters for placeholder. - {hyphen-hyphen}',
-                17, // invalid placeholder char
+                19, // invalid placeholder char
                 'See https://www.php-fig.org/psr/psr-3/#12-message',
             ],
             [
                 'Parameter $message of logger method Psr\Log\LoggerInterface::log() has braces. But it includes invalid characters for placeholder. - {&invalid&}',
-                18, // call log() method
+                20, // call log() method
                 'See https://www.php-fig.org/psr/psr-3/#12-message',
             ],
             [
                 'Parameter $message of logger method Psr\Log\LoggerInterface::info() has braces. But it includes invalid characters for placeholder. - {&a},{&b},{&c}',
-                19, // Many Invalid PlaceHolders
+                21, // Many Invalid PlaceHolders
                 'See https://www.php-fig.org/psr/psr-3/#12-message',
             ],
         ]);

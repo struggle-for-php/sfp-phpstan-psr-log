@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Psr\Log\LoggerInterface;
 use SfpTest\PHPStan\Psr\Log\Rules\OtherLoggerInterface;
 
 /**
@@ -9,7 +10,7 @@ use SfpTest\PHPStan\Psr\Log\Rules\OtherLoggerInterface;
  * @phpstan-param 'none'|'foo' $badLogLevels
  */
 function main(
-    Psr\Log\LoggerInterface $logger,
+    LoggerInterface $logger,
     OtherLoggerInterface $otherLogger,
     array $logLevels,
     array $badLogLevels

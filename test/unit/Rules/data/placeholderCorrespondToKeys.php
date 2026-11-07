@@ -2,11 +2,13 @@
 
 declare(strict_types=1);
 
+use Psr\Log\LoggerInterface;
+
 /**
  * @phpstan-param array{valid: string, valid2: string}|array{valid: string, valid3: string} $matchContext
  * @phpstan-param array{valid: string, valid2: string}|array{valid3: string, valid4: string} $nonMatchContext
  */
-function main(Psr\Log\LoggerInterface $logger, string $m, array $matchContext, array $nonMatchContext): void
+function main(LoggerInterface $logger, string $m, array $matchContext, array $nonMatchContext): void
 {
     // ignore
     $logger->info('foo', ['ok' => "a"]);

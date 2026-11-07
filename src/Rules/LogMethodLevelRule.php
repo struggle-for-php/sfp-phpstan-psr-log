@@ -14,6 +14,7 @@ use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\UnionType;
+use PHPStan\Type\VerbosityLevel;
 
 use function count;
 use function sprintf;
@@ -93,8 +94,8 @@ MESSAGE;
             RuleErrorBuilder::message(
                 sprintf(
                     self::ERROR_INVALID_LEVEL,
-                    $this->acceptingLogLevel->toPhpDocNode()->__toString(),
-                    $argLevel->toPhpDocNode()->__toString()
+                    $this->acceptingLogLevel->describe(VerbosityLevel::precise()),
+                    $argLevel->describe(VerbosityLevel::precise())
                 )
             )
                 ->acceptsReasonsTip($acceptsResult->reasons)

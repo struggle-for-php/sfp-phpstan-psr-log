@@ -15,7 +15,6 @@
 /psalm-baseline.xml export-ignore
 /mkdocs.yml export-ignore
 
-/example/ export-ignore
 /vendor-bin/ export-ignore
 
 /phpstan.neon export-ignore

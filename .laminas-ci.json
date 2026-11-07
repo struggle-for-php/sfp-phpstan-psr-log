@@ -1,42 +1,42 @@
 {
   "additional_checks": [
     {
-      "name": "example-lowest-default",
+      "name": "e2e-lowest-default",
       "job": {
         "php": "@latest",
-        "command": "composer update --prefer-lowest; composer install -d example; diff <(./vendor/bin/phpstan analyse -c ./example/phpstan.default.neon --no-progress --error-format=junit | xmllint --format -) ./test/example.default-lowest.output"
+        "command": "composer update --prefer-lowest; diff <(./vendor/bin/phpstan analyse -c ./test/e2e/phpstan.default.neon --no-progress --error-format=junit | xmllint --format -) ./test/e2e/default-lowest.output"
       }
     },
     {
-      "name": "example-latest-default",
+      "name": "e2e-latest-default",
       "job": {
         "php": "@latest",
-        "command": "composer install -d example; diff <(./vendor/bin/phpstan analyse -c ./example/phpstan.default.neon --no-progress --error-format=junit | xmllint --format -) ./test/example.default.output"
+        "command": "diff <(./vendor/bin/phpstan analyse -c ./test/e2e/phpstan.default.neon --no-progress --error-format=junit | xmllint --format -) ./test/e2e/default.output"
       }
     },
     {
-      "name": "example-recommend",
+      "name": "e2e-recommend",
       "job": {
         "php": "@latest",
-        "command": "composer install -d example; diff <(./vendor/bin/phpstan analyse -c ./example/phpstan.recommend.neon --no-progress --error-format=junit | xmllint --format -) ./test/example.recommend.output"
+        "command": "diff <(./vendor/bin/phpstan analyse -c ./test/e2e/phpstan.recommend.neon --no-progress --error-format=junit | xmllint --format -) ./test/e2e/recommend.output"
       }
     },
     {
-      "name": "example-enableContextTypeRule",
+      "name": "e2e-enableContextTypeRule",
       "job": {
         "php": "@latest",
-        "command": "composer install -d example; diff <(./vendor/bin/phpstan analyse -c ./example/phpstan.enableContextTypeRule.neon --no-progress --error-format=junit | xmllint --format -) ./test/example.enableContextTypeRule.output"
+        "command": "diff <(./vendor/bin/phpstan analyse -c ./test/e2e/phpstan.enableContextTypeRule.neon --no-progress --error-format=junit | xmllint --format -) ./test/e2e/enableContextTypeRule.output"
       }
     },
     {
       "name": "sfp-phpstan-psr-log-bigquery-schema-convert",
       "job": {
         "php": "@latest",
-        "command": "diff <(cat test/TypeProvider/data/bigQuerySchema.json | ./bin/sfp-phpstan-psr-log-bigquery-schema-convert) <(echo -n 'array{first_name?: string, product?: array{id?: string, ...}, cancellation_reason?: (float | int | numeric-string), cancellation_date?: \\DateTimeInterface, exception?: \\Throwable, ...}')"
+        "command": "diff <(cat test/unit/TypeProvider/data/bigQuerySchema.json | ./bin/sfp-phpstan-psr-log-bigquery-schema-convert) <(echo -n 'array{first_name?: string, product?: array{id?: string, ...}, cancellation_reason?: float|int|numeric-string, cancellation_date?: \\DateTimeInterface, exception?: \\Throwable, ...}')"
       }
     }
   ],
   "ignore_php_platform_requirements": {
-    "8.5": true
+    "8.6": true
   }
 }

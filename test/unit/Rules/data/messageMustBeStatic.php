@@ -2,13 +2,15 @@
 
 declare(strict_types=1);
 
+use Psr\Log\LoggerInterface;
+
 const FOO = 'foo';
 
 /**
  * @phpstan-param 'literal-a'|'literal-b' $literals
  * @phpstan-param 'literal-a'|non-empty-lowercase-string $literalOr
  */
-function main(Psr\Log\LoggerInterface $logger, string $m, string $literals, string $literalOr): void
+function main(LoggerInterface $logger, string $m, string $literals, string $literalOr): void
 {
     // valid
     $logger->info('message is valid');
@@ -38,7 +40,7 @@ function main(Psr\Log\LoggerInterface $logger, string $m, string $literals, stri
 /**
  * @param literal-string $literal
  */
-function logging(Psr\Log\LoggerInterface $logger, string $literal): void
+function logging(LoggerInterface $logger, string $literal): void
 {
-	$logger->info($literal);
+    $logger->info($literal);
 }

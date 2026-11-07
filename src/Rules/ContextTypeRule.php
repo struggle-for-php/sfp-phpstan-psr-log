@@ -12,6 +12,7 @@ use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Rules\RuleLevelHelper;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ObjectType;
+use PHPStan\Type\VerbosityLevel;
 use Sfp\PHPStan\Psr\Log\TypeProvider\Psr3ContextTypeProvider;
 use Sfp\PHPStan\Psr\Log\TypeProviderResolver\AnyScopeContextTypeProviderResolver;
 use Sfp\PHPStan\Psr\Log\TypeProviderResolver\ContextTypeProviderResolverInterface;
@@ -94,8 +95,8 @@ final class ContextTypeRule implements Rule
                 'Parameter #%d $context of method Psr\Log\LoggerInterface::%s() expects %s, %s given.',
                 $contextArgumentNo + 1,
                 $methodName,
-                (string) $acceptingContextType->toPhpDocNode(),
-                (string) $argContextType->toPhpDocNode()
+                $acceptingContextType->describe(VerbosityLevel::precise()),
+                $argContextType->describe(VerbosityLevel::precise())
             )
         )
             ->acceptsReasonsTip($acceptsResult->reasons)
