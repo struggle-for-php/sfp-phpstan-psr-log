@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-function main(Psr\Log\LoggerInterface $logger): void
+use Psr\Log\LoggerInterface;
+
+function main(LoggerInterface $logger): void
 {
     // ok
     $logger->info('foo', ['ok' => "a"]);

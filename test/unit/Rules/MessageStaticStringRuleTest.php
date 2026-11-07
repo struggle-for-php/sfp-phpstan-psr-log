@@ -27,42 +27,42 @@ final class MessageStaticStringRuleTest extends RuleTestCase
         $this->analyse([__DIR__ . '/data/messageMustBeStatic.php'], [
             [
                 'Parameter $message of logger method Psr\Log\LoggerInterface::info() is not a static string',
-                16, // variable
+                18, // variable
                 'See https://www.php-fig.org/psr/psr-3/meta/#static-log-messages',
             ],
             [
                 'Parameter $message of logger method Psr\Log\LoggerInterface::info() is not a static string',
-                17, // double quote escaped with braces
+                19, // double quote escaped with braces
                 'See https://www.php-fig.org/psr/psr-3/meta/#static-log-messages',
             ],
             [
                 'Parameter $message of logger method Psr\Log\LoggerInterface::info() is not a static string',
-                18, // double quote escaped without braces
+                20, // double quote escaped without braces
                 'See https://www.php-fig.org/psr/psr-3/meta/#static-log-messages',
             ],
             [
                 'Parameter $message of logger method Psr\Log\LoggerInterface::info() is not a static string',
-                19, // concat double quote
+                21, // concat double quote
                 'See https://www.php-fig.org/psr/psr-3/meta/#static-log-messages',
             ],
             [
                 'Parameter $message of logger method Psr\Log\LoggerInterface::info() is not a static string',
-                20, // concat single quote
+                22, // concat single quote
                 'See https://www.php-fig.org/psr/psr-3/meta/#static-log-messages',
             ],
             [
                 'Parameter $message of logger method Psr\Log\LoggerInterface::info() is not a static string',
-                21, // function call
+                23, // function call
                 'See https://www.php-fig.org/psr/psr-3/meta/#static-log-messages',
             ],
             [
                 'Parameter $message of logger method Psr\Log\LoggerInterface::log() is not a static string',
-                23, // call log() method with variable
+                25, // call log() method with variable
                 'See https://www.php-fig.org/psr/psr-3/meta/#static-log-messages',
             ],
             [
                 'Parameter $message of logger method Psr\Log\LoggerInterface::info() is not a static string',
-                25,
+                27,
                 'See https://www.php-fig.org/psr/psr-3/meta/#static-log-messages',
             ],
         ]);

@@ -7,7 +7,10 @@ namespace SfpTest\PHPStan\Psr\Log\Rules;
 use LogicException;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
+use PHPUnit\Framework\Assert;
 use Sfp\PHPStan\Psr\Log\Rules\ContextKeyRule;
+
+use const PHP_VERSION_ID;
 
 /**
  * @extends RuleTestCase<ContextKeyRule>
@@ -28,31 +31,42 @@ final class ContextKeyRuleTest extends RuleTestCase
         $this->analyse([__DIR__ . '/data/contextKey_nonEmptyString.php'], [
             [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::info(), key should be non empty string.',
-                20, // empty string
+                22, // empty string
             ],
             [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::info(), key should be non empty string.',
-                21, // integer
+                23, // integer
             ],
             [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::info(), key should be non empty string.',
-                22, // DNumber
-            ],
-            [
-                'Parameter $context of logger method Psr\Log\LoggerInterface::info(), key should be non empty string.',
-                23, // not specified
+                25, // not specified
             ],
             [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::log(), key should be non empty string.',
-                24, // log method call
+                26, // log method call
             ],
             [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::info(), key should be non empty string.',
-                27, // union parameter
+                29, // union parameter
             ],
             [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::info(), key should be non empty string.',
-                32, // inline array
+                34, // inline array
+            ],
+        ]);
+    }
+
+    public function testAlwaysShouldBeCheckedNonEmptyStringWithFloatKey(): void
+    {
+        if (PHP_VERSION_ID >= 80600) {
+            Assert::markTestSkipped('Since PHP 8.6, casting a float key not representable as an int emits a warning.');
+        }
+
+        $this->contextKeyOriginalPattern = null;
+        $this->analyse([__DIR__ . '/data/contextKey_nonEmptyString_floatKey.php'], [
+            [
+                'Parameter $context of logger method Psr\Log\LoggerInterface::info(), key should be non empty string.',
+                11, // DNumber
             ],
         ]);
     }
@@ -63,7 +77,7 @@ final class ContextKeyRuleTest extends RuleTestCase
         $this->analyse([__DIR__ . '/data/contextKey_originalPattern.php'], [
             [
                 'Parameter $context of logger method Psr\Log\LoggerInterface::info(), key should be match #\A[A-Za-z0-9-]+\z#.',
-                14,
+                16,
             ],
         ]);
     }

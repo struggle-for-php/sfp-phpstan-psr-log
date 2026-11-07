@@ -32,7 +32,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "SfpTest\\PHPStan\\Psr\\Log\\": "test"
+            "SfpTest\\PHPStan\\Psr\\Log\\": "test/unit"
         }
     },
     "config": {

@@ -2,11 +2,13 @@
 
 declare(strict_types=1);
 
+use Psr\Log\LoggerInterface;
+
 /**
  * @phpstan-param array{ok: string}|array{alsoOk: string, otherOk: string} $constantContext
  * @phpstan-param array{ok: string}|array{alsoOk: string, 123: string} $badKeyContext
  */
-function main(Psr\Log\LoggerInterface $logger, array $nonTypedArray, array $constantContext, array $badKeyContext): void
+function main(LoggerInterface $logger, array $nonTypedArray, array $constantContext, array $badKeyContext): void
 {
     // ok
     $logger->info('foo', ['ok' => "a"]);
@@ -19,7 +21,7 @@ function main(Psr\Log\LoggerInterface $logger, array $nonTypedArray, array $cons
     // NG - for non-empty-string
     $logger->info('foo', ['' => "a"]);
     $logger->info('foo', [1 => "a"]);
-    $logger->info('foo', [12345678901234567890 => "a"]);
+    // DNumber key is tested in contextKey_nonEmptyString_floatKey.php
     $logger->info('foo', ["a"]);
     $logger->log('info', 'foo', ["a"]);
 

@@ -87,7 +87,7 @@ EOF,
                     $expectedError,
                     [
                         <<<EOF
-Parameter #2 \$context of method Psr\Log\LoggerInterface::info() expects $expected, (array{exception: string} | array{exception: Throwable}) given.
+Parameter #2 \$context of method Psr\Log\LoggerInterface::info() expects $expected, array{exception: string}|array{exception: Throwable} given.
     💡 Offset 'exception' (Throwable) does not accept type string.
 EOF,
                         20,
@@ -124,7 +124,7 @@ Parameter #2 $context of method Psr\Log\LoggerInterface::info() expects %s, %s g
     💡 Offset 'exception' (Throwable) does not accept type string.
 EOF,
                     $expected,
-                    '(array{exception: string} | array{exception: Throwable})'
+                    'array{exception: string}|array{exception: Throwable}'
                 ),
                 20,
             ],
@@ -141,8 +141,8 @@ EOF,
     private static function expectedBigQueryShape(): string
     {
         return self::unsealedShapesSupported()
-            ? 'array{first_name?: string, product?: array{id?: string, ...}, cancellation_reason?: (float | int | numeric-string), cancellation_date?: \DateTimeInterface, exception?: \Throwable, ...}'
-            : 'array{first_name?: string, product?: array{id?: string}, cancellation_reason?: (float | int | numeric-string), cancellation_date?: \DateTimeInterface, exception?: \Throwable}';
+            ? 'array{first_name?: string, product?: array{id?: string, ...}, cancellation_reason?: float|int|numeric-string, cancellation_date?: \DateTimeInterface, exception?: \Throwable, ...}'
+            : 'array{first_name?: string, product?: array{id?: string}, cancellation_reason?: float|int|numeric-string, cancellation_date?: \DateTimeInterface, exception?: \Throwable}';
     }
 
     private static function unsealedShapesSupported(): bool

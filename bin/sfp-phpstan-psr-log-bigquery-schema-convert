@@ -4,6 +4,7 @@
 declare(strict_types=1);
 
 use PHPStan\DependencyInjection\ContainerFactory;
+use PHPStan\Type\VerbosityLevel;
 use Sfp\PHPStan\Psr\Log\TypeMapping\BigQuery\GenericTableFieldSchemaJsonPayloadTypeMapper;
 use Sfp\PHPStan\Psr\Log\TypeProvider\BigQueryContextTypeProvider;
 
@@ -56,4 +57,4 @@ $provider  = new BigQueryContextTypeProvider(
     $converter
 );
 
-echo $provider->getType()->toPhpDocNode();
+echo $provider->getType()->describe(VerbosityLevel::precise());
